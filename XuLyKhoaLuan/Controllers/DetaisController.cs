@@ -11,6 +11,7 @@ using XuLyKhoaLuan.Repositories;
 
 namespace XuLyKhoaLuan.Controllers
 {
+    // This is comment
     [Route("api/[controller]")]
     [ApiController]
     public class DetaisController : ControllerBase
