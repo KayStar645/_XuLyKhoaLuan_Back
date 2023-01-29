@@ -1,10 +1,20 @@
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// JSON Serializer -- Angular quá nhanh
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+    .Json.ReferenceLoopHandling.Ignore)
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
