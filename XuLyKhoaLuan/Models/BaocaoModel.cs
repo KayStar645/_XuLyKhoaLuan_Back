@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace XuLyKhoaLuan.Data
+﻿namespace XuLyKhoaLuan.Models
 {
-    public partial class Baocao
+    public class BaocaoModel
     {
-        public Baocao() { 
-        
-        }
-
         public string MaCv { get; set; } = null!;
         public string MaSv { get; set; } = null!;
         public string NamHoc { get; set; } = null!;
@@ -17,7 +10,5 @@ namespace XuLyKhoaLuan.Data
         public DateTime? ThoiGianNop { get; set; }
         public string? FileBc { get; set; }
 
-        public virtual Congviec MaCvNavigation { get; set; } = null!;
-        public virtual Thamgia Thamgium { get; set; } = null!;
     }
 }

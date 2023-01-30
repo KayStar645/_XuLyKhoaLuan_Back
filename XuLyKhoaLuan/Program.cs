@@ -24,6 +24,10 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 // Life cycle DI: AddSingleton(), AddTransient(), AddScoped()
 builder.Services.AddScoped<IDetaiRepository, DetaiRepository>();
+builder.Services.AddScoped<IBaocaoRepository, BaocaoRepository>();
+builder.Services.AddScoped<ISinhvienRepository, SinhvienRepository>();
+builder.Services.AddScoped<IKhoaRepository, KhoaRepository>();
+builder.Services.AddScoped<IChuyennganhRepository,ChuyennganhRepository>();
 
 var app = builder.Build();
 

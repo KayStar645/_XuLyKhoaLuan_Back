@@ -38,7 +38,7 @@ namespace XuLyKhoaLuan.Controllers
         [HttpGet("maDT")]
         public async Task<IActionResult> GetDetaiByMaDT(string maDT)
         {
-            var detai = await _detaiRepo.GetDeTaiByMaDTsAsync(maDT);
+            var detai = await _detaiRepo.GetDeTaiByIDAsync(maDT);
             return detai == null ? BadRequest() : Ok(detai);
         }
 
@@ -61,6 +61,7 @@ namespace XuLyKhoaLuan.Controllers
         [HttpPut("maDT")]
         public async Task<IActionResult> UpdateDetai(string maDT, DetaiModel model)
         {
+            
             try
             {
                 await _detaiRepo.UpdateDeTaisAsync(maDT, model);

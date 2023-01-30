@@ -39,7 +39,7 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<DetaiModel>>(deTais);
         }
 
-        public async Task<DetaiModel> GetDeTaiByMaDTsAsync(string maDT)
+        public async Task<DetaiModel> GetDeTaiByIDAsync(string maDT)
         {
             var deTai = await _context.Detais.FindAsync(maDT);
             return _mapper.Map<DetaiModel>(deTai);

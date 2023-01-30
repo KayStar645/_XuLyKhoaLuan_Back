@@ -5,12 +5,12 @@ namespace XuLyKhoaLuan.Models
 {
     public class DetaiModel
     {
-        public string MaDT { get; set; }
+        public string MaDT { get; set; } = null!;
 
-        public string TenDT { get; set; }
+        public string TenDT { get; set; } = null!;
 
-        public string TomTat { get; set; }
-       
+        public string TomTat { get; set; } = null!;
+
         public int SLMin { get; set; }
 
         public int SLMax { get; set; }
