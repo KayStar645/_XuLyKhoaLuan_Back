@@ -30,7 +30,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpGet("MaKhoa")]
-        public async Task<IActionResult> GetKhoaByMaDT(string MaKhoa)
+        public async Task<IActionResult> GetKhoaByMaKhoa(string MaKhoa)
         {
             var Khoa = await _KhoaRepo.GetKhoaByIDAsync(MaKhoa);
             return Khoa == null ? BadRequest() : Ok(Khoa);
@@ -42,7 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newKhoa = await _KhoaRepo.AddKhoasAsync(model);
-                return CreatedAtAction(nameof(GetKhoaByMaDT), new { Controller = "Khoas", newKhoa }, newKhoa);
+                return CreatedAtAction(nameof(GetKhoaByMaKhoa), new { Controller = "Khoas", newKhoa }, newKhoa);
                 //var Khoa = await _detaiRepo.GetKhoaByMaDTsAsync(newKhoa);
                 //return Khoa == null ? BadRequest() : Ok(Khoa);
             }

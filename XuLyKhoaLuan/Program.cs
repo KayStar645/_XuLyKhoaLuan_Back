@@ -23,11 +23,19 @@ builder.Services.AddDbContext<XuLyKhoaLuanContext>(option => option.UseSqlServer
 builder.Services.AddAutoMapper(typeof(Program));
 
 // Life cycle DI: AddSingleton(), AddTransient(), AddScoped()
-builder.Services.AddScoped<IDetaiRepository, DetaiRepository>();
 builder.Services.AddScoped<IBaocaoRepository, BaocaoRepository>();
+builder.Services.AddScoped<IBinhluanRepository, BinhluanRepository>();
+builder.Services.AddScoped<IBomonRepository, BomonRepository>();
+builder.Services.AddScoped<ICongviecRepository, CongviecRepository>();
+builder.Services.AddScoped<IChuyennganhRepository, ChuyennganhRepository>();
+builder.Services.AddScoped<IDangkyRepository, DangkyRepository>();
+builder.Services.AddScoped<IDetaiRepository, DetaiRepository>();
+builder.Services.AddScoped<IDotdkRepository, DotdkRepository>();
+builder.Services.AddScoped<IDuyetdtRepository, DuyetdtRepository>();
+builder.Services.AddScoped<IGiangvienRepository, GiangvienRepository>();
+builder.Services.AddScoped<IGiaovuRepository, GiaovuRepository>();
 builder.Services.AddScoped<ISinhvienRepository, SinhvienRepository>();
 builder.Services.AddScoped<IKhoaRepository, KhoaRepository>();
-builder.Services.AddScoped<IChuyennganhRepository,ChuyennganhRepository>();
 
 var app = builder.Build();
 

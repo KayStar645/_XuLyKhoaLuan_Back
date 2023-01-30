@@ -29,7 +29,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpGet("maSV")]
-        public async Task<IActionResult> GetSinhvienByMaDT(string maSV)
+        public async Task<IActionResult> GetSinhvienByMaSV(string maSV)
         {
             var SinhVien = await _sinhvienRepo.GetSinhVienByIDAsync(maSV);
             return SinhVien == null ? BadRequest() : Ok(SinhVien);
@@ -41,7 +41,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newSinhvien = await _sinhvienRepo.AddSinhViensAsync(model);
-                return CreatedAtAction(nameof(GetSinhvienByMaDT), new { Controller = "Sinhviens", newSinhvien }, newSinhvien);
+                return CreatedAtAction(nameof(GetSinhvienByMaSV), new { Controller = "Sinhviens", newSinhvien }, newSinhvien);
                 //var SinhVien = await _detaiRepo.GetSinhVienByMaDTsAsync(newSinhvien);
                 //return SinhVien == null ? BadRequest() : Ok(SinhVien);
             }

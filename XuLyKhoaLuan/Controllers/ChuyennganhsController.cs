@@ -30,7 +30,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpGet("maCN")]
-        public async Task<IActionResult> GetChuyennganhByMaDT(string maCN)
+        public async Task<IActionResult> GetChuyennganhByMaCN(string maCN)
         {
             var Chuyennganh = await _ChuyennganhRepo.GetChuyennganhByIDAsync(maCN);
             return Chuyennganh == null ? BadRequest() : Ok(Chuyennganh);
@@ -42,7 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newChuyennganh = await _ChuyennganhRepo.AddChuyennganhsAsync(model);
-                return CreatedAtAction(nameof(GetChuyennganhByMaDT), new { Controller = "Chuyennganhs", newChuyennganh }, newChuyennganh);
+                return CreatedAtAction(nameof(GetChuyennganhByMaCN), new { Controller = "Chuyennganhs", newChuyennganh }, newChuyennganh);
                 //var Chuyennganh = await _detaiRepo.GetChuyennganhByMaDTsAsync(newChuyennganh);
                 //return Chuyennganh == null ? BadRequest() : Ok(Chuyennganh);
             }
