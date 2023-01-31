@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Models;
-using XuLyKhoaLuan.Repositories;
+using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Controllers
 {
