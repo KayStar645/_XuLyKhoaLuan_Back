@@ -1,6 +1,6 @@
 ﻿using XuLyKhoaLuan.Models;
 
-namespace XuLyKhoaLuan.Repositories
+namespace XuLyKhoaLuan.Repositories.Interface
 {
     public interface IChuyennganhRepository
     {

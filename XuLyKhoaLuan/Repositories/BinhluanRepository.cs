@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Repositories
 {

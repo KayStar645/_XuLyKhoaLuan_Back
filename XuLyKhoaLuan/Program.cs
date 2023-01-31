@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Repositories;
+using XuLyKhoaLuan.Repositories.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
