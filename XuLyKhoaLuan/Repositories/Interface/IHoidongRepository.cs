@@ -6,7 +6,7 @@ namespace XuLyKhoaLuan.Repositories.Interface
     {
         public Task<List<HoidongModel>> GetAllHoidongsAsync();
         public Task<HoidongModel> GetHoidongByIDAsync(string ma);
-        public Task<string> AddHoidongsAsync(string model);
+        public Task<string> AddHoidongsAsync(HoidongModel model);
         public Task UpdateHoidongsAsync(string ma, HoidongModel model);
         public Task DeleteHoidongsAsync(string ma);
     }

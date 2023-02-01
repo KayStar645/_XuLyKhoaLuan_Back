@@ -1,6 +1,62 @@
-﻿namespace XuLyKhoaLuan.Repositories
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using XuLyKhoaLuan.Data;
+using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Repositories.Interface;
+
+namespace XuLyKhoaLuan.Repositories
 {
-    public class HdgopyRepository
+    public class HdgopyRepository : IHdgopyRepository
     {
+        private readonly XuLyKhoaLuanContext _context;
+        private readonly IMapper _mapper;
+
+        public HdgopyRepository(XuLyKhoaLuanContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+
+        public async Task<string> AddHdgopysAsync(HdgopyModel model)
+        {
+            var newHdgopy = _mapper.Map<Hdgopy>(model);
+            _context.Hdgopies!.Add(newHdgopy);
+            await _context.SaveChangesAsync();
+            string returnString = newHdgopy.MaGv + newHdgopy.MaDt;
+            return returnString;
+        }
+
+        public async Task DeleteHdgopysAsync(int ma)
+        {
+            var deleteHdgopy = _context.Hdgopies!.SingleOrDefault(
+                dHdgopy => dHdgopy.Id == ma);
+            if (deleteHdgopy != null)
+            {
+                _context.Hdgopies!.Remove(deleteHdgopy);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<List<HdgopyModel>> GetAllHdgopysAsync()
+        {
+            var Hdgopys = await _context.Hdgopies.ToListAsync();
+            return _mapper.Map<List<HdgopyModel>>(Hdgopys);
+        }
+
+        public async Task<HdgopyModel> GetHdgopyByIDAsync(int ma)
+        {
+            var hdgy = await _context.Hdgopies.FindAsync(ma);
+            return _mapper.Map<HdgopyModel>(hdgy);
+        }
+
+        public async Task UpdateHdgopysAsync(int ma, HdgopyModel model)
+        {
+            if (model.Id == ma)
+            {
+                var updateHdgopy = _mapper.Map<Hdgopy>(model);
+                _context.Hdgopies.Update(updateHdgopy);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

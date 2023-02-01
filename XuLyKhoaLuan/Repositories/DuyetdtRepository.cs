@@ -29,8 +29,8 @@ namespace XuLyKhoaLuan.Repositories
         public async Task DeleteDuyetdtsAsync(DuyetdtModel Duyetdt)
         {
             var deleteDuyetdt = _context.Duyetdts!.SingleOrDefault(
-                dDT => dDT.MaDt == Duyetdt.MaDt && dDT.MaGv == Duyetdt.MaGv
-                && dDT.LanDuyet == Duyetdt.LanDuyet);
+                duyetDT => duyetDT.MaDt == Duyetdt.MaDt && duyetDT.MaGv == Duyetdt.MaGv
+                && duyetDT.LanDuyet == Duyetdt.LanDuyet);
             if (deleteDuyetdt != null)
             {
                 _context.Duyetdts!.Remove(deleteDuyetdt);
