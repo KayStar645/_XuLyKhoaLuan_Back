@@ -12,11 +12,11 @@ namespace XuLyKhoaLuan.Controllers
     [ApiController]
     public class BaocaosController : ControllerBase
     {
-        private readonly IBaocaoRepository _baoCaoRepo;
+        private readonly IBaocaoRepository _BaocaoRepo;
         // GET: api/<BaocaosController>
         public BaocaosController(IBaocaoRepository repo)
         {
-            _baoCaoRepo = repo;
+            _BaocaoRepo = repo;
         }
 
         [HttpGet]
@@ -24,7 +24,7 @@ namespace XuLyKhoaLuan.Controllers
         {
             try
             {
-                return Ok(await _baoCaoRepo.GetAllBaoCaosAsync());
+                return Ok(await _BaocaoRepo.GetAllBaoCaosAsync());
             }
             catch
             {
@@ -33,7 +33,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         // GET api/<BaocaosController>/5
-        [HttpGet("{MaCv}, {MaSv}, {NamHoc}, {Dot}, {LanNop}")]
+        [HttpGet("MaCv, MaSv, NamHoc, Dot, LanNop")]
         public async Task<IActionResult> GetBaocaoById(string MaCv, string MaSv, string NamHoc, int Dot, int LanNop)
         {
             try
@@ -46,7 +46,7 @@ namespace XuLyKhoaLuan.Controllers
                     Dot = Dot,
                     LanNop = LanNop
                 };
-                var baoCao = await _baoCaoRepo.GetBaoCaoByIDAsync(model);
+                var baoCao = await _BaocaoRepo.GetBaoCaoByIDAsync(model);
                 return baoCao == null ? NotFound() : Ok(baoCao);
             }
             catch
@@ -62,7 +62,7 @@ namespace XuLyKhoaLuan.Controllers
         {
             try
             {
-                var newBaocao = await _baoCaoRepo.AddBaoCaosAsync(model);
+                var newBaocao = await _BaocaoRepo.AddBaoCaosAsync(model);
                 return CreatedAtAction(nameof(GetBaocaoById), new { Controller = "Baocaos", newBaocao }, newBaocao);
                 
             }
@@ -73,7 +73,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         // PUT api/<BaocaosController>/5
-        [HttpPut("{MaCv}, {MaSv}, {NamHoc}, {Dot}, {LanNop}")]
+        [HttpPut("MaCv, MaSv, NamHoc, Dot, LanNop")]
         public async Task<IActionResult> UpdateBaocao(string MaCv, string MaSv, string NamHoc, int Dot, int LanNop, BaocaoModel model)
         {
             try
@@ -86,7 +86,7 @@ namespace XuLyKhoaLuan.Controllers
                     Dot = Dot,
                     LanNop = LanNop
                 };
-                await _baoCaoRepo.UpdateBaoCaosAsync(baocao, model);
+                await _BaocaoRepo.UpdateBaoCaosAsync(baocao, model);
                 return Ok();
             }
             catch
@@ -96,10 +96,19 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         // DELETE api/<BaocaosController>/5
-        [HttpDelete("{MaCv}, {MaSv}, {NamHoc}, {Dot}, {LanNop}")]
-        public void Delete(string MaCv, string MaSv, string NamHoc, int Dot, int LanNop)
+        [HttpDelete("MaCv, MaSv, NamHoc, Dot, LanNop")]
+        public async Task<IActionResult> Delete(string MaCv, string MaSv, string NamHoc, int Dot, int LanNop)
         {
-
+            BaocaoModel model = new()
+            {
+                MaCv = MaCv,
+                MaSv = MaSv,
+                NamHoc = NamHoc,
+                Dot = Dot,
+                LanNop = LanNop
+            };
+            await _BaocaoRepo.DeleteBaoCaosAsync(model);
+            return Ok();
         }
     }
 }

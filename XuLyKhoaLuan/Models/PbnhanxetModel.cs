@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace XuLyKhoaLuan.Data
+namespace XuLyKhoaLuan.Models
 {
     public class PbnhanxetModel
     {
@@ -11,6 +11,5 @@ namespace XuLyKhoaLuan.Data
         public string? MaGv { get; set; }
         public string? MaDt { get; set; }
 
-        public virtual Phanbien? Ma { get; set; }
     }
 }

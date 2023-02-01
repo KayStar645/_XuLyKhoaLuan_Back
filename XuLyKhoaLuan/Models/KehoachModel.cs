@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace XuLyKhoaLuan.Data
+namespace XuLyKhoaLuan.Models
 {
     public  class KehoachModel
     {

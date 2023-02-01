@@ -29,10 +29,10 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpGet("maBM")]
-        public async Task<IActionResult> GetBomonByMaBM(string maBM)
+        [HttpGet("MaBM")]
+        public async Task<IActionResult> GetBomonByMaBM(string MaBM)
         {
-            var Bomon = await _BomonRepo.GetBomonByIDAsync(maBM);
+            var Bomon = await _BomonRepo.GetBomonByIDAsync(MaBM);
             return Bomon == null ? BadRequest() : Ok(Bomon);
         }
 
@@ -52,13 +52,13 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpPut("maBM")]
-        public async Task<IActionResult> UpdateBomon(string maBM, BomonModel model)
+        [HttpPut("MaBM")]
+        public async Task<IActionResult> UpdateBomon(string MaBM, BomonModel model)
         {
 
             try
             {
-                await _BomonRepo.UpdateBomonsAsync(maBM, model);
+                await _BomonRepo.UpdateBomonsAsync(MaBM, model);
                 return Ok();
             }
             catch
@@ -67,10 +67,10 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpDelete("maBM")]
-        public async Task<IActionResult> DeleteBomon(string maBM)
+        [HttpDelete("MaBM")]
+        public async Task<IActionResult> DeleteBomon(string MaBM)
         {
-            await _BomonRepo.DeleteBomonsAsync(maBM);
+            await _BomonRepo.DeleteBomonsAsync(MaBM);
             return Ok();
         }
     }
