@@ -1,19 +1,14 @@
 ﻿
-<<<<<<< Updated upstream
-=======
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Repositories.Interface;
 
->>>>>>> Stashed changes
 namespace XuLyKhoaLuan.Repositories
 {
     public class GiaovuRepository: IGiaovuRepository
     {
-<<<<<<< Updated upstream
-=======
         private readonly XuLyKhoaLuanContext _context;
         private readonly IMapper _mapper;
 
@@ -63,6 +58,5 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
->>>>>>> Stashed changes
     }
 }

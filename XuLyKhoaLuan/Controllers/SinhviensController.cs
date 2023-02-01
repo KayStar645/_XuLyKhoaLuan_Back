@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using XuLyKhoaLuan.Models;
-using XuLyKhoaLuan.Repositories;
+using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Controllers
 {

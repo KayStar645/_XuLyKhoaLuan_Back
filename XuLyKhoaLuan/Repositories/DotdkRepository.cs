@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-﻿namespace XuLyKhoaLuan.Repositories
-=======
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
@@ -8,12 +5,9 @@ using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Repositories
->>>>>>> Stashed changes
 {
     public class DotdkRepository:IDotdkRepository
     {
-<<<<<<< Updated upstream
-=======
         private readonly XuLyKhoaLuanContext _context;
         private readonly IMapper _mapper;
 
@@ -64,6 +58,5 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
->>>>>>> Stashed changes
     }
 }

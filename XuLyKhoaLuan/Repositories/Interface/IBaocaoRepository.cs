@@ -1,7 +1,7 @@
 ﻿using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Models;
 
-namespace XuLyKhoaLuan.Repositories
+namespace XuLyKhoaLuan.Repositories.Interface
 {
     public interface IBaocaoRepository
     {

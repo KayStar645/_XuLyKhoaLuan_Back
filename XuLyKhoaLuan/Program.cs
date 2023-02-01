@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Repositories;
+using XuLyKhoaLuan.Repositories.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
