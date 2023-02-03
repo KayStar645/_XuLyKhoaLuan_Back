@@ -4,10 +4,10 @@ namespace XuLyKhoaLuan.Repositories.Interface
 {
     public interface IHdgopyRepository
     {
-        public Task<List<HdgopyModel>> GetAllHdgopysAsync();
+        public Task<List<HdgopyModel>> GetAllHdgopiesAsync();
         public Task<HdgopyModel> GetHdgopyByIDAsync(int ma);
-        public Task<string> AddHdgopysAsync(HdgopyModel model);
-        public Task UpdateHdgopysAsync(int ma, HdgopyModel model);
-        public Task DeleteHdgopysAsync(int ma);
+        public Task<string> AddHdgopiesAsync(HdgopyModel model);
+        public Task UpdateHdgopiesAsync(int ma, HdgopyModel model);
+        public Task DeleteHdgopiesAsync(int ma);
     }
 }

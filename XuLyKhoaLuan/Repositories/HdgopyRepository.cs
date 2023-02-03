@@ -17,7 +17,7 @@ namespace XuLyKhoaLuan.Repositories
             _mapper = mapper;
         }
 
-        public async Task<string> AddHdgopysAsync(HdgopyModel model)
+        public async Task<string> AddHdgopiesAsync(HdgopyModel model)
         {
             var newHdgopy = _mapper.Map<Hdgopy>(model);
             _context.Hdgopies!.Add(newHdgopy);
@@ -26,7 +26,7 @@ namespace XuLyKhoaLuan.Repositories
             return returnString;
         }
 
-        public async Task DeleteHdgopysAsync(int ma)
+        public async Task DeleteHdgopiesAsync(int ma)
         {
             var deleteHdgopy = _context.Hdgopies!.SingleOrDefault(
                 dHdgopy => dHdgopy.Id == ma);
@@ -37,10 +37,10 @@ namespace XuLyKhoaLuan.Repositories
             }
         }
 
-        public async Task<List<HdgopyModel>> GetAllHdgopysAsync()
+        public async Task<List<HdgopyModel>> GetAllHdgopiesAsync()
         {
-            var Hdgopys = await _context.Hdgopies.ToListAsync();
-            return _mapper.Map<List<HdgopyModel>>(Hdgopys);
+            var Hdgopies = await _context.Hdgopies.ToListAsync();
+            return _mapper.Map<List<HdgopyModel>>(Hdgopies);
         }
 
         public async Task<HdgopyModel> GetHdgopyByIDAsync(int ma)
@@ -49,7 +49,7 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<HdgopyModel>(hdgy);
         }
 
-        public async Task UpdateHdgopysAsync(int ma, HdgopyModel model)
+        public async Task UpdateHdgopiesAsync(int ma, HdgopyModel model)
         {
             if (model.Id == ma)
             {
