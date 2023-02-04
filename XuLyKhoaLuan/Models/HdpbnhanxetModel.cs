@@ -1,7 +1,10 @@
-﻿namespace XuLyKhoaLuan.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace XuLyKhoaLuan.Models
 {
     public class HdpbnhanxetModel
     {
+        [Key]
         public int Id { get; set; }
         public DateTime? ThoiGian { get; set; }
         public string? NoiDung { get; set; }
