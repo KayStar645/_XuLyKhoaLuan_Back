@@ -6,8 +6,6 @@ namespace XuLyKhoaLuan.Models
     {
         [Key]
         public string MaCv { get; set; } = null!;
-
-        [MinLength(10), MaxLength(10)] // Ví dụ
         public string MaSv { get; set; } = null!;
 
 

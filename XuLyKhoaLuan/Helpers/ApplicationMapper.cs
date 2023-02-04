@@ -24,24 +24,24 @@ namespace XuLyKhoaLuan.Helpers
             CreateMap<Hdpbcham, HdpbchamModel>().ReverseMap();
             CreateMap<Hdpbnhanxet, HdpbnhanxetModel>().ReverseMap();
             CreateMap<Hdphanbien, HdphanbienModel>().ReverseMap();
-            CreateMap <Hoidong, HoidongModel> ().ReverseMap();
-            CreateMap <Huongdan, HuongdanModel> ().ReverseMap();
-            CreateMap <Kehoach, KehoachModel> ().ReverseMap();
+            CreateMap<Hoidong, HoidongModel>().ReverseMap();
+            CreateMap<Huongdan, HuongdanModel>().ReverseMap();
+            CreateMap<Kehoach, KehoachModel>().ReverseMap();
             CreateMap<Khoa, KhoaModel>().ReverseMap();
-            CreateMap <Loimoi, LoimoiModel> ().ReverseMap();
-            CreateMap <Nhiemvu, NhiemvuModel> ().ReverseMap();
-            CreateMap <Nhom, NhomModel> ().ReverseMap();
-            CreateMap <Pbcham, PbchamModel> ().ReverseMap();
-            CreateMap <Pbnhanxet, PbnhanxetModel> ().ReverseMap();
-            CreateMap <Phanbien, PhanbienModel> ().ReverseMap();
+            CreateMap<Loimoi, LoimoiModel>().ReverseMap();
+            CreateMap<Nhiemvu, NhiemvuModel>().ReverseMap();
+            CreateMap<Nhom, NhomModel>().ReverseMap();
+            CreateMap<Pbcham, PbchamModel>().ReverseMap();
+            CreateMap<Pbnhanxet, PbnhanxetModel>().ReverseMap();
+            CreateMap<Phanbien, PhanbienModel>().ReverseMap();
             CreateMap<Sinhvien, SinhvienModel>().ReverseMap();
-            CreateMap <Thamgia,ThamgiaModel > ().ReverseMap();
-            CreateMap <Thamgiahd, ThamgiahdModel> ().ReverseMap();
-            CreateMap <Thongbao, ThongbaoModel> ().ReverseMap();
-            CreateMap <Truongbm, TruongbmModel> ().ReverseMap();
-            CreateMap <Truongkhoa, TruongkhoaModel> ().ReverseMap();
-            CreateMap <Vaitro, VaitroModel> ().ReverseMap();
-            CreateMap <Xacnhan, XacnhanModel> ().ReverseMap();
+            CreateMap<Thamgia, ThamgiaModel>().ReverseMap();
+            CreateMap<Thamgiahd, ThamgiahdModel>().ReverseMap();
+            CreateMap<Thongbao, ThongbaoModel>().ReverseMap();
+            CreateMap<Truongbm, TruongbmModel>().ReverseMap();
+            CreateMap<Truongkhoa, TruongkhoaModel>().ReverseMap();
+            CreateMap<Vaitro, VaitroModel>().ReverseMap();
+            CreateMap<Xacnhan, XacnhanModel>().ReverseMap();
         }
     }
 }

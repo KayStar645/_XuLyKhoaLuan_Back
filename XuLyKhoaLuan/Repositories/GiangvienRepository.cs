@@ -1,4 +1,6 @@
-﻿
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Repositories.Interface;
 
@@ -6,29 +8,55 @@ namespace XuLyKhoaLuan.Repositories
 {
     public class GiangvienRepository : IGiangvienRepository
     {
-        Task<string> IGiangvienRepository.AddGiangviensAsync(GiangvienModel model)
+
+        private readonly XuLyKhoaLuanContext _context;
+        private readonly IMapper _mapper;
+
+        public GiangvienRepository(XuLyKhoaLuanContext context, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _mapper = mapper;
         }
 
-        Task IGiangvienRepository.DeleteGiangviensAsync(string ma)
+        public async Task<string> AddGiangviensAsync(GiangvienModel model)
         {
-            throw new NotImplementedException();
+            var newGiangvien = _mapper.Map<Giangvien>(model);
+            _context.Giangviens!.Add(newGiangvien);
+            await _context.SaveChangesAsync();
+            return newGiangvien.MaGv;
         }
 
-        Task<List<GiangvienModel>> IGiangvienRepository.GetAllGiangviensAsync()
+        public async Task DeleteGiangviensAsync(string maGV)
         {
-            throw new NotImplementedException();
+            var deleteGiangvien = _context.Giangviens!.SingleOrDefault(dt => dt.MaGv.Equals(maGV));
+            if (deleteGiangvien != null)
+            {
+                _context.Giangviens!.Remove(deleteGiangvien);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        Task<GiangvienModel> IGiangvienRepository.GetGiangvienByIDAsync(string ma)
+        public async Task<List<GiangvienModel>> GetAllGiangviensAsync()
         {
-            throw new NotImplementedException();
+            var Giangviens = await _context.Giangviens.ToListAsync();
+            return _mapper.Map<List<GiangvienModel>>(Giangviens);
         }
 
-        Task IGiangvienRepository.UpdateGiangviensAsync(string ma, GiangvienModel model)
+        public async Task<GiangvienModel> GetGiangvienByIDAsync(string maGV)
         {
-            throw new NotImplementedException();
+            var Giangvien = await _context.Giangviens.FindAsync(maGV);
+            return _mapper.Map<GiangvienModel>(Giangvien);
+
+        }
+
+        public async Task UpdateGiangviensAsync(string maGV, GiangvienModel model)
+        {
+            if (maGV.Equals(model.MaGv))
+            {
+                var updateGiangvien = _mapper.Map<Giangvien>(model);
+                _context.Giangviens.Update(updateGiangvien);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

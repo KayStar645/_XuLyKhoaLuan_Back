@@ -1,33 +1,61 @@
-﻿using XuLyKhoaLuan.Models;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using XuLyKhoaLuan.Data;
+using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Repositories
 {
     public class CongviecRepository : ICongviecRepository
     {
-        Task<string> ICongviecRepository.AddCongviecsAsync(CongviecModel model)
+        private readonly XuLyKhoaLuanContext _context;
+        private readonly IMapper _mapper;
+
+        public CongviecRepository(XuLyKhoaLuanContext context, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _mapper = mapper;
         }
 
-        Task ICongviecRepository.DeleteCongviecsAsync(string maCV)
+        public async Task<string> AddCongviecsAsync(CongviecModel model)
         {
-            throw new NotImplementedException();
+            var newCongviec = _mapper.Map<Congviec>(model);
+            _context.Congviecs!.Add(newCongviec);
+            await _context.SaveChangesAsync();
+            return newCongviec.MaCv;
         }
 
-        Task<List<CongviecModel>> ICongviecRepository.GetAllCongviecsAsync()
+        public async Task DeleteCongviecsAsync(string maCV)
         {
-            throw new NotImplementedException();
+            var deleteCongviec = _context.Congviecs!.SingleOrDefault(dt => dt.MaCv.Equals(maCV));
+            if (deleteCongviec != null)
+            {
+                _context.Congviecs!.Remove(deleteCongviec);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        Task<CongviecModel> ICongviecRepository.GetCongviecByIDAsync(string maCV)
+        public async Task<List<CongviecModel>> GetAllCongviecsAsync()
         {
-            throw new NotImplementedException();
+            var Congviecs = await _context.Congviecs.ToListAsync();
+            return _mapper.Map<List<CongviecModel>>(Congviecs);
         }
 
-        Task ICongviecRepository.UpdateCongviecsAsync(string maCV, CongviecModel model)
+        public async Task<CongviecModel> GetCongviecByIDAsync(string maCV)
         {
-            throw new NotImplementedException();
+            var Congviec = await _context.Congviecs.FindAsync(maCV);
+            return _mapper.Map<CongviecModel>(Congviec);
+
+        }
+
+        public async Task UpdateCongviecsAsync(string maCV, CongviecModel model)
+        {
+            if (maCV.Equals(model.MaCv))
+            {
+                var updateCongviec = _mapper.Map<Congviec>(model);
+                _context.Congviecs.Update(updateCongviec);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

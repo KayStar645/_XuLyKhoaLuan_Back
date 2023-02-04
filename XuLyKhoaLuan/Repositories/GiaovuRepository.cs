@@ -1,4 +1,7 @@
-﻿
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using XuLyKhoaLuan.Data;
+
 using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Repositories.Interface;
 
@@ -6,29 +9,54 @@ namespace XuLyKhoaLuan.Repositories
 {
     public class GiaovuRepository : IGiaovuRepository
     {
-        Task<string> IGiaovuRepository.AddGiaovusAsync(GiaovuModel model)
+        private readonly XuLyKhoaLuanContext _context;
+        private readonly IMapper _mapper;
+
+        public GiaovuRepository(XuLyKhoaLuanContext context, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _mapper = mapper;
         }
 
-        Task IGiaovuRepository.DeleteGiaovusAsync(string ma)
+        public async Task<string> AddGiaovusAsync(GiaovuModel model)
         {
-            throw new NotImplementedException();
+            var newGiaovu = _mapper.Map<Giaovu>(model);
+            _context.Giaovus!.Add(newGiaovu);
+            await _context.SaveChangesAsync();
+            return newGiaovu.MaGv;
         }
 
-        Task<List<GiaovuModel>> IGiaovuRepository.GetAllGiaovusAsync()
+        public async Task DeleteGiaovusAsync(string maGV)
         {
-            throw new NotImplementedException();
+            var deleteGiaovu = _context.Giaovus!.SingleOrDefault(dt => dt.MaGv.Equals(maGV));
+            if (deleteGiaovu != null)
+            {
+                _context.Giaovus!.Remove(deleteGiaovu);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        Task<GiaovuModel> IGiaovuRepository.GetGiaovuByIDAsync(string ma)
+        public async Task<List<GiaovuModel>> GetAllGiaovusAsync()
         {
-            throw new NotImplementedException();
+            var Giaovus = await _context.Giaovus.ToListAsync();
+            return _mapper.Map<List<GiaovuModel>>(Giaovus);
         }
 
-        Task IGiaovuRepository.UpdateGiaovusAsync(string ma, GiaovuModel model)
+        public async Task<GiaovuModel> GetGiaovuByIDAsync(string maGV)
         {
-            throw new NotImplementedException();
+            var Giaovu = await _context.Giaovus.FindAsync(maGV);
+            return _mapper.Map<GiaovuModel>(Giaovu);
+
+        }
+
+        public async Task UpdateGiaovusAsync(string maGV, GiaovuModel model)
+        {
+            if (maGV.Equals(model.MaGv))
+            {
+                var updateGiaovu = _mapper.Map<Giaovu>(model);
+                _context.Giaovus.Update(updateGiaovu);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

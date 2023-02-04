@@ -1,33 +1,63 @@
-﻿using XuLyKhoaLuan.Models;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using XuLyKhoaLuan.Data;
+using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Repositories
 {
     public class DuyetdtRepository : IDuyetdtRepository
     {
-        Task<string> IDuyetdtRepository.AddDuyetdtsAsync(DuyetdtModel model)
+        private readonly XuLyKhoaLuanContext _context;
+        private readonly IMapper _mapper;
+
+        public DuyetdtRepository(XuLyKhoaLuanContext context, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _mapper = mapper;
         }
 
-        Task IDuyetdtRepository.DeleteDuyetdtsAsync(DuyetdtModel duyetDT)
+        public async Task<string> AddDuyetdtsAsync(DuyetdtModel model)
         {
-            throw new NotImplementedException();
+            var newDuyetdt = _mapper.Map<Duyetdt>(model);
+            _context.Duyetdts!.Add(newDuyetdt);
+            await _context.SaveChangesAsync();
+            string returnString = newDuyetdt.MaGv + newDuyetdt.MaDt + newDuyetdt.LanDuyet;
+            return returnString;
         }
 
-        Task<List<DuyetdtModel>> IDuyetdtRepository.GetAllDuyetdtsAsync()
+        public async Task DeleteDuyetdtsAsync(DuyetdtModel Duyetdt)
         {
-            throw new NotImplementedException();
+            var deleteDuyetdt = _context.Duyetdts!.SingleOrDefault(
+                duyetDT => duyetDT.MaDt == Duyetdt.MaDt && duyetDT.MaGv == Duyetdt.MaGv
+                && duyetDT.LanDuyet == Duyetdt.LanDuyet);
+            if (deleteDuyetdt != null)
+            {
+                _context.Duyetdts!.Remove(deleteDuyetdt);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        Task<DuyetdtModel> IDuyetdtRepository.GetDuyetdtByIDAsync(DuyetdtModel duyetDT)
+        public async Task<List<DuyetdtModel>> GetAllDuyetdtsAsync()
         {
-            throw new NotImplementedException();
+            var Duyetdts = await _context.Duyetdts.ToListAsync();
+            return _mapper.Map<List<DuyetdtModel>>(Duyetdts);
         }
 
-        Task IDuyetdtRepository.UpdateDuyetdtsAsync(DuyetdtModel duyetDT, DuyetdtModel model)
+        public async Task<DuyetdtModel> GetDuyetdtByIDAsync(DuyetdtModel Duyetdt)
         {
-            throw new NotImplementedException();
+            var duyetDT = await _context.Duyetdts.FindAsync(Duyetdt.MaGv, Duyetdt.MaDt, Duyetdt.LanDuyet);
+            return _mapper.Map<DuyetdtModel>(duyetDT);
+        }
+
+        public async Task UpdateDuyetdtsAsync(DuyetdtModel Duyetdt, DuyetdtModel model)
+        {
+            if (Duyetdt.MaDt == model.MaDt && Duyetdt.MaGv == model.MaGv && Duyetdt.LanDuyet == model.LanDuyet)
+            {
+                var updateDuyetdt = _mapper.Map<Duyetdt>(model);
+                _context.Duyetdts.Update(updateDuyetdt);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
