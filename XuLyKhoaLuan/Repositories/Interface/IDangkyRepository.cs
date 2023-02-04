@@ -1,4 +1,4 @@
-﻿using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Models;
 
 namespace XuLyKhoaLuan.Repositories.Interface
 {

@@ -1,13 +1,13 @@
-﻿
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
+
 using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Repositories
 {
-    public class GiaovuRepository: IGiaovuRepository
+    public class GiaovuRepository : IGiaovuRepository
     {
         private readonly XuLyKhoaLuanContext _context;
         private readonly IMapper _mapper;

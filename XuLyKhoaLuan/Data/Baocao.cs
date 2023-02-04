@@ -18,6 +18,6 @@ namespace XuLyKhoaLuan.Data
         public string? FileBc { get; set; }
 
         public virtual Congviec MaCvNavigation { get; set; } = null!;
-        public virtual Thamgia Thamgium { get; set; } = null!;
+        public virtual Thamgia Thamgia { get; set; } = null!;
     }
 }

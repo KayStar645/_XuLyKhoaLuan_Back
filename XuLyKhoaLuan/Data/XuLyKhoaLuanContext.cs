@@ -94,7 +94,7 @@ namespace XuLyKhoaLuan.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BAOCAO_CONGVIEC");
 
-                entity.HasOne(d => d.Thamgium)
+                entity.HasOne(d => d.Thamgia)
                     .WithMany(p => p.Baocaos)
                     .HasForeignKey(d => new { d.MaSv, d.NamHoc, d.Dot })
                     .OnDelete(DeleteBehavior.ClientSetNull)

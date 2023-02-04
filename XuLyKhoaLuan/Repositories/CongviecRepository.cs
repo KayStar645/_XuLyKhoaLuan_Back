@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Models;
@@ -6,7 +6,7 @@ using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Repositories
 {
-    public class CongviecRepository:ICongviecRepository
+    public class CongviecRepository : ICongviecRepository
     {
         private readonly XuLyKhoaLuanContext _context;
         private readonly IMapper _mapper;
@@ -57,6 +57,5 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
     }
 }
