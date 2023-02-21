@@ -17,7 +17,7 @@ namespace XuLyKhoaLuan.Data
 
         public virtual Detai MaDtNavigation { get; set; } = null!;
         public virtual Giangvien MaGvNavigation { get; set; } = null!;
-        public virtual Hdcham Hdcham { get; set; } = null!;
+        public virtual Hdcham? Hdcham { get; set; }
         public virtual ICollection<Congviec> Congviecs { get; set; }
         public virtual ICollection<Hdgopy> Hdgopies { get; set; }
     }

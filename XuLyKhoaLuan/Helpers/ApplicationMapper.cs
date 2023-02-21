@@ -35,7 +35,7 @@ namespace XuLyKhoaLuan.Helpers
             CreateMap<Pbnhanxet, PbnhanxetModel>().ReverseMap();
             CreateMap<Phanbien, PhanbienModel>().ReverseMap();
             CreateMap<Sinhvien, SinhvienModel>().ReverseMap();
-            CreateMap<Thamgia, ThamgiaModel>().ReverseMap();
+            CreateMap<Thamgium, ThamgiaModel>().ReverseMap();
             CreateMap<Thamgiahd, ThamgiahdModel>().ReverseMap();
             CreateMap<Thongbao, ThongbaoModel>().ReverseMap();
             CreateMap<Truongbm, TruongbmModel>().ReverseMap();

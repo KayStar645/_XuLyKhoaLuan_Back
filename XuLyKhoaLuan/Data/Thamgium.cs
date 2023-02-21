@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace XuLyKhoaLuan.Data
 {
-    public partial class Thamgia
+    public partial class Thamgium
     {
-        public Thamgia()
+        public Thamgium()
         {
             Baocaos = new HashSet<Baocao>();
             Binhluans = new HashSet<Binhluan>();

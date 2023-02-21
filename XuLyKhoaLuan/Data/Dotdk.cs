@@ -7,12 +7,12 @@ namespace XuLyKhoaLuan.Data
     {
         public Dotdk()
         {
-            Thamgia = new HashSet<Thamgia>();
+            Thamgia = new HashSet<Thamgium>();
         }
 
         public string NamHoc { get; set; } = null!;
         public int Dot { get; set; }
 
-        public virtual ICollection<Thamgia> Thamgia { get; set; }
+        public virtual ICollection<Thamgium> Thamgia { get; set; }
     }
 }

@@ -1,5 +1,10 @@
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using System.Reflection.Emit;
+using System.Text;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Repositories;
 using XuLyKhoaLuan.Repositories.Interface;
@@ -8,13 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-// JSON Serializer -- Angular qu� nhanh
-builder.Services.AddControllersWithViews()
-    .AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
-    .Json.ReferenceLoopHandling.Ignore)
-    .AddNewtonsoftJson(options =>
-    options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+//// JSON Serializer -- Angular quá nhanh
+//builder.Services.AddControllersWithViews()
+//    .AddNewtonsoftJson(options =>
+//    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+//    .Json.ReferenceLoopHandling.Ignore)
+//    .AddNewtonsoftJson(options =>
+//    options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 
 builder.Services.AddControllers();
@@ -25,6 +30,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
     policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<XuLyKhoaLuanContext>().AddDefaultTokenProviders();
+
 builder.Services.AddDbContext<XuLyKhoaLuanContext>(option => option.UseSqlServer
     (builder.Configuration.GetConnectionString("ConnectKhoaLuan")));
 //builder.Services.AddCors(p => p.AddPolicy("MyCors", build => {
@@ -33,7 +41,41 @@ builder.Services.AddDbContext<XuLyKhoaLuanContext>(option => option.UseSqlServer
 
 builder.Services.AddAutoMapper(typeof(Program));
 
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["JWT:ValidAudience"],
+        ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+    };
+});
+
+
+// Truy cập IdentityOptions
+builder.Services.Configure<IdentityOptions>(options => {
+    // Thiết lập về Password
+    options.Password.RequireDigit = false; // Không bắt phải có số
+    options.Password.RequireLowercase = false; // Không bắt phải có chữ thường
+    options.Password.RequireNonAlphanumeric = false; // Không bắt ký tự đặc biệt
+    options.Password.RequireUppercase = false; // Không bắt buộc chữ in
+    options.Password.RequiredLength = 6; // Số ký tự tối thiểu của password
+    options.Password.RequiredUniqueChars = 1; // Số ký tự riêng biệt
+});
+
 // Life cycle DI: AddSingleton(), AddTransient(), AddScoped()
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+
 builder.Services.AddScoped<IBaocaoRepository, BaocaoRepository>();
 builder.Services.AddScoped<IBinhluanRepository, BinhluanRepository>();
 builder.Services.AddScoped<IBomonRepository, BomonRepository>();

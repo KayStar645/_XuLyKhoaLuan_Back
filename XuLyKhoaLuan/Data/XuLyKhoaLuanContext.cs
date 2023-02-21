@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace XuLyKhoaLuan.Data
 {
-    public partial class XuLyKhoaLuanContext : DbContext
+    public partial class XuLyKhoaLuanContext : IdentityDbContext<ApplicationUser>
     {
         public XuLyKhoaLuanContext()
         {
@@ -44,7 +45,7 @@ namespace XuLyKhoaLuan.Data
         public virtual DbSet<Phanbien> Phanbiens { get; set; } = null!;
         public virtual DbSet<Sinhvien> Sinhviens { get; set; } = null!;
         public virtual DbSet<Thamgiahd> Thamgiahds { get; set; } = null!;
-        public virtual DbSet<Thamgia> Thamgias { get; set; } = null!;
+        public virtual DbSet<Thamgium> Thamgia { get; set; } = null!;
         public virtual DbSet<Thongbao> Thongbaos { get; set; } = null!;
         public virtual DbSet<Truongbm> Truongbms { get; set; } = null!;
         public virtual DbSet<Truongkhoa> Truongkhoas { get; set; } = null!;
@@ -62,6 +63,7 @@ namespace XuLyKhoaLuan.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Baocao>(entity =>
             {
                 entity.HasKey(e => new { e.MaCv, e.MaSv, e.NamHoc, e.Dot, e.LanNop });
@@ -94,7 +96,7 @@ namespace XuLyKhoaLuan.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BAOCAO_CONGVIEC");
 
-                entity.HasOne(d => d.Thamgia)
+                entity.HasOne(d => d.Thamgium)
                     .WithMany(p => p.Baocaos)
                     .HasForeignKey(d => new { d.MaSv, d.NamHoc, d.Dot })
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1083,7 +1085,7 @@ namespace XuLyKhoaLuan.Data
                     .HasConstraintName("FK_THAMGIAHD_VAITRO");
             });
 
-            modelBuilder.Entity<Thamgia>(entity =>
+            modelBuilder.Entity<Thamgium>(entity =>
             {
                 entity.HasKey(e => new { e.MaSv, e.NamHoc, e.Dot });
 

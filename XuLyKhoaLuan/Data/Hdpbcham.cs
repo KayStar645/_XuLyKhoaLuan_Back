@@ -15,6 +15,6 @@ namespace XuLyKhoaLuan.Data
         public double? HeSo { get; set; }
 
         public virtual Hdphanbien Ma { get; set; } = null!;
-        public virtual Thamgia Thamgium { get; set; } = null!;
+        public virtual Thamgium Thamgium { get; set; } = null!;
     }
 }

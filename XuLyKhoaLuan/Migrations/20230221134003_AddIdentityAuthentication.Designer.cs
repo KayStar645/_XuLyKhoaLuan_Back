@@ -12,14 +12,14 @@ using XuLyKhoaLuan.Data;
 namespace XuLyKhoaLuan.Migrations
 {
     [DbContext(typeof(XuLyKhoaLuanContext))]
-    [Migration("20230117065751_DbInit")]
-    partial class DbInit
+    [Migration("20230221134003_AddIdentityAuthentication")]
+    partial class AddIdentityAuthentication
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -45,6 +45,139 @@ namespace XuLyKhoaLuan.Migrations
                     b.ToTable("DETAI_CHUYENNGANH", (string)null);
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
             modelBuilder.Entity("Rade", b =>
                 {
                     b.Property<string>("MaGv")
@@ -64,6 +197,79 @@ namespace XuLyKhoaLuan.Migrations
                     b.HasIndex("MaDt");
 
                     b.ToTable("RADE", (string)null);
+                });
+
+            modelBuilder.Entity("XuLyKhoaLuan.Data.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FistName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Baocao", b =>
@@ -1095,36 +1301,6 @@ namespace XuLyKhoaLuan.Migrations
                     b.ToTable("SINHVIEN", (string)null);
                 });
 
-            modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgia", b =>
-                {
-                    b.Property<string>("MaSv")
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
-                        .HasColumnName("MaSV");
-
-                    b.Property<string>("NamHoc")
-                        .HasMaxLength(20)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<int>("Dot")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("DiemTb")
-                        .HasColumnType("float")
-                        .HasColumnName("DiemTB");
-
-                    b.Property<int?>("MaNhom")
-                        .HasColumnType("int");
-
-                    b.HasKey("MaSv", "NamHoc", "Dot");
-
-                    b.HasIndex("NamHoc", "Dot");
-
-                    b.ToTable("THAMGIA", (string)null);
-                });
-
             modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgiahd", b =>
                 {
                     b.Property<string>("MaHd")
@@ -1153,6 +1329,36 @@ namespace XuLyKhoaLuan.Migrations
                     b.HasIndex("MaVt");
 
                     b.ToTable("THAMGIAHD", (string)null);
+                });
+
+            modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgium", b =>
+                {
+                    b.Property<string>("MaSv")
+                        .HasMaxLength(15)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(15)")
+                        .HasColumnName("MaSV");
+
+                    b.Property<string>("NamHoc")
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<int>("Dot")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("DiemTb")
+                        .HasColumnType("float")
+                        .HasColumnName("DiemTB");
+
+                    b.Property<int?>("MaNhom")
+                        .HasColumnType("int");
+
+                    b.HasKey("MaSv", "NamHoc", "Dot");
+
+                    b.HasIndex("NamHoc", "Dot");
+
+                    b.ToTable("THAMGIA", (string)null);
                 });
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Thongbao", b =>
@@ -1304,6 +1510,57 @@ namespace XuLyKhoaLuan.Migrations
                         .HasConstraintName("FK_DT_CN_DETAI");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("XuLyKhoaLuan.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("XuLyKhoaLuan.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("XuLyKhoaLuan.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("XuLyKhoaLuan.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Rade", b =>
                 {
                     b.HasOne("XuLyKhoaLuan.Data.Detai", null)
@@ -1327,7 +1584,7 @@ namespace XuLyKhoaLuan.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_BAOCAO_CONGVIEC");
 
-                    b.HasOne("XuLyKhoaLuan.Data.Thamgia", "Thamgium")
+                    b.HasOne("XuLyKhoaLuan.Data.Thamgium", "Thamgium")
                         .WithMany("Baocaos")
                         .HasForeignKey("MaSv", "NamHoc", "Dot")
                         .IsRequired()
@@ -1345,7 +1602,7 @@ namespace XuLyKhoaLuan.Migrations
                         .HasForeignKey("MaCv")
                         .HasConstraintName("FK_BINHLUAN_CONGVIEC");
 
-                    b.HasOne("XuLyKhoaLuan.Data.Thamgia", "Thamgium")
+                    b.HasOne("XuLyKhoaLuan.Data.Thamgium", "Thamgium")
                         .WithMany("Binhluans")
                         .HasForeignKey("MaSv", "NamHoc", "Dot")
                         .HasConstraintName("FK_BINHLUAN_THAMGIA");
@@ -1458,7 +1715,7 @@ namespace XuLyKhoaLuan.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_HDCHAM_HUONGDAN");
 
-                    b.HasOne("XuLyKhoaLuan.Data.Thamgia", "Thamgium")
+                    b.HasOne("XuLyKhoaLuan.Data.Thamgium", "Thamgium")
                         .WithMany("Hdchams")
                         .HasForeignKey("MaSv", "NamHoc", "Dot")
                         .IsRequired()
@@ -1494,7 +1751,7 @@ namespace XuLyKhoaLuan.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_HDPBCHAM_HDPHANBIEN");
 
-                    b.HasOne("XuLyKhoaLuan.Data.Thamgia", "Thamgium")
+                    b.HasOne("XuLyKhoaLuan.Data.Thamgium", "Thamgium")
                         .WithMany("Hdpbchams")
                         .HasForeignKey("MaSv", "NamHoc", "Dot")
                         .IsRequired()
@@ -1588,7 +1845,7 @@ namespace XuLyKhoaLuan.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_LOIMOI_NHOM");
 
-                    b.HasOne("XuLyKhoaLuan.Data.Thamgia", "Thamgium")
+                    b.HasOne("XuLyKhoaLuan.Data.Thamgium", "Thamgium")
                         .WithMany("Loimois")
                         .HasForeignKey("MaSv", "NamHoc", "Dot")
                         .IsRequired()
@@ -1635,7 +1892,7 @@ namespace XuLyKhoaLuan.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_PBCHAM_PHANBIEN");
 
-                    b.HasOne("XuLyKhoaLuan.Data.Thamgia", "Thamgium")
+                    b.HasOne("XuLyKhoaLuan.Data.Thamgium", "Thamgium")
                         .WithMany("Pbchams")
                         .HasForeignKey("MaSv", "NamHoc", "Dot")
                         .IsRequired()
@@ -1685,25 +1942,6 @@ namespace XuLyKhoaLuan.Migrations
                     b.Navigation("MaCnNavigation");
                 });
 
-            modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgia", b =>
-                {
-                    b.HasOne("XuLyKhoaLuan.Data.Sinhvien", "MaSvNavigation")
-                        .WithMany("Thamgia")
-                        .HasForeignKey("MaSv")
-                        .IsRequired()
-                        .HasConstraintName("FK_THAMGIA_SINHVIEN");
-
-                    b.HasOne("XuLyKhoaLuan.Data.Dotdk", "Dotdk")
-                        .WithMany("Thamgia")
-                        .HasForeignKey("NamHoc", "Dot")
-                        .IsRequired()
-                        .HasConstraintName("FK_THAMGIA_DOTDK");
-
-                    b.Navigation("Dotdk");
-
-                    b.Navigation("MaSvNavigation");
-                });
-
             modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgiahd", b =>
                 {
                     b.HasOne("XuLyKhoaLuan.Data.Giangvien", "MaGvNavigation")
@@ -1729,6 +1967,25 @@ namespace XuLyKhoaLuan.Migrations
                     b.Navigation("MaHdNavigation");
 
                     b.Navigation("MaVtNavigation");
+                });
+
+            modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgium", b =>
+                {
+                    b.HasOne("XuLyKhoaLuan.Data.Sinhvien", "MaSvNavigation")
+                        .WithMany("Thamgia")
+                        .HasForeignKey("MaSv")
+                        .IsRequired()
+                        .HasConstraintName("FK_THAMGIA_SINHVIEN");
+
+                    b.HasOne("XuLyKhoaLuan.Data.Dotdk", "Dotdk")
+                        .WithMany("Thamgia")
+                        .HasForeignKey("NamHoc", "Dot")
+                        .IsRequired()
+                        .HasConstraintName("FK_THAMGIA_DOTDK");
+
+                    b.Navigation("Dotdk");
+
+                    b.Navigation("MaSvNavigation");
                 });
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Thongbao", b =>
@@ -1880,8 +2137,7 @@ namespace XuLyKhoaLuan.Migrations
                 {
                     b.Navigation("Congviecs");
 
-                    b.Navigation("Hdcham")
-                        .IsRequired();
+                    b.Navigation("Hdcham");
 
                     b.Navigation("Hdgopies");
                 });
@@ -1912,8 +2168,7 @@ namespace XuLyKhoaLuan.Migrations
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Phanbien", b =>
                 {
-                    b.Navigation("Pbcham")
-                        .IsRequired();
+                    b.Navigation("Pbcham");
 
                     b.Navigation("Pbnhanxets");
                 });
@@ -1925,7 +2180,12 @@ namespace XuLyKhoaLuan.Migrations
                     b.Navigation("Thamgia");
                 });
 
-            modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgia", b =>
+            modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgiahd", b =>
+                {
+                    b.Navigation("Hdphanbiens");
+                });
+
+            modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgium", b =>
                 {
                     b.Navigation("Baocaos");
 
@@ -1938,11 +2198,6 @@ namespace XuLyKhoaLuan.Migrations
                     b.Navigation("Loimois");
 
                     b.Navigation("Pbchams");
-                });
-
-            modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgiahd", b =>
-                {
-                    b.Navigation("Hdphanbiens");
                 });
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Vaitro", b =>

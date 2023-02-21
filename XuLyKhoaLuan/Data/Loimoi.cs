@@ -14,6 +14,6 @@ namespace XuLyKhoaLuan.Data
         public bool? TrangThai { get; set; }
 
         public virtual Nhom MaNhomNavigation { get; set; } = null!;
-        public virtual Thamgia Thamgium { get; set; } = null!;
+        public virtual Thamgium Thamgium { get; set; } = null!;
     }
 }

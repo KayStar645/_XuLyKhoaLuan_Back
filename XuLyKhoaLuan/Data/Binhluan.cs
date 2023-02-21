@@ -14,6 +14,6 @@ namespace XuLyKhoaLuan.Data
         public int? Dot { get; set; }
 
         public virtual Congviec? MaCvNavigation { get; set; }
-        public virtual Thamgia? Thamgium { get; set; }
+        public virtual Thamgium? Thamgium { get; set; }
     }
 }

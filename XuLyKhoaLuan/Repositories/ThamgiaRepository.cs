@@ -19,8 +19,8 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task<string> AddThamgiasAsync(ThamgiaModel model)
         {
-            var newThamgia = _mapper.Map<Thamgia>(model);
-            _context.Thamgias!.Add(newThamgia);
+            var newThamgia = _mapper.Map<Thamgium>(model);
+            _context.Thamgia!.Add(newThamgia);
             await _context.SaveChangesAsync();
             string returnString = newThamgia.MaSv + newThamgia.NamHoc + newThamgia.Dot;
             return returnString;
@@ -28,25 +28,25 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task DeleteThamgiasAsync(ThamgiaModel Thamgia)
         {
-            var deleteThamgia = _context.Thamgias!.SingleOrDefault(
+            var deleteThamgia = _context.Thamgia!.SingleOrDefault(
                 thamGia => thamGia.NamHoc == Thamgia.NamHoc && thamGia.MaSv == Thamgia.MaSv
                 && thamGia.Dot == Thamgia.Dot);
             if (deleteThamgia != null)
             {
-                _context.Thamgias!.Remove(deleteThamgia);
+                _context.Thamgia!.Remove(deleteThamgia);
                 await _context.SaveChangesAsync();
             }
         }
 
         public async Task<List<ThamgiaModel>> GetAllThamgiasAsync()
         {
-            var Thamgias = await _context.Thamgias.ToListAsync();
+            var Thamgias = await _context.Thamgia.ToListAsync();
             return _mapper.Map<List<ThamgiaModel>>(Thamgias);
         }
 
         public async Task<ThamgiaModel> GetThamgiaByIDAsync(ThamgiaModel Thamgia)
         {
-            var thamGia = await _context.Thamgias.FindAsync(Thamgia.MaSv, Thamgia.NamHoc, Thamgia.Dot);
+            var thamGia = await _context.Thamgia.FindAsync(Thamgia.MaSv, Thamgia.NamHoc, Thamgia.Dot);
             return _mapper.Map<ThamgiaModel>(thamGia);
         }
 
@@ -54,8 +54,8 @@ namespace XuLyKhoaLuan.Repositories
         {
             if (Thamgia.NamHoc == model.NamHoc && Thamgia.MaSv == model.MaSv && Thamgia.Dot == model.Dot)
             {
-                var updateThamgia = _mapper.Map<Thamgia>(model);
-                _context.Thamgias.Update(updateThamgia);
+                var updateThamgia = _mapper.Map<Thamgium>(model);
+                _context.Thamgia.Update(updateThamgia);
                 await _context.SaveChangesAsync();
             }
         }

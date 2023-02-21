@@ -5,10 +5,6 @@ namespace XuLyKhoaLuan.Data
 {
     public partial class Baocao
     {
-        public Baocao() { 
-        
-        }
-
         public string MaCv { get; set; } = null!;
         public string MaSv { get; set; } = null!;
         public string NamHoc { get; set; } = null!;
@@ -18,6 +14,6 @@ namespace XuLyKhoaLuan.Data
         public string? FileBc { get; set; }
 
         public virtual Congviec MaCvNavigation { get; set; } = null!;
-        public virtual Thamgia Thamgia { get; set; } = null!;
+        public virtual Thamgium Thamgium { get; set; } = null!;
     }
 }

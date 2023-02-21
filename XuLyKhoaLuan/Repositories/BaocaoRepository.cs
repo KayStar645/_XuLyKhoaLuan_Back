@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Models;
@@ -17,6 +18,7 @@ namespace XuLyKhoaLuan.Repositories
             _mapper = mapper;
         }
 
+        [Authorize]
         public async Task<string> AddBaoCaosAsync(BaocaoModel model)
         {
             var newBaoCao = _mapper.Map<Baocao>(model);

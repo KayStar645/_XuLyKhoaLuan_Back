@@ -13,6 +13,6 @@ namespace XuLyKhoaLuan.Data
         public double? Diem { get; set; }
 
         public virtual Phanbien Ma { get; set; } = null!;
-        public virtual Thamgia Thamgium { get; set; } = null!;
+        public virtual Thamgium Thamgium { get; set; } = null!;
     }
 }
