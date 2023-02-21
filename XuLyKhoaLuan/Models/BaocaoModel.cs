@@ -7,8 +7,6 @@ namespace XuLyKhoaLuan.Models
         [Key]
         public string MaCv { get; set; } = null!;
         public string MaSv { get; set; } = null!;
-
-
         public string NamHoc { get; set; } = null!;
 
 
