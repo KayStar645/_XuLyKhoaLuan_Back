@@ -35,9 +35,12 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 builder.Services.AddDbContext<XuLyKhoaLuanContext>(option => option.UseSqlServer
     (builder.Configuration.GetConnectionString("ConnectKhoaLuan")));
-//builder.Services.AddCors(p => p.AddPolicy("MyCors", build => {
-//    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
-//}));
+
+// Mới mở cmt
+builder.Services.AddCors(p => p.AddPolicy("MyCors", build =>
+{
+    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
 
 builder.Services.AddAutoMapper(typeof(Program));
 
