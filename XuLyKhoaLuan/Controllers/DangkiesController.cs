@@ -47,9 +47,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newDangky = await _DangkyRepo.AddDangkiesAsync(model);
-                return CreatedAtAction(nameof(GetDangkyByMaCN), new { Controller = "Dangkys", newDangky }, newDangky);
-                //var Dangky = await _detaiRepo.GetDangkyByMaDTsAsync(newDangky);
-                //return Dangky == null ? BadRequest() : Ok(Dangky);
+                return Ok(model);
             }
             catch
             {

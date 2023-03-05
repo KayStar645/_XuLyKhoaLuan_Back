@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newKhoa = await _KhoaRepo.AddKhoasAsync(model);
-                return CreatedAtAction(nameof(GetKhoaByMaKhoa), new { Controller = "Khoas", newKhoa }, newKhoa);
-                //var Khoa = await _detaiRepo.GetKhoaByMaDTsAsync(newKhoa);
-                //return Khoa == null ? BadRequest() : Ok(Khoa);
+                return Ok(model);
             }
             catch
             {

@@ -41,9 +41,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newSinhvien = await _sinhvienRepo.AddSinhViensAsync(model);
-                return CreatedAtAction(nameof(GetSinhvienByMaSV), new { Controller = "Sinhviens", newSinhvien }, newSinhvien);
-                //var SinhVien = await _detaiRepo.GetSinhVienByMaDTsAsync(newSinhvien);
-                //return SinhVien == null ? BadRequest() : Ok(SinhVien);
+                return Ok(model);
             }
             catch
             {

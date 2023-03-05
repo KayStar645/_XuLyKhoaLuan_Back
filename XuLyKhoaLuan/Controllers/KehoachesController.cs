@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newKehoach = await _KehoachRepo.AddKehoachesAsync(model);
-                return CreatedAtAction(nameof(GetKehoachByID), new { Controller = "Kehoaches", newKehoach }, newKehoach);
-                //var Kehoach = await _detaiRepo.GetKehoachByMaDTsAsync(newKehoach);
-                //return Kehoach == null ? BadRequest() : Ok(Kehoach);
+                return Ok(model);
             }
             catch
             {

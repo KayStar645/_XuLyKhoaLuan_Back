@@ -43,6 +43,7 @@ namespace XuLyKhoaLuan.Repositories
                 issuer: configuration["JWT:ValidIssuer"],
                 audience: configuration["JWT:ValidAudience"],
                 expires: DateTime.Now.AddMonths(1),
+                //expires: DateTime.Now.AddMilliseconds(30),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authenKey, SecurityAlgorithms.HmacSha512Signature)
             );

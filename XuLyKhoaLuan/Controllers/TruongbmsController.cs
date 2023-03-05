@@ -47,9 +47,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newTruongbm = await _TruongbmRepo.AddTruongbmsAsync(model);
-                return CreatedAtAction(nameof(GetTruongbmByMaCN), new { Controller = "Truongbms", newTruongbm }, newTruongbm);
-                //var Truongbm = await _detaiRepo.GetTruongbmByMaDTsAsync(newTruongbm);
-                //return Truongbm == null ? BadRequest() : Ok(Truongbm);
+                return Ok(model);
             }
             catch
             {

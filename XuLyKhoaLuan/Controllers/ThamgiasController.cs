@@ -48,9 +48,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newThamgia = await _ThamgiaRepo.AddThamgiasAsync(model);
-                return CreatedAtAction(nameof(GetThamgiaByMaCN), new { Controller = "Thamgias", newThamgia }, newThamgia);
-                //var Thamgia = await _detaiRepo.GetThamgiaByMaDTsAsync(newThamgia);
-                //return Thamgia == null ? BadRequest() : Ok(Thamgia);
+                return Ok(model);
             }
             catch
             {

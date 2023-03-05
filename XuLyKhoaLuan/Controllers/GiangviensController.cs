@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newGiangvien = await _GiangvienRepo.AddGiangviensAsync(model);
-                return CreatedAtAction(nameof(GetGiangvienByID), new { Controller = "Giangviens", newGiangvien }, newGiangvien);
-                //var Giangvien = await _detaiRepo.GetGiangvienByMaDTsAsync(newGiangvien);
-                //return Giangvien == null ? BadRequest() : Ok(Giangvien);
+                return Ok(model);
             }
             catch
             {

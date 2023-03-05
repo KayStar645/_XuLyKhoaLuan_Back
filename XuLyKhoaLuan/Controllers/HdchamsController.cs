@@ -57,8 +57,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newHdcham = await _HdchamRepo.AddHdchamsAsync(model);
-                return CreatedAtAction(nameof(GetHdchamById), new { Controller = "Hdchams", newHdcham }, newHdcham);
-
+                return Ok(model);
             }
             catch
             {

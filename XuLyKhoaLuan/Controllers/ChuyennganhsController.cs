@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newChuyennganh = await _ChuyennganhRepo.AddChuyennganhsAsync(model);
-                return CreatedAtAction(nameof(GetChuyennganhByMaCN), new { Controller = "Chuyennganhs", newChuyennganh }, newChuyennganh);
-                //var Chuyennganh = await _detaiRepo.GetChuyennganhByMaDTsAsync(newChuyennganh);
-                //return Chuyennganh == null ? BadRequest() : Ok(Chuyennganh);
+                return Ok(model);
             }
             catch
             {

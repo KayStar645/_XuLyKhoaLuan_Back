@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newCongviec = await _CongviecRepo.AddCongviecsAsync(model);
-                return CreatedAtAction(nameof(GetCongviecByMaCN), new { Controller = "Congviecs", newCongviec }, newCongviec);
-                //var Congviec = await _detaiRepo.GetCongviecByMaDTsAsync(newCongviec);
-                //return Congviec == null ? BadRequest() : Ok(Congviec);
+                return Ok(model);
             }
             catch
             {

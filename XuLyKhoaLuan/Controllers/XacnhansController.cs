@@ -47,9 +47,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newXacnhan = await _XacnhanRepo.AddXacnhansAsync(model);
-                return CreatedAtAction(nameof(GetXacnhanByMaCN), new { Controller = "Xacnhans", newXacnhan }, newXacnhan);
-                //var Xacnhan = await _detaiRepo.GetXacnhanByMaDTsAsync(newXacnhan);
-                //return Xacnhan == null ? BadRequest() : Ok(Xacnhan);
+                return Ok(model);
             }
             catch
             {

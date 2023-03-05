@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newBinhluan = await _BinhluanRepo.AddBinhluansAsync(model);
-                return CreatedAtAction(nameof(GetBinhluanByMaBL), new { Controller = "Binhluans", newBinhluan }, newBinhluan);
-                //var Binhluan = await _detaiRepo.GetBinhluanByMaDTsAsync(newBinhluan);
-                //return Binhluan == null ? BadRequest() : Ok(Binhluan);
+                return Ok(model);
             }
             catch
             {

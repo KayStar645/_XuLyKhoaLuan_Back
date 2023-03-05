@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newGiaovu = await _GiaovuRepo.AddGiaovusAsync(model);
-                return CreatedAtAction(nameof(GetGiaovuByID), new { Controller = "Giaovus", newGiaovu }, newGiaovu);
-                //var Giaovu = await _detaiRepo.GetGiaovuByMaDTsAsync(newGiaovu);
-                //return Giaovu == null ? BadRequest() : Ok(Giaovu);
+                return Ok(model);
             }
             catch
             {
@@ -59,7 +57,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 await _GiaovuRepo.UpdateGiaovusAsync(MaGV, model);
-                return Ok();
+                return Ok(/*await _GiaovuRepo.GetGiaovuByIDAsync(MaGV)*/);
             }
             catch
             {

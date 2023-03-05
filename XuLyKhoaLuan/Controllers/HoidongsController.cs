@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newHoidong = await _HoidongRepo.AddHoidongsAsync(model);
-                return CreatedAtAction(nameof(GetHoidongByID), new { Controller = "Hoidongs", newHoidong }, newHoidong);
-                //var Hoidong = await _detaiRepo.GetHoidongByMaDTsAsync(newHoidong);
-                //return Hoidong == null ? BadRequest() : Ok(Hoidong);
+                return Ok(model);
             }
             catch
             {

@@ -58,8 +58,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newDuyetdt = await _DuyetdtRepo.AddDuyetdtsAsync(model);
-                return CreatedAtAction(nameof(GetDuyetdtById), new { Controller = "Duyetdts", newDuyetdt }, newDuyetdt);
-
+                return Ok(model);
             }
             catch
             {

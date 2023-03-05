@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newHdgopy = await _HdgopyRepo.AddHdgopiesAsync(model);
-                return CreatedAtAction(nameof(GetHdgopyByMaCN), new { Controller = "Hdgopies", newHdgopy }, newHdgopy);
-                //var Hdgopy = await _detaiRepo.GetHdgopyByMaDTsAsync(newHdgopy);
-                //return Hdgopy == null ? BadRequest() : Ok(Hdgopy);
+                return Ok(model);
             }
             catch
             {

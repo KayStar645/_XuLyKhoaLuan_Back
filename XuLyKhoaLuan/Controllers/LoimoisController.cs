@@ -49,9 +49,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newLoimoi = await _LoimoiRepo.AddLoimoisAsync(model);
-                return CreatedAtAction(nameof(GetLoimoiByID), new { Controller = "Loimois", newLoimoi }, newLoimoi);
-                //var Loimoi = await _detaiRepo.GetLoimoiByMaNhomsAsync(newLoimoi);
-                //return Loimoi == null ? BadRequest() : Ok(Loimoi);
+                return Ok(model);
             }
             catch
             {

@@ -47,9 +47,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newPbcham = await _PbchamRepo.AddPbchamsAsync(model);
-                return CreatedAtAction(nameof(GetPbchamByMaCN), new { Controller = "Pbchams", newPbcham }, newPbcham);
-                //var Pbcham = await _detaiRepo.GetPbchamByMaDTsAsync(newPbcham);
-                //return Pbcham == null ? BadRequest() : Ok(Pbcham);
+                return Ok(model);
             }
             catch
             {

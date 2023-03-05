@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newVaitro = await _VaitroRepo.AddVaitrosAsync(model);
-                return CreatedAtAction(nameof(GetVaitroByID), new { Controller = "Vaitros", newVaitro }, newVaitro);
-                //var Vaitro = await _detaiRepo.GetVaitroByMaDTsAsync(newVaitro);
-                //return Vaitro == null ? BadRequest() : Ok(Vaitro);
+                return Ok(model);
             }
             catch
             {

@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newBomon = await _BomonRepo.AddBomonsAsync(model);
-                return CreatedAtAction(nameof(GetBomonByMaBM), new { Controller = "Bomons", newBomon }, newBomon);
-                //var Bomon = await _detaiRepo.GetBomonByMaDTsAsync(newBomon);
-                //return Bomon == null ? BadRequest() : Ok(Bomon);
+                return Ok(model);
             }
             catch
             {

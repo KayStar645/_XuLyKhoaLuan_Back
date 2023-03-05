@@ -48,9 +48,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newTruongkhoa = await _TruongkhoaRepo.AddTruongkhoasAsync(model);
-                return CreatedAtAction(nameof(GetTruongkhoaByMaCN), new { Controller = "Truongkhoas", newTruongkhoa }, newTruongkhoa);
-                //var Truongkhoa = await _detaiRepo.GetTruongkhoaByMaDTsAsync(newTruongkhoa);
-                //return Truongkhoa == null ? BadRequest() : Ok(Truongkhoa);
+                return Ok(model);
             }
             catch
             {

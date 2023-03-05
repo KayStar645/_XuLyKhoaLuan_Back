@@ -51,9 +51,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newHdpbcham = await _HdpbchamRepo.AddHdpbchamsAsync(model);
-                return CreatedAtAction(nameof(GetHdpbchamByMaCN), new { Controller = "Hdpbchams", newHdpbcham }, newHdpbcham);
-                //var Hdpbcham = await _detaiRepo.GetHdpbchamByMaDTsAsync(newHdpbcham);
-                //return Hdpbcham == null ? BadRequest() : Ok(Hdpbcham);
+                return Ok(model);
             }
             catch
             {

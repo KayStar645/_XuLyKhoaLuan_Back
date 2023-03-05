@@ -47,9 +47,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newHuongdan = await _HuongdanRepo.AddHuongdansAsync(model);
-                return CreatedAtAction(nameof(GetHuongdanByMaCN), new { Controller = "Huongdans", newHuongdan }, newHuongdan);
-                //var Huongdan = await _detaiRepo.GetHuongdanByMaDTsAsync(newHuongdan);
-                //return Huongdan == null ? BadRequest() : Ok(Huongdan);
+                return Ok(model);
             }
             catch
             {

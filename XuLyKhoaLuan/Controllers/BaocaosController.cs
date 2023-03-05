@@ -63,8 +63,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newBaocao = await _BaocaoRepo.AddBaoCaosAsync(model);
-                return CreatedAtAction(nameof(GetBaocaoById), new { Controller = "Baocaos", newBaocao }, newBaocao);
-                
+                return Ok(model);
             }
             catch
             {

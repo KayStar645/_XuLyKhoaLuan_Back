@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newThongbao = await _ThongbaoRepo.AddThongbaosAsync(model);
-                return CreatedAtAction(nameof(GetThongbaoByID), new { Controller = "Thongbaos", newThongbao }, newThongbao);
-                //var Thongbao = await _detaiRepo.GetThongbaoByMaDTsAsync(newThongbao);
-                //return Thongbao == null ? BadRequest() : Ok(Thongbao);
+                return Ok(model);
             }
             catch
             {

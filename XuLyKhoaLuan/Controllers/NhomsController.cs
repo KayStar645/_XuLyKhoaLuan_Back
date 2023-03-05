@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newNhom = await _NhomRepo.AddNhomsAsync(model);
-                return CreatedAtAction(nameof(GetNhomByID), new { Controller = "Nhoms", newNhom }, newNhom);
-                //var Nhom = await _detaiRepo.GetNhomByMaDTsAsync(newNhom);
-                //return Nhom == null ? BadRequest() : Ok(Nhom);
+                return Ok(model);
             }
             catch
             {

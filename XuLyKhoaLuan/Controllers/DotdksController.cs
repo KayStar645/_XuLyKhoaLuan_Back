@@ -57,8 +57,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newDotdk = await _DotdkRepo.AddDotdksAsync(model);
-                return CreatedAtAction(nameof(GetDotdkById), new { Controller = "Dotdks", newDotdk }, newDotdk);
-
+                return Ok(model);
             }
             catch
             {

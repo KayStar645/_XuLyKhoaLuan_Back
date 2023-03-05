@@ -47,9 +47,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newPhanbien = await _PhanbienRepo.AddPhanbiensAsync(model);
-                return CreatedAtAction(nameof(GetPhanbienByMaCN), new { Controller = "Phanbiens", newPhanbien }, newPhanbien);
-                //var Phanbien = await _detaiRepo.GetPhanbienByMaDTsAsync(newPhanbien);
-                //return Phanbien == null ? BadRequest() : Ok(Phanbien);
+                return Ok(model);
             }
             catch
             {

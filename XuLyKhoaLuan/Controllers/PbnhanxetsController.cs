@@ -42,9 +42,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newPbnhanxet = await _PbnhanxetRepo.AddPbnhanxetsAsync(model);
-                return CreatedAtAction(nameof(GetPbnhanxetByMaCN), new { Controller = "Pbnhanxets", newPbnhanxet }, newPbnhanxet);
-                //var Pbnhanxet = await _detaiRepo.GetPbnhanxetByMaDTsAsync(newPbnhanxet);
-                //return Pbnhanxet == null ? BadRequest() : Ok(Pbnhanxet);
+                return Ok(model);
             }
             catch
             {

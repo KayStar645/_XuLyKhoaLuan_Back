@@ -48,9 +48,7 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newHdphanbien = await _HdphanbienRepo.AddHdphanbiensAsync(model);
-                return CreatedAtAction(nameof(GetHdphanbienByMaCN), new { Controller = "Hdphanbiens", newHdphanbien }, newHdphanbien);
-                //var Hdphanbien = await _detaiRepo.GetHdphanbienByMaDTsAsync(newHdphanbien);
-                //return Hdphanbien == null ? BadRequest() : Ok(Hdphanbien);
+                return Ok(model);
             }
             catch
             {
