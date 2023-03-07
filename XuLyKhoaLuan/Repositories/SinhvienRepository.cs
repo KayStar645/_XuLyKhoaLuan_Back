@@ -47,6 +47,18 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<SinhvienModel>(SinhVien);
         }
 
+        public async Task<List<SinhvienModel>> GetSinhvienByChuyenNganhAsync(string maCN)
+        {
+            var Sinhviens = await _context.Sinhviens.Where(c => c.MaCn.Equals(maCN)).ToListAsync();
+            return _mapper.Map<List<SinhvienModel>>(Sinhviens);
+        }
+
+        public async Task<List<SinhvienModel>> SearchSinhvienByNameAsync(string name)
+        {
+            var Sinhviens = await _context.Sinhviens.Where(c => c.TenSv.Contains(name)).ToListAsync();
+            return _mapper.Map<List<SinhvienModel>>(Sinhviens);
+        }
+
         public async Task UpdateSinhViensAsync(string ma, SinhvienModel model)
         {
             if (ma.Equals(model.MaSv))

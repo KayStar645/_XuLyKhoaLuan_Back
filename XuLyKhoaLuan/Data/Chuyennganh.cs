@@ -12,7 +12,7 @@ namespace XuLyKhoaLuan.Data
         }
 
         public string MaCn { get; set; } = null!;
-        public string TenCn { get; set; } = null!;
+        public string? TenCn { get; set; }
         public string? MaKhoa { get; set; }
 
         public virtual Khoa? MaKhoaNavigation { get; set; }

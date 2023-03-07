@@ -70,5 +70,19 @@ namespace XuLyKhoaLuan.Controllers
             await _sinhvienRepo.DeleteSinhViensAsync(maSV);
             return Ok();
         }
+
+        [HttpGet("MaBM")]
+        public async Task<IActionResult> GetGiangvienByBoMon(string MaBM)
+        {
+            var Giangvien = await _sinhvienRepo.GetSinhvienByChuyenNganhAsync(MaBM);
+            return Giangvien == null ? BadRequest() : Ok(Giangvien);
+        }
+
+        [HttpGet("tenSV")]
+        public async Task<IActionResult> SearchGiangvienByName(string tenSV)
+        {
+            var Giangvien = await _sinhvienRepo.SearchSinhvienByNameAsync(tenSV);
+            return Giangvien == null ? BadRequest() : Ok(Giangvien);
+        }
     }
 }

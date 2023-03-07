@@ -405,7 +405,7 @@ namespace XuLyKhoaLuan.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("TenCN");
 
                     b.HasKey("MaCn");

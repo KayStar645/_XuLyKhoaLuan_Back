@@ -81,7 +81,27 @@ namespace XuLyKhoaLuan.Controllers
             return Ok();
         }
 
+        [HttpGet("MaCN")]
+        public async Task<IActionResult> GetDetaiByChuyenNganh(string MaCN)
+        {
+            var Detais = await _detaiRepo.GetDetaiByChuyenNganhAsync(MaCN);
+            return Detais == null ? BadRequest() : Ok(Detais);
+        }
 
-       
+        [HttpGet("MaDeTai")]
+        public async Task<IActionResult> GetChuyennganhOfDetai(string MaDeTai)
+        {
+            var Detais = await _detaiRepo.GetChuyennganhOfDetaiAsync(MaDeTai);
+            return Detais == null ? BadRequest() : Ok(Detais);
+        }
+
+        [HttpGet("tenDT")]
+        public async Task<IActionResult> SearchGiangvienByName(string tenDT)
+        {
+            var Detais = await _detaiRepo.SearchDetaiByNameAsync(tenDT);
+            return Detais == null ? BadRequest() : Ok(Detais);
+        }
+
+
     }
 }

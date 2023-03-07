@@ -64,6 +64,7 @@ namespace XuLyKhoaLuan.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Baocao>(entity =>
             {
                 entity.HasKey(e => new { e.MaCv, e.MaSv, e.NamHoc, e.Dot, e.LanNop });
@@ -191,7 +192,6 @@ namespace XuLyKhoaLuan.Data
 
                 entity.Property(e => e.TenCn)
                     .HasMaxLength(100)
-                    .IsUnicode(false)
                     .HasColumnName("TenCN");
 
                 entity.HasOne(d => d.MaKhoaNavigation)

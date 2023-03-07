@@ -46,7 +46,18 @@ namespace XuLyKhoaLuan.Repositories
         {
             var Giangvien = await _context.Giangviens.FindAsync(maGV);
             return _mapper.Map<GiangvienModel>(Giangvien);
+        }
 
+        public async Task<List<GiangvienModel>> GetGiangvienByBoMonAsync(string maBM)
+        {
+            var Giangviens = await _context.Giangviens.Where(c => c.MaBm.Equals(maBM)).ToListAsync();
+            return _mapper.Map<List<GiangvienModel>>(Giangviens);
+        }
+
+        public async Task<List<GiangvienModel>> SearchGiangvienByNameAsync(string name)
+        {
+            var Giangviens = await _context.Giangviens.Where(c => c.TenGv.Contains(name)).ToListAsync();
+            return _mapper.Map<List<GiangvienModel>>(Giangviens);
         }
 
         public async Task UpdateGiangviensAsync(string maGV, GiangvienModel model)

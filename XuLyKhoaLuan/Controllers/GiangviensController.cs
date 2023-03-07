@@ -36,6 +36,20 @@ namespace XuLyKhoaLuan.Controllers
             return Giangvien == null ? BadRequest() : Ok(Giangvien);
         }
 
+        [HttpGet("MaBM")]
+        public async Task<IActionResult> GetGiangvienByBoMon(string MaBM)
+        {
+            var Giangvien = await _GiangvienRepo.GetGiangvienByBoMonAsync(MaBM);
+            return Giangvien == null ? BadRequest() : Ok(Giangvien);
+        }
+
+        [HttpGet("tenGV")]
+        public async Task<IActionResult> SearchGiangvienByName(string tenGV)
+        {
+            var Giangvien = await _GiangvienRepo.SearchGiangvienByNameAsync(tenGV);
+            return Giangvien == null ? BadRequest() : Ok(Giangvien);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewGiangvien(GiangvienModel model)
         {

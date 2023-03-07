@@ -56,5 +56,29 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }    
         }
+
+        public async Task<List<DetaiModel>> GetDetaiByChuyenNganhAsync(string maCN)
+        {
+            var Detais = await (from dt in _context.Detais
+                         join cn in _context.Chuyennganhs on dt.MaDt equals cn.MaCn
+                         where cn.MaCn.Equals(maCN)
+                         select dt).ToListAsync();
+            return _mapper.Map<List<DetaiModel>>(Detais);
+        }
+        public async Task<List<ChuyennganhModel>> GetChuyennganhOfDetaiAsync(string maDT)
+        {
+            var Chuyennganhs = await (from dt in _context.Detais
+                                join cn in _context.Chuyennganhs on dt.MaDt equals cn.MaCn
+                                where dt.MaDt.Equals(maDT)
+                                select cn).ToListAsync();
+            return _mapper.Map<List<ChuyennganhModel>>(Chuyennganhs);
+        }
+            
+        public async Task<List<DetaiModel>> SearchDetaiByNameAsync(string name)
+        {
+            var Detais = await _context.Detais.Where(c => c.TenDt.Contains(name)).ToListAsync();
+            return _mapper.Map <List<DetaiModel>>(Detais);
+        }
+
     }
 }
