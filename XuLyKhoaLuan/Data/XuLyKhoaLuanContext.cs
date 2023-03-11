@@ -24,6 +24,7 @@ namespace XuLyKhoaLuan.Data
         public virtual DbSet<Congviec> Congviecs { get; set; } = null!;
         public virtual DbSet<Dangky> Dangkies { get; set; } = null!;
         public virtual DbSet<Detai> Detais { get; set; } = null!;
+        public virtual DbSet<DetaiChuyennganh> DetaiChuyennganhs { get; set; } = null!;
         public virtual DbSet<Dotdk> Dotdks { get; set; } = null!;
         public virtual DbSet<Duyetdt> Duyetdts { get; set; } = null!;
         public virtual DbSet<Giangvien> Giangviens { get; set; } = null!;
@@ -43,6 +44,7 @@ namespace XuLyKhoaLuan.Data
         public virtual DbSet<Pbcham> Pbchams { get; set; } = null!;
         public virtual DbSet<Pbnhanxet> Pbnhanxets { get; set; } = null!;
         public virtual DbSet<Phanbien> Phanbiens { get; set; } = null!;
+        public virtual DbSet<Rade> Rades { get; set; } = null!;
         public virtual DbSet<Sinhvien> Sinhviens { get; set; } = null!;
         public virtual DbSet<Thamgiahd> Thamgiahds { get; set; } = null!;
         public virtual DbSet<Thamgium> Thamgia { get; set; } = null!;
@@ -64,7 +66,6 @@ namespace XuLyKhoaLuan.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             modelBuilder.Entity<Baocao>(entity =>
             {
                 entity.HasKey(e => new { e.MaCv, e.MaSv, e.NamHoc, e.Dot, e.LanNop });
@@ -198,23 +199,6 @@ namespace XuLyKhoaLuan.Data
                     .WithMany(p => p.Chuyennganhs)
                     .HasForeignKey(d => d.MaKhoa)
                     .HasConstraintName("FK_CHUYENNGANH_KHOA");
-
-                entity.HasMany(d => d.MaDts)
-                    .WithMany(p => p.MaCns)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "DetaiChuyennganh",
-                        l => l.HasOne<Detai>().WithMany().HasForeignKey("MaDt").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_DT_CN_DETAI"),
-                        r => r.HasOne<Chuyennganh>().WithMany().HasForeignKey("MaCn").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_DT_CN_CHUYENNGANH"),
-                        j =>
-                        {
-                            j.HasKey("MaCn", "MaDt");
-
-                            j.ToTable("DETAI_CHUYENNGANH");
-
-                            j.IndexerProperty<string>("MaCn").HasMaxLength(15).IsUnicode(false).HasColumnName("MaCN");
-
-                            j.IndexerProperty<string>("MaDt").HasMaxLength(15).IsUnicode(false).HasColumnName("MaDT");
-                        });
             });
 
             modelBuilder.Entity<Congviec>(entity =>
@@ -319,6 +303,35 @@ namespace XuLyKhoaLuan.Data
                 entity.Property(e => e.TomTat).HasColumnType("ntext");
             });
 
+            modelBuilder.Entity<DetaiChuyennganh>(entity =>
+            {
+                entity.HasKey(e => new { e.MaCn, e.MaDt });
+
+                entity.ToTable("DETAI_CHUYENNGANH");
+
+                entity.Property(e => e.MaCn)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("MaCN");
+
+                entity.Property(e => e.MaDt)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("MaDT");
+
+                entity.HasOne(d => d.MaCnNavigation)
+                    .WithMany(p => p.DetaiChuyennganhs)
+                    .HasForeignKey(d => d.MaCn)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DT_CN_CHUYENNGANH");
+
+                entity.HasOne(d => d.MaDtNavigation)
+                    .WithMany(p => p.DetaiChuyennganhs)
+                    .HasForeignKey(d => d.MaDt)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DT_CN_DETAI");
+            });
+
             modelBuilder.Entity<Dotdk>(entity =>
             {
                 entity.HasKey(e => new { e.NamHoc, e.Dot });
@@ -408,23 +421,6 @@ namespace XuLyKhoaLuan.Data
                     .WithMany(p => p.Giangviens)
                     .HasForeignKey(d => d.MaBm)
                     .HasConstraintName("FK_GIANGVIEN_BOMON");
-
-                entity.HasMany(d => d.MaDts)
-                    .WithMany(p => p.MaGvs)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "Rade",
-                        l => l.HasOne<Detai>().WithMany().HasForeignKey("MaDt").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_RADE_DETAI"),
-                        r => r.HasOne<Giangvien>().WithMany().HasForeignKey("MaGv").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_RADE_GIANGVIEN"),
-                        j =>
-                        {
-                            j.HasKey("MaGv", "MaDt");
-
-                            j.ToTable("RADE");
-
-                            j.IndexerProperty<string>("MaGv").HasMaxLength(15).IsUnicode(false).HasColumnName("MaGV");
-
-                            j.IndexerProperty<string>("MaDt").HasMaxLength(15).IsUnicode(false).HasColumnName("MaDT");
-                        });
             });
 
             modelBuilder.Entity<Giaovu>(entity =>
@@ -1002,6 +998,37 @@ namespace XuLyKhoaLuan.Data
                     .HasConstraintName("FK_PHANBIEN_GIANGVIEN");
             });
 
+            modelBuilder.Entity<Rade>(entity =>
+            {
+                entity.HasKey(e => new { e.MaGv, e.MaDt });
+
+                entity.ToTable("RADE");
+
+                entity.Property(e => e.MaGv)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("MaGV");
+
+                entity.Property(e => e.MaDt)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("MaDT");
+
+                entity.Property(e => e.NgayRa).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MaDtNavigation)
+                    .WithMany(p => p.Rades)
+                    .HasForeignKey(d => d.MaDt)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RADE_DETAI");
+
+                entity.HasOne(d => d.MaGvNavigation)
+                    .WithMany(p => p.Rades)
+                    .HasForeignKey(d => d.MaGv)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RADE_GIANGVIEN");
+            });
+
             modelBuilder.Entity<Sinhvien>(entity =>
             {
                 entity.HasKey(e => e.MaSv);
@@ -1136,6 +1163,10 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.MoTa).HasColumnType("ntext");
+
+                entity.Property(e => e.NgayTb)
+                    .HasColumnType("datetime")
+                    .HasColumnName("NgayTB");
 
                 entity.Property(e => e.NoiDung).HasColumnType("ntext");
 

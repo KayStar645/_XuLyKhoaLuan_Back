@@ -8,13 +8,13 @@ namespace XuLyKhoaLuan.Data
         public Detai()
         {
             Dangkies = new HashSet<Dangky>();
+            DetaiChuyennganhs = new HashSet<DetaiChuyennganh>();
             Duyetdts = new HashSet<Duyetdt>();
             Hdphanbiens = new HashSet<Hdphanbien>();
             Huongdans = new HashSet<Huongdan>();
             Phanbiens = new HashSet<Phanbien>();
+            Rades = new HashSet<Rade>();
             Xacnhans = new HashSet<Xacnhan>();
-            MaCns = new HashSet<Chuyennganh>();
-            MaGvs = new HashSet<Giangvien>();
         }
 
         public string MaDt { get; set; } = null!;
@@ -25,13 +25,12 @@ namespace XuLyKhoaLuan.Data
         public bool? TrangThai { get; set; }
 
         public virtual ICollection<Dangky> Dangkies { get; set; }
+        public virtual ICollection<DetaiChuyennganh> DetaiChuyennganhs { get; set; }
         public virtual ICollection<Duyetdt> Duyetdts { get; set; }
         public virtual ICollection<Hdphanbien> Hdphanbiens { get; set; }
         public virtual ICollection<Huongdan> Huongdans { get; set; }
         public virtual ICollection<Phanbien> Phanbiens { get; set; }
+        public virtual ICollection<Rade> Rades { get; set; }
         public virtual ICollection<Xacnhan> Xacnhans { get; set; }
-
-        public virtual ICollection<Chuyennganh> MaCns { get; set; }
-        public virtual ICollection<Giangvien> MaGvs { get; set; }
     }
 }

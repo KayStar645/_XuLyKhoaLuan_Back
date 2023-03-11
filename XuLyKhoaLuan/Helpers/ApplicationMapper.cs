@@ -42,6 +42,8 @@ namespace XuLyKhoaLuan.Helpers
             CreateMap<Truongkhoa, TruongkhoaModel>().ReverseMap();
             CreateMap<Vaitro, VaitroModel>().ReverseMap();
             CreateMap<Xacnhan, XacnhanModel>().ReverseMap();
+            CreateMap<DetaiChuyennganh, DetaiChuyennganhModel>().ReverseMap();
+            CreateMap<Rade, RadeModel>().ReverseMap();
         }
     }
 }

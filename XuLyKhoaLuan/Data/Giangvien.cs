@@ -11,11 +11,11 @@ namespace XuLyKhoaLuan.Data
             Huongdans = new HashSet<Huongdan>();
             Nhiemvus = new HashSet<Nhiemvu>();
             Phanbiens = new HashSet<Phanbien>();
+            Rades = new HashSet<Rade>();
             Thamgiahds = new HashSet<Thamgiahd>();
             Truongbms = new HashSet<Truongbm>();
             Truongkhoas = new HashSet<Truongkhoa>();
             Xacnhans = new HashSet<Xacnhan>();
-            MaDts = new HashSet<Detai>();
         }
 
         public string MaGv { get; set; } = null!;
@@ -35,11 +35,10 @@ namespace XuLyKhoaLuan.Data
         public virtual ICollection<Huongdan> Huongdans { get; set; }
         public virtual ICollection<Nhiemvu> Nhiemvus { get; set; }
         public virtual ICollection<Phanbien> Phanbiens { get; set; }
+        public virtual ICollection<Rade> Rades { get; set; }
         public virtual ICollection<Thamgiahd> Thamgiahds { get; set; }
         public virtual ICollection<Truongbm> Truongbms { get; set; }
         public virtual ICollection<Truongkhoa> Truongkhoas { get; set; }
         public virtual ICollection<Xacnhan> Xacnhans { get; set; }
-
-        public virtual ICollection<Detai> MaDts { get; set; }
     }
 }

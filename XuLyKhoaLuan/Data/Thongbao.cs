@@ -12,6 +12,7 @@ namespace XuLyKhoaLuan.Data
         public string? HinhAnh { get; set; }
         public string? FileTb { get; set; }
         public string? MaKhoa { get; set; }
+        public DateTime? NgayTb { get; set; }
 
         public virtual Khoa? MaKhoaNavigation { get; set; }
     }
