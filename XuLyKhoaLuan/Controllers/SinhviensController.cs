@@ -71,10 +71,10 @@ namespace XuLyKhoaLuan.Controllers
             return Ok();
         }
 
-        [HttpGet("MaBM")]
-        public async Task<IActionResult> GetGiangvienByBoMon(string MaBM)
+        [HttpGet("maCN")]
+        public async Task<IActionResult> GetGiangvienByBoMon(string maCN)
         {
-            var Giangvien = await _sinhvienRepo.GetSinhvienByChuyenNganhAsync(MaBM);
+            var Giangvien = await _sinhvienRepo.GetSinhvienByChuyenNganhAsync(maCN);
             return Giangvien == null ? BadRequest() : Ok(Giangvien);
         }
 

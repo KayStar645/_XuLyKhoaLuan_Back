@@ -25,9 +25,9 @@ namespace XuLyKhoaLuan.Repositories
             return newBinhluan.Id.ToString();
         }
 
-        public async Task DeleteBinhluansAsync(string maBL)
+        public async Task DeleteBinhluansAsync(int maBL)
         {
-            var deleteBinhluan = _context.Binhluans!.SingleOrDefault(dt => dt.Id.Equals(maBL));
+            var deleteBinhluan = _context.Binhluans!.SingleOrDefault(dt => dt.Id == maBL);
             if (deleteBinhluan != null)
             {
                 _context.Binhluans!.Remove(deleteBinhluan);
@@ -41,16 +41,16 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<BinhluanModel>>(Binhluans);
         }
 
-        public async Task<BinhluanModel> GetBinhluanByIDAsync(string maBL)
+        public async Task<BinhluanModel> GetBinhluanByIDAsync(int maBL)
         {
             var Binhluan = await _context.Binhluans.FindAsync(maBL);
             return _mapper.Map<BinhluanModel>(Binhluan);
 
         }
 
-        public async Task UpdateBinhluansAsync(string maBL, BinhluanModel model)
+        public async Task UpdateBinhluansAsync(int maBL, BinhluanModel model)
         {
-            if (maBL.Equals(model.Id))
+            if (maBL == model.Id)
             {
                 var updateBinhluan = _mapper.Map<Binhluan>(model);
                 _context.Binhluans.Update(updateBinhluan);

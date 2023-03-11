@@ -30,7 +30,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpGet("maBL")]
-        public async Task<IActionResult> GetBinhluanByMaBL(string maBL)
+        public async Task<IActionResult> GetBinhluanByMaBL(int maBL)
         {
             var Binhluan = await _BinhluanRepo.GetBinhluanByIDAsync(maBL);
             return Binhluan == null ? BadRequest() : Ok(Binhluan);
@@ -51,7 +51,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpPut("maBL")]
-        public async Task<IActionResult> UpdateBinhluan(string maBL, BinhluanModel model)
+        public async Task<IActionResult> UpdateBinhluan(int maBL, BinhluanModel model)
         {
 
             try
@@ -66,7 +66,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpDelete("maBL")]
-        public async Task<IActionResult> DeleteBinhluan(string maBL)
+        public async Task<IActionResult> DeleteBinhluan(int maBL)
         {
             await _BinhluanRepo.DeleteBinhluansAsync(maBL);
             return Ok();
