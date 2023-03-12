@@ -72,17 +72,17 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpGet("maCN")]
-        public async Task<IActionResult> GetGiangvienByBoMon(string maCN)
+        public async Task<IActionResult> GetSinhByChuyenNganh(string maCN)
         {
-            var Giangvien = await _sinhvienRepo.GetSinhvienByChuyenNganhAsync(maCN);
-            return Giangvien == null ? BadRequest() : Ok(Giangvien);
+            var sinhVien = await _sinhvienRepo.GetSinhvienByChuyenNganhAsync(maCN);
+            return sinhVien == null ? BadRequest() : Ok(sinhVien);
         }
 
         [HttpGet("tenSV")]
-        public async Task<IActionResult> SearchGiangvienByName(string tenSV)
+        public async Task<IActionResult> SearchSinhvienByName(string tenSV)
         {
-            var Giangvien = await _sinhvienRepo.SearchSinhvienByNameAsync(tenSV);
-            return Giangvien == null ? BadRequest() : Ok(Giangvien);
+            var sinhVien = await _sinhvienRepo.SearchSinhvienByNameAsync(tenSV);
+            return sinhVien == null ? BadRequest() : Ok(sinhVien);
         }
     }
 }
