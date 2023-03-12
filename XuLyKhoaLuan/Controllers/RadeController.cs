@@ -49,8 +49,8 @@ namespace XuLyKhoaLuan.Controllers
         {
             try
             {
-                var result = await _repo.AddRadesAsync(model);
-                return Ok(result);
+                await _repo.AddRadesAsync(model);
+                return Ok(model);
             }
             catch(Exception e)
             {

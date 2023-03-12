@@ -60,7 +60,7 @@ namespace XuLyKhoaLuan.Repositories
         public async Task<List<DetaiModel>> GetDetaiByChuyenNganhAsync(string maCN)
         {
             var Detais = await (from dt in _context.Detais
-                         join cn in _context.Chuyennganhs on dt.MaDt equals cn.MaCn
+                         join cn in _context.DetaiChuyennganhs on dt.MaDt equals cn.MaDt
                          where cn.MaCn.Equals(maCN)
                          select dt).ToListAsync();
             return _mapper.Map<List<DetaiModel>>(Detais);

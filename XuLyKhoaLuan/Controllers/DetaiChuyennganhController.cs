@@ -51,12 +51,12 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewBaocao(DetaiChuyennganhModel model)
+        public async Task<IActionResult> AddNewDetaiChuyennganh(DetaiChuyennganhModel model)
         {
             try
             {
-                var result = await _DetaiChuyennganhRepo.AddDetaiChuyennganhsAsync(model);
-                return Ok(result);
+                await _DetaiChuyennganhRepo.AddDetaiChuyennganhsAsync(model);
+                return Ok(model);
             }
             catch(Exception ex)
             {

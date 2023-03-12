@@ -29,7 +29,7 @@ namespace XuLyKhoaLuan.Repositories
                 throw new errorMessage("Giảng viên hoặc đề tài không tồn tại!");
             }
             var isRade = await _context.Rades.AnyAsync(
-                rd => rd.MaGv == newRade.MaGv && rd.MaDt == newRade.MaDt);
+                rd => (rd.MaGv == newRade.MaGv && rd.MaDt == newRade.MaDt));
             if(isRade)
             {
                 throw new errorMessage("Đã tồn tại!");
