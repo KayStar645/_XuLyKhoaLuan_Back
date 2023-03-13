@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Models;
@@ -14,13 +16,19 @@ namespace XuLyKhoaLuan.Repositories
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IConfiguration configuration;
+        private readonly XuLyKhoaLuanContext _context;
 
-        public AccountRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-            IConfiguration configuration) 
+        public AccountRepository(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IConfiguration configuration,
+            XuLyKhoaLuanContext context
+            ) 
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.configuration = configuration;
+            _context = context;
         }
 
         public async Task<string> SigInAsync(SigInModel model)
@@ -58,6 +66,12 @@ namespace XuLyKhoaLuan.Repositories
                 UserName = model.Id,
             };
             return await userManager.CreateAsync(user, model.Password);
+        }
+
+        public async Task<IdentityResult> DeleteAsync(string id)
+        {
+            var user = await userManager.FindByNameAsync(id);
+            return await userManager.DeleteAsync(user);
         }
     }
 }

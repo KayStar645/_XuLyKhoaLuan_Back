@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Repositories;
 using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Controllers
@@ -136,6 +137,21 @@ namespace XuLyKhoaLuan.Controllers
                 }
             }
             return Unauthorized();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            // xóa tài khoản với ID tương ứng
+            var account = await accountRepo.DeleteAsync(id);
+
+            // kiểm tra nếu tài khoản không tồn tại
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }
