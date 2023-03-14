@@ -43,9 +43,15 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<TruongkhoaModel>>(Truongkhoas);
         }
 
-        public async Task<TruongkhoaModel> GetTruongkhoaByIDAsync(TruongkhoaModel Truongkhoa)
+        public async Task<TruongkhoaModel> GetTruongkhoaByMaKhoaMaGVAsync(TruongkhoaModel truongkhoa)
         {
-            var truongKhoa = await _context.Truongkhoas.FindAsync(Truongkhoa.MaKhoa, Truongkhoa.MaGv);
+            var trKhoa = await _context.Truongkhoas.FindAsync(truongkhoa.MaKhoa, truongkhoa.MaGv);
+            return _mapper.Map<TruongkhoaModel>(trKhoa);
+        }
+
+        public async Task<TruongkhoaModel> GetTruongkhoaByMaGVAsync(string maGV)
+        {
+            var truongKhoa = await _context.Truongkhoas.Where(k => k.MaGv == maGV).SingleAsync();
             return _mapper.Map<TruongkhoaModel>(truongKhoa);
         }
 

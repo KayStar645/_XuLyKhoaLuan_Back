@@ -26,6 +26,16 @@ namespace XuLyKhoaLuan.Repositories
             return returnString;
         }
 
+        //public Task<bool> CheckTruongbmsNghiAsync(TruongbmModel truongBM)
+        //{
+        //    // Nếu tồn tại thì ngày nghĩ phải nhỏ hơn hiện tại
+        //    if (truongBM.NgayNghi != null && truongBM.NgayNghi < DateTime.Now)
+        //    {
+        //        return Task.FromResult(true);
+        //    }
+        //    return Task.FromResult(false);
+        //}
+
         public async Task DeleteTruongbmsAsync(TruongbmModel Truongbm)
         {
             var deleteTruongbm = _context.Truongbms!.SingleOrDefault(

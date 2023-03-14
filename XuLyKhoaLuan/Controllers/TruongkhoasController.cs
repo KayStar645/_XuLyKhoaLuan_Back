@@ -30,7 +30,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpGet("MaKhoa, MaGV")]
-        public async Task<IActionResult> GetTruongkhoaByMaCN(string MaKhoa, string MaGV)
+        public async Task<IActionResult> GetTruongkhoaByMaKhoaMaGV(string MaKhoa, string MaGV)
         {
             TruongkhoaModel truongKhoa = new()
             {
@@ -38,8 +38,15 @@ namespace XuLyKhoaLuan.Controllers
                 MaGv = MaGV
 
             };
-            var Truongkhoa = await _TruongkhoaRepo.GetTruongkhoaByIDAsync(truongKhoa);
+            var Truongkhoa = await _TruongkhoaRepo.GetTruongkhoaByMaKhoaMaGVAsync(truongKhoa);
             return Truongkhoa == null ? BadRequest() : Ok(Truongkhoa);
+        }
+
+        [HttpGet("MaGV")]
+        public async Task<IActionResult> GetTruongkhoaByMaGV(string MaGV)
+        {
+            var truongkhoa = await _TruongkhoaRepo.GetTruongkhoaByMaGVAsync(MaGV);
+            return truongkhoa == null ? BadRequest() : Ok(truongkhoa);
         }
 
         [HttpPost]

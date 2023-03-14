@@ -9,5 +9,7 @@ namespace XuLyKhoaLuan.Repositories.Interface
         public Task<string> AddTruongbmsAsync(TruongbmModel model);
         public Task UpdateTruongbmsAsync(TruongbmModel truongBM, TruongbmModel model);
         public Task DeleteTruongbmsAsync(TruongbmModel truongBM);
+
+        //public Task<bool> CheckTruongbmsNghiAsync(TruongbmModel truongBM);
     }
 }
