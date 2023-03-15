@@ -59,6 +59,12 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<TruongbmModel>(hdCham);
         }
 
+        public async Task<TruongbmModel> GetTruongbmByMaGVAsync(string maGV)
+        {
+            var truongBm = await _context.Truongbms.Where(k => k.MaGv == maGV && k.NgayNghi == null).SingleAsync();
+            return _mapper.Map<TruongbmModel>(truongBm);
+        }
+
         public async Task UpdateTruongbmsAsync(TruongbmModel Truongbm, TruongbmModel model)
         {
             if (Truongbm.MaGv == model.MaGv && Truongbm.MaBm == model.MaBm)

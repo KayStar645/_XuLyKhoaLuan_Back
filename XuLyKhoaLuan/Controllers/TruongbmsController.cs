@@ -41,6 +41,13 @@ namespace XuLyKhoaLuan.Controllers
             return Truongbm == null ? BadRequest() : Ok(Truongbm);
         }
 
+        [HttpGet("MaGV")]
+        public async Task<IActionResult> GetTruongbmByMaGV(string MaGV)
+        {
+            var truongbm = await _TruongbmRepo.GetTruongbmByMaGVAsync(MaGV);
+            return truongbm == null ? BadRequest() : Ok(truongbm);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewTruongbm(TruongbmModel model)
         {

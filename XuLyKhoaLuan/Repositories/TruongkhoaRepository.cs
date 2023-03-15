@@ -51,7 +51,7 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task<TruongkhoaModel> GetTruongkhoaByMaGVAsync(string maGV)
         {
-            var truongKhoa = await _context.Truongkhoas.Where(k => k.MaGv == maGV).SingleAsync();
+            var truongKhoa = await _context.Truongkhoas.Where(k => k.MaGv == maGV && k.NgayNghi == null).SingleAsync();
             return _mapper.Map<TruongkhoaModel>(truongKhoa);
         }
 

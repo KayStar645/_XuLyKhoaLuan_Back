@@ -6,6 +6,7 @@ namespace XuLyKhoaLuan.Repositories.Interface
     {
         public Task<List<TruongbmModel>> GetAllTruongbmsAsync();
         public Task<TruongbmModel> GetTruongbmByIDAsync(TruongbmModel truongBM);
+        public Task<TruongbmModel> GetTruongbmByMaGVAsync(string maGV);
         public Task<string> AddTruongbmsAsync(TruongbmModel model);
         public Task UpdateTruongbmsAsync(TruongbmModel truongBM, TruongbmModel model);
         public Task DeleteTruongbmsAsync(TruongbmModel truongBM);
