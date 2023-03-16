@@ -30,7 +30,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpGet("MaNhom, MaSV, NamHoc, Dot")]
-        public async Task<IActionResult> GetLoimoiByID(int MaNhom, string MaSV, string NamHoc, int Dot)
+        public async Task<IActionResult> GetLoimoiByID(string MaNhom, string MaSV, string NamHoc, int Dot)
         {
             LoimoiModel loiMoi = new()
             {
@@ -58,7 +58,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpPut("MaNhom, MaSV, NamHoc, Dot")]
-        public async Task<IActionResult> UpdateLoimoi(int MaNhom, string MaSV, string NamHoc, int Dot, LoimoiModel model)
+        public async Task<IActionResult> UpdateLoimoi(string MaNhom, string MaSV, string NamHoc, int Dot, LoimoiModel model)
         {
 
             try
@@ -80,7 +80,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpDelete("MaNhom, MaSV, NamHoc, Dot")]
-        public async Task<IActionResult> DeleteLoimoi(int MaNhom, string MaSV, string NamHoc, int Dot)
+        public async Task<IActionResult> DeleteLoimoi(string MaNhom, string MaSV, string NamHoc, int Dot)
         {
             LoimoiModel loiMoi = new()
             {

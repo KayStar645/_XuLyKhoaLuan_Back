@@ -224,6 +224,10 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("MaGV");
 
+                entity.Property(e => e.MaNhom)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.MoTa).HasColumnType("ntext");
 
                 entity.Property(e => e.TenCv)
@@ -248,6 +252,10 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => new { e.MaNhom, e.MaDt });
 
                 entity.ToTable("DANGKY");
+
+                entity.Property(e => e.MaNhom)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.MaDt)
                     .HasMaxLength(15)
@@ -808,6 +816,10 @@ namespace XuLyKhoaLuan.Data
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
+                entity.Property(e => e.MaNhom)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.LoiNhan).HasMaxLength(1024);
 
                 entity.Property(e => e.ThoiGian).HasColumnType("datetime");
@@ -884,9 +896,9 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("NHOM");
 
-                entity.Property(e => e.MaNhom).ValueGeneratedNever();
-
-                entity.Property(e => e.Slmax).HasColumnName("SLMax");
+                entity.Property(e => e.MaNhom)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.TenNhom).HasMaxLength(100);
 
@@ -1014,7 +1026,7 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("MaDT");
 
-                entity.Property(e => e.NgayRa).HasColumnType("datetime");
+                entity.Property(e => e.SuaLanCuoi).HasColumnType("datetime");
 
                 entity.HasOne(d => d.MaDtNavigation)
                     .WithMany(p => p.Rades)
@@ -1128,6 +1140,10 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.DiemTb).HasColumnName("DiemTB");
+
+                entity.Property(e => e.MaNhom)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.MaSvNavigation)
                     .WithMany(p => p.Thamgia)

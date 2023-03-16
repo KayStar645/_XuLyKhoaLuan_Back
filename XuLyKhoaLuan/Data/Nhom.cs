@@ -12,10 +12,8 @@ namespace XuLyKhoaLuan.Data
             Loimois = new HashSet<Loimoi>();
         }
 
-        public int MaNhom { get; set; }
+        public string MaNhom { get; set; } = null!;
         public string TenNhom { get; set; } = null!;
-        public int? SoLuong { get; set; }
-        public int? Slmax { get; set; }
         public string TruongNhom { get; set; } = null!;
 
         public virtual Sinhvien TruongNhomNavigation { get; set; } = null!;

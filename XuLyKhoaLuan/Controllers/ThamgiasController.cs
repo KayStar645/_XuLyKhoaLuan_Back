@@ -42,6 +42,19 @@ namespace XuLyKhoaLuan.Controllers
             return Thamgia == null ? BadRequest() : Ok(Thamgia);
         }
 
+        [HttpGet("maCN")]
+        public async Task<IActionResult> GetThamgiasByMacn(string maCN)
+        {
+            try
+            {
+                return Ok(await _ThamgiaRepo.GetThamgiaByMacnAsync(maCN));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewThamgia(ThamgiaModel model)
         {

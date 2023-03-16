@@ -18,7 +18,7 @@ namespace XuLyKhoaLuan.Data
         public string MaSv { get; set; } = null!;
         public string NamHoc { get; set; } = null!;
         public int Dot { get; set; }
-        public int? MaNhom { get; set; }
+        public string? MaNhom { get; set; }
         public double? DiemTb { get; set; }
 
         public virtual Dotdk Dotdk { get; set; } = null!;

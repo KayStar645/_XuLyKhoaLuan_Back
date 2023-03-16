@@ -50,6 +50,17 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<ThamgiaModel>(thamGia);
         }
 
+        public async Task<List<ThamgiaModel>> GetThamgiaByMacnAsync(string maCn)
+        {
+            var thamGias = await _context.Thamgia
+                .Join(_context.Sinhviens, t => t.MaSv, s => s.MaSv, (t, s) => new { t, s })
+                .Join(_context.Chuyennganhs, x => x.s.MaCn, c => c.MaCn, (x, c) => new { x.t, c })
+                .Where(x => x.c.MaCn == maCn)
+                .Select(x => x.t)
+                .ToListAsync();
+            return _mapper.Map<List<ThamgiaModel>>(thamGias);
+        }    
+
         public async Task UpdateThamgiasAsync(ThamgiaModel Thamgia, ThamgiaModel model)
         {
             if (Thamgia.NamHoc == model.NamHoc && Thamgia.MaSv == model.MaSv && Thamgia.Dot == model.Dot)

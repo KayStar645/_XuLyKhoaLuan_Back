@@ -30,7 +30,7 @@ namespace XuLyKhoaLuan.Repositories
         {
             var deleteLoimoi = _context.Loimois!.SingleOrDefault(
                 loiMoi => loiMoi.MaSv == Loimoi.MaSv 
-                && loiMoi.MaNhom == Loimoi.MaNhom 
+                && loiMoi.MaNhom == Loimoi.MaNhom
                 && loiMoi.Dot == Loimoi.Dot 
                 && loiMoi.NamHoc == Loimoi.NamHoc);
             if (deleteLoimoi != null)

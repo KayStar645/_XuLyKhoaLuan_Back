@@ -78,6 +78,13 @@ namespace XuLyKhoaLuan.Controllers
             return sinhVien == null ? BadRequest() : Ok(sinhVien);
         }
 
+        [HttpGet("namHoc, dot")]
+        public async Task<IActionResult> GetSinhByDotdk(string namHoc, int dot)
+        {
+            var sinhVien = await _sinhvienRepo.GetSinhvienByDotDkAsync(namHoc, dot);
+            return sinhVien == null ? BadRequest() : Ok(sinhVien);
+        }
+
         [HttpGet("tenSV")]
         public async Task<IActionResult> SearchSinhvienByName(string tenSV)
         {

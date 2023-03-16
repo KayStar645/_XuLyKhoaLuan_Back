@@ -25,7 +25,7 @@ namespace XuLyKhoaLuan.Repositories
             return newNhom.MaNhom.ToString();
         }
 
-        public async Task DeleteNhomsAsync(int ma)
+        public async Task DeleteNhomsAsync(string ma)
         {
             var deleteNhom = _context.Nhoms!.SingleOrDefault(
                 dNhom => dNhom.MaNhom == ma);
@@ -42,13 +42,13 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<NhomModel>>(Nhoms);
         }
 
-        public async Task<NhomModel> GetNhomByIDAsync(int ma)
+        public async Task<NhomModel> GetNhomByIDAsync(string ma)
         {
             var nhom = await _context.Nhoms.FindAsync(ma);
             return _mapper.Map<NhomModel>(nhom);
         }
 
-        public async Task UpdateNhomsAsync(int ma, NhomModel model)
+        public async Task UpdateNhomsAsync(string ma, NhomModel model)
         {
             if (model.MaNhom == ma)
             {

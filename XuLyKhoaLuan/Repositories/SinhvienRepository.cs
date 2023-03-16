@@ -53,6 +53,16 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<SinhvienModel>>(Sinhviens);
         }
 
+        public async Task<List<SinhvienModel>> GetSinhvienByDotDkAsync(string namHoc, int dot)
+        {
+            var sinhViens = await _context.Sinhviens
+                .Join(_context.Thamgia, s => s.MaSv, tg => tg.MaSv, (s, tg) => new { Sinhvien = s, Thamgia = tg })
+                .Where(st => st.Thamgia.NamHoc == namHoc && st.Thamgia.Dot == dot)
+                .Select(st => st.Sinhvien)
+                .ToListAsync();
+            return _mapper.Map<List<SinhvienModel>>(sinhViens);
+        }
+
         public async Task<List<SinhvienModel>> SearchSinhvienByNameAsync(string name)
         {
             var Sinhviens = await _context.Sinhviens.Where(c => c.TenSv.Contains(name)).ToListAsync();

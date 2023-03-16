@@ -5,9 +5,9 @@ namespace XuLyKhoaLuan.Repositories.Interface
     public interface INhomRepository
     {
         public Task<List<NhomModel>> GetAllNhomsAsync();
-        public Task<NhomModel> GetNhomByIDAsync(int ma);
+        public Task<NhomModel> GetNhomByIDAsync(string ma);
         public Task<string> AddNhomsAsync(NhomModel model);
-        public Task UpdateNhomsAsync(int ma, NhomModel model);
-        public Task DeleteNhomsAsync(int ma);
+        public Task UpdateNhomsAsync(string ma, NhomModel model);
+        public Task DeleteNhomsAsync(string ma);
     }
 }

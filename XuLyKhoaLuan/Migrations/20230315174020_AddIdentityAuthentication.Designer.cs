@@ -12,7 +12,7 @@ using XuLyKhoaLuan.Data;
 namespace XuLyKhoaLuan.Migrations
 {
     [DbContext(typeof(XuLyKhoaLuanContext))]
-    [Migration("20230221134003_AddIdentityAuthentication")]
+    [Migration("20230315174020_AddIdentityAuthentication")]
     partial class AddIdentityAuthentication
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,27 +23,6 @@ namespace XuLyKhoaLuan.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("DetaiChuyennganh", b =>
-                {
-                    b.Property<string>("MaCn")
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
-                        .HasColumnName("MaCN");
-
-                    b.Property<string>("MaDt")
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
-                        .HasColumnName("MaDT");
-
-                    b.HasKey("MaCn", "MaDt");
-
-                    b.HasIndex("MaDt");
-
-                    b.ToTable("DETAI_CHUYENNGANH", (string)null);
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -178,27 +157,6 @@ namespace XuLyKhoaLuan.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Rade", b =>
-                {
-                    b.Property<string>("MaGv")
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
-                        .HasColumnName("MaGV");
-
-                    b.Property<string>("MaDt")
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
-                        .HasColumnName("MaDT");
-
-                    b.HasKey("MaGv", "MaDt");
-
-                    b.HasIndex("MaDt");
-
-                    b.ToTable("RADE", (string)null);
-                });
-
             modelBuilder.Entity("XuLyKhoaLuan.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -217,14 +175,6 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FistName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -406,8 +356,7 @@ namespace XuLyKhoaLuan.Migrations
                     b.Property<string>("TenCn")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("TenCN");
 
                     b.HasKey("MaCn");
@@ -440,8 +389,10 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnType("varchar(15)")
                         .HasColumnName("MaGV");
 
-                    b.Property<int?>("MaNhom")
-                        .HasColumnType("int");
+                    b.Property<string>("MaNhom")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("MoTa")
                         .HasColumnType("ntext");
@@ -468,8 +419,10 @@ namespace XuLyKhoaLuan.Migrations
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Dangky", b =>
                 {
-                    b.Property<int>("MaNhom")
-                        .HasColumnType("int");
+                    b.Property<string>("MaNhom")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("MaDt")
                         .HasMaxLength(15)
@@ -530,6 +483,30 @@ namespace XuLyKhoaLuan.Migrations
                     b.HasKey("MaDt");
 
                     b.ToTable("DETAI", (string)null);
+                });
+
+            modelBuilder.Entity("XuLyKhoaLuan.Data.DetaiChuyennganh", b =>
+                {
+                    b.Property<string>("MaCn")
+                        .HasMaxLength(15)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(15)")
+                        .HasColumnName("MaCN");
+
+                    b.Property<string>("MaDt")
+                        .HasMaxLength(15)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(15)")
+                        .HasColumnName("MaDT");
+
+                    b.Property<int?>("SoLuong")
+                        .HasColumnType("int");
+
+                    b.HasKey("MaCn", "MaDt");
+
+                    b.HasIndex("MaDt");
+
+                    b.ToTable("DETAI_CHUYENNGANH", (string)null);
                 });
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Dotdk", b =>
@@ -1050,8 +1027,10 @@ namespace XuLyKhoaLuan.Migrations
                     b.Property<int>("Dot")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaNhom")
-                        .HasColumnType("int");
+                    b.Property<string>("MaNhom")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("LoiNhan")
                         .HasMaxLength(1024)
@@ -1127,15 +1106,10 @@ namespace XuLyKhoaLuan.Migrations
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Nhom", b =>
                 {
-                    b.Property<int>("MaNhom")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Slmax")
-                        .HasColumnType("int")
-                        .HasColumnName("SLMax");
-
-                    b.Property<int?>("SoLuong")
-                        .HasColumnType("int");
+                    b.Property<string>("MaNhom")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("TenNhom")
                         .IsRequired()
@@ -1251,6 +1225,30 @@ namespace XuLyKhoaLuan.Migrations
                     b.ToTable("PHANBIEN", (string)null);
                 });
 
+            modelBuilder.Entity("XuLyKhoaLuan.Data.Rade", b =>
+                {
+                    b.Property<string>("MaGv")
+                        .HasMaxLength(15)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(15)")
+                        .HasColumnName("MaGV");
+
+                    b.Property<string>("MaDt")
+                        .HasMaxLength(15)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(15)")
+                        .HasColumnName("MaDT");
+
+                    b.Property<DateTime?>("SuaLanCuoi")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("MaGv", "MaDt");
+
+                    b.HasIndex("MaDt");
+
+                    b.ToTable("RADE", (string)null);
+                });
+
             modelBuilder.Entity("XuLyKhoaLuan.Data.Sinhvien", b =>
                 {
                     b.Property<string>("MaSv")
@@ -1351,8 +1349,10 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnType("float")
                         .HasColumnName("DiemTB");
 
-                    b.Property<int?>("MaNhom")
-                        .HasColumnType("int");
+                    b.Property<string>("MaNhom")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("MaSv", "NamHoc", "Dot");
 
@@ -1383,6 +1383,10 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("MoTa")
                         .HasColumnType("ntext");
+
+                    b.Property<DateTime?>("NgayTb")
+                        .HasColumnType("datetime")
+                        .HasColumnName("NgayTB");
 
                     b.Property<string>("NoiDung")
                         .HasColumnType("ntext");
@@ -1495,21 +1499,6 @@ namespace XuLyKhoaLuan.Migrations
                     b.ToTable("XACNHAN", (string)null);
                 });
 
-            modelBuilder.Entity("DetaiChuyennganh", b =>
-                {
-                    b.HasOne("XuLyKhoaLuan.Data.Chuyennganh", null)
-                        .WithMany()
-                        .HasForeignKey("MaCn")
-                        .IsRequired()
-                        .HasConstraintName("FK_DT_CN_CHUYENNGANH");
-
-                    b.HasOne("XuLyKhoaLuan.Data.Detai", null)
-                        .WithMany()
-                        .HasForeignKey("MaDt")
-                        .IsRequired()
-                        .HasConstraintName("FK_DT_CN_DETAI");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1559,21 +1548,6 @@ namespace XuLyKhoaLuan.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Rade", b =>
-                {
-                    b.HasOne("XuLyKhoaLuan.Data.Detai", null)
-                        .WithMany()
-                        .HasForeignKey("MaDt")
-                        .IsRequired()
-                        .HasConstraintName("FK_RADE_DETAI");
-
-                    b.HasOne("XuLyKhoaLuan.Data.Giangvien", null)
-                        .WithMany()
-                        .HasForeignKey("MaGv")
-                        .IsRequired()
-                        .HasConstraintName("FK_RADE_GIANGVIEN");
                 });
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Baocao", b =>
@@ -1666,6 +1640,25 @@ namespace XuLyKhoaLuan.Migrations
                     b.Navigation("MaDtNavigation");
 
                     b.Navigation("MaNhomNavigation");
+                });
+
+            modelBuilder.Entity("XuLyKhoaLuan.Data.DetaiChuyennganh", b =>
+                {
+                    b.HasOne("XuLyKhoaLuan.Data.Chuyennganh", "MaCnNavigation")
+                        .WithMany("DetaiChuyennganhs")
+                        .HasForeignKey("MaCn")
+                        .IsRequired()
+                        .HasConstraintName("FK_DT_CN_CHUYENNGANH");
+
+                    b.HasOne("XuLyKhoaLuan.Data.Detai", "MaDtNavigation")
+                        .WithMany("DetaiChuyennganhs")
+                        .HasForeignKey("MaDt")
+                        .IsRequired()
+                        .HasConstraintName("FK_DT_CN_DETAI");
+
+                    b.Navigation("MaCnNavigation");
+
+                    b.Navigation("MaDtNavigation");
                 });
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Duyetdt", b =>
@@ -1932,6 +1925,25 @@ namespace XuLyKhoaLuan.Migrations
                     b.Navigation("MaGvNavigation");
                 });
 
+            modelBuilder.Entity("XuLyKhoaLuan.Data.Rade", b =>
+                {
+                    b.HasOne("XuLyKhoaLuan.Data.Detai", "MaDtNavigation")
+                        .WithMany("Rades")
+                        .HasForeignKey("MaDt")
+                        .IsRequired()
+                        .HasConstraintName("FK_RADE_DETAI");
+
+                    b.HasOne("XuLyKhoaLuan.Data.Giangvien", "MaGvNavigation")
+                        .WithMany("Rades")
+                        .HasForeignKey("MaGv")
+                        .IsRequired()
+                        .HasConstraintName("FK_RADE_GIANGVIEN");
+
+                    b.Navigation("MaDtNavigation");
+
+                    b.Navigation("MaGvNavigation");
+                });
+
             modelBuilder.Entity("XuLyKhoaLuan.Data.Sinhvien", b =>
                 {
                     b.HasOne("XuLyKhoaLuan.Data.Chuyennganh", "MaCnNavigation")
@@ -2070,6 +2082,8 @@ namespace XuLyKhoaLuan.Migrations
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Chuyennganh", b =>
                 {
+                    b.Navigation("DetaiChuyennganhs");
+
                     b.Navigation("Sinhviens");
                 });
 
@@ -2086,6 +2100,8 @@ namespace XuLyKhoaLuan.Migrations
                 {
                     b.Navigation("Dangkies");
 
+                    b.Navigation("DetaiChuyennganhs");
+
                     b.Navigation("Duyetdts");
 
                     b.Navigation("Hdphanbiens");
@@ -2093,6 +2109,8 @@ namespace XuLyKhoaLuan.Migrations
                     b.Navigation("Huongdans");
 
                     b.Navigation("Phanbiens");
+
+                    b.Navigation("Rades");
 
                     b.Navigation("Xacnhans");
                 });
@@ -2111,6 +2129,8 @@ namespace XuLyKhoaLuan.Migrations
                     b.Navigation("Nhiemvus");
 
                     b.Navigation("Phanbiens");
+
+                    b.Navigation("Rades");
 
                     b.Navigation("Thamgiahds");
 

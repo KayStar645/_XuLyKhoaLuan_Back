@@ -30,7 +30,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpGet("maDT, maNhom")]
-        public async Task<IActionResult> GetDangkyByMaCN(string maDT, int maNhom)
+        public async Task<IActionResult> GetDangkyByMaCN(string maDT, string maNhom)
         {
             DangkyModel dangKyM= new()
             {
@@ -56,7 +56,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpPut("maDT, maNhom")]
-        public async Task<IActionResult> UpdateDangky(string maDT, int maNhom, DangkyModel model)
+        public async Task<IActionResult> UpdateDangky(string maDT, string maNhom, DangkyModel model)
         {
 
             try
@@ -76,7 +76,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpDelete("maDT, maNhom")]
-        public async Task<IActionResult> DeleteDangky(string maDT, int maNhom)
+        public async Task<IActionResult> DeleteDangky(string maDT, string maNhom)
         {
             DangkyModel dangKyM = new()
             {

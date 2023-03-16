@@ -13,7 +13,7 @@ namespace XuLyKhoaLuan.Models
         [Key]
         public int Dot { get; set; }
         [Key]
-        public int MaNhom { get; set; }
+        public string MaNhom { get; set; }
         public string? LoiNhan { get; set; }
         public DateTime? ThoiGian { get; set; }
         public bool? TrangThai { get; set; }

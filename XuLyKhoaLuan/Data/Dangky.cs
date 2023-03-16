@@ -5,7 +5,7 @@ namespace XuLyKhoaLuan.Data
 {
     public partial class Dangky
     {
-        public int MaNhom { get; set; }
+        public string MaNhom { get; set; } = null!;
         public string MaDt { get; set; } = null!;
         public DateTime NgayDk { get; set; }
         public DateTime? NgayGiao { get; set; }

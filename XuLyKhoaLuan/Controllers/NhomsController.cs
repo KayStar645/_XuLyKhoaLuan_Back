@@ -30,7 +30,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpGet("MaNhom")]
-        public async Task<IActionResult> GetNhomByID(int MaNhom)
+        public async Task<IActionResult> GetNhomByID(string MaNhom)
         {
             var Nhom = await _NhomRepo.GetNhomByIDAsync(MaNhom);
             return Nhom == null ? BadRequest() : Ok(Nhom);
@@ -51,7 +51,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpPut("MaNhom")]
-        public async Task<IActionResult> UpdateNhom(int MaNhom, NhomModel model)
+        public async Task<IActionResult> UpdateNhom(string MaNhom, NhomModel model)
         {
 
             try
@@ -66,7 +66,7 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         [HttpDelete("MaNhom")]
-        public async Task<IActionResult> DeleteNhom(int MaNhom)
+        public async Task<IActionResult> DeleteNhom(string MaNhom)
         {
             await _NhomRepo.DeleteNhomsAsync(MaNhom);
             return Ok();
