@@ -48,15 +48,5 @@ namespace XuLyKhoaLuan.Repositories
             var Dotdk = await _context.Dotdks.FindAsync(dotDK.NamHoc, dotDK.Dot);
             return _mapper.Map<DotdkModel>(Dotdk);
         }
-
-        public async Task UpdateDotdksAsync(DotdkModel dotDK, DotdkModel model)
-        {
-            if (dotDK.Dot == model.Dot && dotDK.NamHoc == model.NamHoc)
-            {
-                var updateDotdk = _mapper.Map<Dotdk>(model);
-                _context.Dotdks.Update(updateDotdk);
-                await _context.SaveChangesAsync();
-            }
-        }
     }
 }

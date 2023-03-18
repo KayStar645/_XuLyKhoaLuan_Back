@@ -153,5 +153,17 @@ namespace XuLyKhoaLuan.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            var result = await accountRepo.ChangePassword(model);
+            if(result.Succeeded) 
+            { 
+                return Ok(result);
+            }
+            return NotFound();
+        }
+
     }
 }

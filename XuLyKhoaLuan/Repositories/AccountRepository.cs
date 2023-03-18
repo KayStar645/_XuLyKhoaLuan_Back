@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -73,5 +74,13 @@ namespace XuLyKhoaLuan.Repositories
             var user = await userManager.FindByNameAsync(id);
             return await userManager.DeleteAsync(user);
         }
+
+        public async Task<IdentityResult> ChangePassword(ChangePasswordModel model)
+        {
+            var user = await userManager.FindByNameAsync(model.UserName);
+
+            return await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+        }
+
     }
 }

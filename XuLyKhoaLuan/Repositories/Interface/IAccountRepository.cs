@@ -8,5 +8,6 @@ namespace XuLyKhoaLuan.Repositories.Interface
         public Task<IdentityResult> SigUpAsync(SigUpModel model);
         public Task<string> SigInAsync(SigInModel model);
         public Task<IdentityResult> DeleteAsync(string id);
+        public Task<IdentityResult> ChangePassword(ChangePasswordModel model);
     }
 }

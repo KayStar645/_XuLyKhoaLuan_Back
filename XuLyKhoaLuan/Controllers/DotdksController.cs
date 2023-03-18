@@ -65,26 +65,6 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        // PUT api/<DotdksController>/5
-        [HttpPut("NamHoc, Dot")]
-        public async Task<IActionResult> UpdateDotdk(string NamHoc, int Dot, DotdkModel model)
-        {
-            try
-            {
-                DotdkModel Dotdk = new()
-                {
-                    NamHoc = NamHoc,
-                    Dot = Dot
-                };
-                await _DotdkRepo.UpdateDotdksAsync(Dotdk, model);
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
         // DELETE api/<DotdksController>/5
         [HttpDelete("NamHoc, Dot")]
         public async Task<IActionResult> Delete(string NamHoc, int Dot)
