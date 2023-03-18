@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
-using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Controllers
 {
@@ -75,6 +75,13 @@ namespace XuLyKhoaLuan.Controllers
         public async Task<IActionResult> GetSinhByChuyenNganh(string maCN)
         {
             var sinhVien = await _sinhvienRepo.GetSinhvienByChuyenNganhAsync(maCN);
+            return sinhVien == null ? BadRequest() : Ok(sinhVien);
+        }
+
+        [HttpGet("maKhoa")]
+        public async Task<IActionResult> GetSinhByKhoa(string maKhoa)
+        {
+            var sinhVien = await _sinhvienRepo.GetSinhvienByKhoaAsync(maKhoa);
             return sinhVien == null ? BadRequest() : Ok(sinhVien);
         }
 

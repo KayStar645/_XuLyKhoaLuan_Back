@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
+using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
-using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Repositories
 {

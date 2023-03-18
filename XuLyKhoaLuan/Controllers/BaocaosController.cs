@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using XuLyKhoaLuan.Data;
+using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
-using XuLyKhoaLuan.Repositories.Interface;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

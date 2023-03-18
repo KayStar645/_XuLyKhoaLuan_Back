@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
+using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
-using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Repositories
 {
@@ -51,6 +51,17 @@ namespace XuLyKhoaLuan.Repositories
         {
             var Sinhviens = await _context.Sinhviens.Where(c => c.MaCn.Equals(maCN)).ToListAsync();
             return _mapper.Map<List<SinhvienModel>>(Sinhviens);
+        }
+
+        public async Task<List<SinhvienModel>> GetSinhvienByKhoaAsync(string maKhoa)
+        {
+            var sinhViens = await _context.Sinhviens
+                .Join(_context.Chuyennganhs, s => s.MaCn, c => c.MaCn, (s, c) => new { sv = s, cn = c })
+                .Join(_context.Khoas, sc => sc.cn.MaKhoa, k => k.MaKhoa, (sc, k) => new { sv = sc.sv, Khoa = k })
+                .Where(sc => sc.Khoa.MaKhoa == maKhoa)
+                .Select(sc => sc.sv).ToListAsync();
+
+            return _mapper.Map<List<SinhvienModel>>(sinhViens);
         }
 
         public async Task<List<SinhvienModel>> GetSinhvienByDotDkAsync(string namHoc, int dot)

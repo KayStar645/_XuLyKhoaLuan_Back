@@ -6,9 +6,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using XuLyKhoaLuan.Data;
+using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Repositories;
-using XuLyKhoaLuan.Repositories.Interface;
 
 namespace XuLyKhoaLuan.Controllers
 {

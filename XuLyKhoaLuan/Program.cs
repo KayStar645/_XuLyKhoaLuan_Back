@@ -7,8 +7,8 @@ using System.Reflection.Emit;
 using System.Text;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Repositories;
-using XuLyKhoaLuan.Repositories.Interface;
 using Sieve;
+using XuLyKhoaLuan.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
