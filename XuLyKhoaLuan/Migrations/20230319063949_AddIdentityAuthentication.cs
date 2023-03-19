@@ -275,9 +275,9 @@ namespace XuLyKhoaLuan.Migrations
                 name: "THONGBAO",
                 columns: table => new
                 {
-                    MaTB = table.Column<int>(type: "int", nullable: false),
+                    MaTB = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TenTB = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    MoTa = table.Column<string>(type: "ntext", nullable: true),
                     NoiDung = table.Column<string>(type: "ntext", nullable: true),
                     HinhAnh = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     FileTB = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -345,7 +345,8 @@ namespace XuLyKhoaLuan.Migrations
                 name: "KEHOACH",
                 columns: table => new
                 {
-                    MaKH = table.Column<int>(type: "int", nullable: false),
+                    MaKH = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TenKH = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     SoLuongDT = table.Column<int>(type: "int", nullable: false),
                     ThoiGianBD = table.Column<DateTime>(type: "datetime", nullable: true),
@@ -376,7 +377,7 @@ namespace XuLyKhoaLuan.Migrations
                 {
                     MaCN = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    SoLuong = table.Column<int>(type: "int", nullable: true)
+                    Note = table.Column<string>(type: "ntext", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -468,7 +469,8 @@ namespace XuLyKhoaLuan.Migrations
                 name: "NHIEMVU",
                 columns: table => new
                 {
-                    MaNV = table.Column<int>(type: "int", nullable: false),
+                    MaNV = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TenNV = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     SoLuongDT = table.Column<int>(type: "int", nullable: false),
                     ThoiGianBD = table.Column<DateTime>(type: "datetime", nullable: true),
@@ -522,7 +524,7 @@ namespace XuLyKhoaLuan.Migrations
                 {
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    SuaLanCuoi = table.Column<DateTime>(type: "datetime", nullable: true)
+                    Note = table.Column<string>(type: "ntext", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -685,7 +687,8 @@ namespace XuLyKhoaLuan.Migrations
                 name: "PBNHANXET",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ThoiGian = table.Column<DateTime>(type: "datetime", nullable: true),
                     NoiDung = table.Column<string>(type: "ntext", nullable: true),
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
@@ -892,7 +895,8 @@ namespace XuLyKhoaLuan.Migrations
                 name: "HDPBNHANXET",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ThoiGian = table.Column<DateTime>(type: "datetime", nullable: true),
                     NoiDung = table.Column<string>(type: "ntext", nullable: true),
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
@@ -940,7 +944,8 @@ namespace XuLyKhoaLuan.Migrations
                 name: "BINHLUAN",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ThoiGian = table.Column<DateTime>(type: "datetime", nullable: true),
                     NoiDung = table.Column<string>(type: "ntext", nullable: true),
                     MaCV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
@@ -967,7 +972,8 @@ namespace XuLyKhoaLuan.Migrations
                 name: "HDGOPY",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ThoiGian = table.Column<DateTime>(type: "datetime", nullable: true),
                     NoiDung = table.Column<string>(type: "ntext", nullable: true),
                     MaCV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),

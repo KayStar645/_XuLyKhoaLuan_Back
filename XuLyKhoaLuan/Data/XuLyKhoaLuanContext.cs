@@ -109,9 +109,7 @@ namespace XuLyKhoaLuan.Data
             {
                 entity.ToTable("BINHLUAN");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.MaCv)
                     .HasMaxLength(15)
@@ -327,6 +325,8 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("MaDT");
 
+                entity.Property(e => e.Note).HasColumnType("ntext");
+
                 entity.HasOne(d => d.MaCnNavigation)
                     .WithMany(p => p.DetaiChuyennganhs)
                     .HasForeignKey(d => d.MaCn)
@@ -515,9 +515,7 @@ namespace XuLyKhoaLuan.Data
             {
                 entity.ToTable("HDGOPY");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.MaCv)
                     .HasMaxLength(15)
@@ -596,9 +594,7 @@ namespace XuLyKhoaLuan.Data
             {
                 entity.ToTable("HDPBNHANXET");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.MaDt)
                     .HasMaxLength(15)
@@ -729,9 +725,7 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("KEHOACH");
 
-                entity.Property(e => e.MaKh)
-                    .ValueGeneratedNever()
-                    .HasColumnName("MaKH");
+                entity.Property(e => e.MaKh).HasColumnName("MaKH");
 
                 entity.Property(e => e.FileKh)
                     .HasMaxLength(100)
@@ -843,9 +837,7 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("NHIEMVU");
 
-                entity.Property(e => e.MaNv)
-                    .ValueGeneratedNever()
-                    .HasColumnName("MaNV");
+                entity.Property(e => e.MaNv).HasColumnName("MaNV");
 
                 entity.Property(e => e.FileNv)
                     .HasMaxLength(100)
@@ -955,9 +947,7 @@ namespace XuLyKhoaLuan.Data
             {
                 entity.ToTable("PBNHANXET");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.MaDt)
                     .HasMaxLength(15)
@@ -1026,7 +1016,7 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("MaDT");
 
-                entity.Property(e => e.SuaLanCuoi).HasColumnType("datetime");
+                entity.Property(e => e.Note).HasColumnType("ntext");
 
                 entity.HasOne(d => d.MaDtNavigation)
                     .WithMany(p => p.Rades)
@@ -1164,9 +1154,7 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("THONGBAO");
 
-                entity.Property(e => e.MaTb)
-                    .ValueGeneratedNever()
-                    .HasColumnName("MaTB");
+                entity.Property(e => e.MaTb).HasColumnName("MaTB");
 
                 entity.Property(e => e.FileTb)
                     .HasMaxLength(100)
@@ -1177,8 +1165,6 @@ namespace XuLyKhoaLuan.Data
                 entity.Property(e => e.MaKhoa)
                     .HasMaxLength(15)
                     .IsUnicode(false);
-
-                entity.Property(e => e.MoTa).HasColumnType("ntext");
 
                 entity.Property(e => e.NgayTb)
                     .HasColumnType("datetime")

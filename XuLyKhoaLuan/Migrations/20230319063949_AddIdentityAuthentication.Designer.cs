@@ -12,7 +12,7 @@ using XuLyKhoaLuan.Data;
 namespace XuLyKhoaLuan.Migrations
 {
     [DbContext(typeof(XuLyKhoaLuanContext))]
-    [Migration("20230315174020_AddIdentityAuthentication")]
+    [Migration("20230319063949_AddIdentityAuthentication")]
     partial class AddIdentityAuthentication
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -265,8 +265,11 @@ namespace XuLyKhoaLuan.Migrations
             modelBuilder.Entity("XuLyKhoaLuan.Data.Binhluan", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("Dot")
                         .HasColumnType("int");
@@ -499,8 +502,8 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnType("varchar(15)")
                         .HasColumnName("MaDT");
 
-                    b.Property<int?>("SoLuong")
-                        .HasColumnType("int");
+                    b.Property<string>("Note")
+                        .HasColumnType("ntext");
 
                     b.HasKey("MaCn", "MaDt");
 
@@ -709,8 +712,11 @@ namespace XuLyKhoaLuan.Migrations
             modelBuilder.Entity("XuLyKhoaLuan.Data.Hdgopy", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("MaCv")
                         .HasMaxLength(15)
@@ -795,8 +801,11 @@ namespace XuLyKhoaLuan.Migrations
             modelBuilder.Entity("XuLyKhoaLuan.Data.Hdpbnhanxet", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("MaDt")
                         .HasMaxLength(15)
@@ -927,8 +936,11 @@ namespace XuLyKhoaLuan.Migrations
             modelBuilder.Entity("XuLyKhoaLuan.Data.Kehoach", b =>
                 {
                     b.Property<int>("MaKh")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("MaKH");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaKh"), 1L, 1);
 
                     b.Property<string>("FileKh")
                         .HasMaxLength(100)
@@ -1052,8 +1064,11 @@ namespace XuLyKhoaLuan.Migrations
             modelBuilder.Entity("XuLyKhoaLuan.Data.Nhiemvu", b =>
                 {
                     b.Property<int>("MaNv")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("MaNV");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaNv"), 1L, 1);
 
                     b.Property<string>("FileNv")
                         .HasMaxLength(100)
@@ -1172,8 +1187,11 @@ namespace XuLyKhoaLuan.Migrations
             modelBuilder.Entity("XuLyKhoaLuan.Data.Pbnhanxet", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("MaDt")
                         .HasMaxLength(15)
@@ -1239,8 +1257,8 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnType("varchar(15)")
                         .HasColumnName("MaDT");
 
-                    b.Property<DateTime?>("SuaLanCuoi")
-                        .HasColumnType("datetime");
+                    b.Property<string>("Note")
+                        .HasColumnType("ntext");
 
                     b.HasKey("MaGv", "MaDt");
 
@@ -1364,8 +1382,11 @@ namespace XuLyKhoaLuan.Migrations
             modelBuilder.Entity("XuLyKhoaLuan.Data.Thongbao", b =>
                 {
                     b.Property<int>("MaTb")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("MaTB");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTb"), 1L, 1);
 
                     b.Property<string>("FileTb")
                         .HasMaxLength(100)
@@ -1380,9 +1401,6 @@ namespace XuLyKhoaLuan.Migrations
                         .HasMaxLength(15)
                         .IsUnicode(false)
                         .HasColumnType("varchar(15)");
-
-                    b.Property<string>("MoTa")
-                        .HasColumnType("ntext");
 
                     b.Property<DateTime?>("NgayTb")
                         .HasColumnType("datetime")

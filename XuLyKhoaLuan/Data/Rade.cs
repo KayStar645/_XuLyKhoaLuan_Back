@@ -7,7 +7,7 @@ namespace XuLyKhoaLuan.Data
     {
         public string MaGv { get; set; } = null!;
         public string MaDt { get; set; } = null!;
-        public DateTime? SuaLanCuoi { get; set; }
+        public string? Note { get; set; }
 
         public virtual Detai MaDtNavigation { get; set; } = null!;
         public virtual Giangvien MaGvNavigation { get; set; } = null!;
