@@ -64,14 +64,26 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<SinhvienModel>>(sinhViens);
         }
 
-        public async Task<List<SinhvienModel>> GetSinhvienByDotDkAsync(string namHoc, int dot)
+        public async Task<List<SinhvienModel>> GetSinhvienByDotDkAsync(string namHoc, int dot, bool flag)
         {
-            var sinhViens = await _context.Sinhviens
+            if(flag)
+            {
+                var sinhViens = await _context.Sinhviens
                 .Join(_context.Thamgia, s => s.MaSv, tg => tg.MaSv, (s, tg) => new { Sinhvien = s, Thamgia = tg })
                 .Where(st => st.Thamgia.NamHoc == namHoc && st.Thamgia.Dot == dot)
                 .Select(st => st.Sinhvien)
                 .ToListAsync();
-            return _mapper.Map<List<SinhvienModel>>(sinhViens);
+                return _mapper.Map<List<SinhvienModel>>(sinhViens);
+            }            
+            else
+            {
+                var sinhViens = await _context.Sinhviens
+                    .Join(_context.Thamgia, s => s.MaSv, tg => tg.MaSv, (s, tg) => new { s = s, tg = tg })
+                    .Where(st => st.tg.NamHoc != namHoc || st.tg.Dot != dot)
+                    .Select(st => st.s)
+                    .ToListAsync();
+                return _mapper.Map<List<SinhvienModel>>(sinhViens);
+            }
         }
 
         public async Task<List<SinhvienModel>> SearchSinhvienByNameAsync(string name)

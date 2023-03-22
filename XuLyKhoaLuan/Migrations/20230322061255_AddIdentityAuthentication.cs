@@ -92,6 +92,18 @@ namespace XuLyKhoaLuan.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "NHOM",
+                columns: table => new
+                {
+                    MaNhom = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    TenNhom = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NHOM", x => x.MaNhom);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "VAITRO",
                 columns: table => new
                 {
@@ -281,8 +293,8 @@ namespace XuLyKhoaLuan.Migrations
                     NoiDung = table.Column<string>(type: "ntext", nullable: true),
                     HinhAnh = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     FileTB = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    MaKhoa = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
-                    NgayTB = table.Column<DateTime>(type: "datetime", nullable: true)
+                    NgayTB = table.Column<DateTime>(type: "datetime", nullable: true),
+                    MaKhoa = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -292,6 +304,32 @@ namespace XuLyKhoaLuan.Migrations
                         column: x => x.MaKhoa,
                         principalTable: "KHOA",
                         principalColumn: "MaKhoa");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DANGKY",
+                columns: table => new
+                {
+                    MaNhom = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    NgayDK = table.Column<DateTime>(type: "datetime", nullable: false),
+                    NgayGiao = table.Column<DateTime>(type: "date", nullable: true),
+                    NgayBD = table.Column<DateTime>(type: "date", nullable: true),
+                    NgayKT = table.Column<DateTime>(type: "date", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DANGKY", x => new { x.MaNhom, x.MaDT });
+                    table.ForeignKey(
+                        name: "FK_DANGKY_DETAI",
+                        column: x => x.MaDT,
+                        principalTable: "DETAI",
+                        principalColumn: "MaDT");
+                    table.ForeignKey(
+                        name: "FK_DANGKY_NHOM",
+                        column: x => x.MaNhom,
+                        principalTable: "NHOM",
+                        principalColumn: "MaNhom");
                 });
 
             migrationBuilder.CreateTable(
@@ -545,6 +583,8 @@ namespace XuLyKhoaLuan.Migrations
                 name: "TRUONGBM",
                 columns: table => new
                 {
+                    MaTBM = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     MaBM = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     NgayNhanChuc = table.Column<DateTime>(type: "date", nullable: true),
@@ -552,7 +592,7 @@ namespace XuLyKhoaLuan.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TRUONGBM", x => new { x.MaBM, x.MaGV });
+                    table.PrimaryKey("PK_TRUONGBM", x => x.MaTBM);
                     table.ForeignKey(
                         name: "FK_TRUONGBM_BOMON",
                         column: x => x.MaBM,
@@ -569,6 +609,8 @@ namespace XuLyKhoaLuan.Migrations
                 name: "TRUONGKHOA",
                 columns: table => new
                 {
+                    MaTK = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     MaKhoa = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     NgayNhanChuc = table.Column<DateTime>(type: "date", nullable: false),
@@ -576,7 +618,7 @@ namespace XuLyKhoaLuan.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TRUONGKHOA", x => new { x.MaKhoa, x.MaGV });
+                    table.PrimaryKey("PK_TRUONGKHOA", x => x.MaTK);
                     table.ForeignKey(
                         name: "FK_TRUONGKHOA_GIANGVIEN",
                         column: x => x.MaGV,
@@ -641,24 +683,6 @@ namespace XuLyKhoaLuan.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NHOM",
-                columns: table => new
-                {
-                    MaNhom = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
-                    TenNhom = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TruongNhom = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NHOM", x => x.MaNhom);
-                    table.ForeignKey(
-                        name: "FK_NHOM_SINHVIEN",
-                        column: x => x.TruongNhom,
-                        principalTable: "SINHVIEN",
-                        principalColumn: "MaSV");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "THAMGIA",
                 columns: table => new
                 {
@@ -666,7 +690,8 @@ namespace XuLyKhoaLuan.Migrations
                     NamHoc = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
                     Dot = table.Column<int>(type: "int", nullable: false),
                     MaNhom = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    DiemTB = table.Column<double>(type: "float", nullable: true)
+                    DiemTB = table.Column<double>(type: "float", nullable: true),
+                    TruongNhom = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -681,6 +706,35 @@ namespace XuLyKhoaLuan.Migrations
                         column: x => x.MaSV,
                         principalTable: "SINHVIEN",
                         principalColumn: "MaSV");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CONGVIEC",
+                columns: table => new
+                {
+                    MaCV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    TenCV = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    YeuCau = table.Column<string>(type: "ntext", nullable: true),
+                    MoTa = table.Column<string>(type: "ntext", nullable: true),
+                    HanChot = table.Column<DateTime>(type: "datetime", nullable: true),
+                    MucDoHoanThanh = table.Column<double>(type: "float", nullable: true),
+                    MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
+                    MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
+                    MaNhom = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CONGVIEC", x => x.MaCV);
+                    table.ForeignKey(
+                        name: "FK_CONGVIEC_HUONGDAN",
+                        columns: x => new { x.MaGV, x.MaDT },
+                        principalTable: "HUONGDAN",
+                        principalColumns: new[] { "MaGV", "MaDT" });
+                    table.ForeignKey(
+                        name: "FK_CONGVIEC_NHOM",
+                        column: x => x.MaNhom,
+                        principalTable: "NHOM",
+                        principalColumn: "MaNhom");
                 });
 
             migrationBuilder.CreateTable(
@@ -726,61 +780,6 @@ namespace XuLyKhoaLuan.Migrations
                         columns: x => new { x.MaHD, x.MaGV },
                         principalTable: "THAMGIAHD",
                         principalColumns: new[] { "MaHD", "MaGV" });
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CONGVIEC",
-                columns: table => new
-                {
-                    MaCV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    TenCV = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    YeuCau = table.Column<string>(type: "ntext", nullable: true),
-                    MoTa = table.Column<string>(type: "ntext", nullable: true),
-                    HanChot = table.Column<DateTime>(type: "datetime", nullable: true),
-                    MucDoHoanThanh = table.Column<double>(type: "float", nullable: true),
-                    MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
-                    MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
-                    MaNhom = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CONGVIEC", x => x.MaCV);
-                    table.ForeignKey(
-                        name: "FK_CONGVIEC_HUONGDAN",
-                        columns: x => new { x.MaGV, x.MaDT },
-                        principalTable: "HUONGDAN",
-                        principalColumns: new[] { "MaGV", "MaDT" });
-                    table.ForeignKey(
-                        name: "FK_CONGVIEC_NHOM",
-                        column: x => x.MaNhom,
-                        principalTable: "NHOM",
-                        principalColumn: "MaNhom");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DANGKY",
-                columns: table => new
-                {
-                    MaNhom = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
-                    MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    NgayDK = table.Column<DateTime>(type: "datetime", nullable: false),
-                    NgayGiao = table.Column<DateTime>(type: "date", nullable: true),
-                    NgayBD = table.Column<DateTime>(type: "date", nullable: true),
-                    NgayKT = table.Column<DateTime>(type: "date", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DANGKY", x => new { x.MaNhom, x.MaDT });
-                    table.ForeignKey(
-                        name: "FK_DANGKY_DETAI",
-                        column: x => x.MaDT,
-                        principalTable: "DETAI",
-                        principalColumn: "MaDT");
-                    table.ForeignKey(
-                        name: "FK_DANGKY_NHOM",
-                        column: x => x.MaNhom,
-                        principalTable: "NHOM",
-                        principalColumn: "MaNhom");
                 });
 
             migrationBuilder.CreateTable(
@@ -864,56 +863,6 @@ namespace XuLyKhoaLuan.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HDPBCHAM",
-                columns: table => new
-                {
-                    MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    MaHD = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    MaSV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    NamHoc = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
-                    Dot = table.Column<int>(type: "int", nullable: false),
-                    Diem = table.Column<double>(type: "float", nullable: true),
-                    HeSo = table.Column<double>(type: "float", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HDPBCHAM", x => new { x.MaGV, x.MaHD, x.MaDT, x.MaSV, x.NamHoc, x.Dot });
-                    table.ForeignKey(
-                        name: "FK_HDPBCHAM_HDPHANBIEN",
-                        columns: x => new { x.MaGV, x.MaHD, x.MaDT },
-                        principalTable: "HDPHANBIEN",
-                        principalColumns: new[] { "MaGV", "MaHD", "MaDT" });
-                    table.ForeignKey(
-                        name: "FK_HDPBCHAM_THAMGIA",
-                        columns: x => new { x.MaSV, x.NamHoc, x.Dot },
-                        principalTable: "THAMGIA",
-                        principalColumns: new[] { "MaSV", "NamHoc", "Dot" });
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HDPBNHANXET",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ThoiGian = table.Column<DateTime>(type: "datetime", nullable: true),
-                    NoiDung = table.Column<string>(type: "ntext", nullable: true),
-                    MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
-                    MaHD = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
-                    MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HDPBNHANXET", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_HDPBNHANXET_HDPHANBIEN",
-                        columns: x => new { x.MaGV, x.MaHD, x.MaDT },
-                        principalTable: "HDPHANBIEN",
-                        principalColumns: new[] { "MaGV", "MaHD", "MaDT" });
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BAOCAO",
                 columns: table => new
                 {
@@ -993,6 +942,56 @@ namespace XuLyKhoaLuan.Migrations
                         columns: x => new { x.MaGV, x.MaDT },
                         principalTable: "HUONGDAN",
                         principalColumns: new[] { "MaGV", "MaDT" });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HDPBCHAM",
+                columns: table => new
+                {
+                    MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    MaHD = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    MaSV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    NamHoc = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
+                    Dot = table.Column<int>(type: "int", nullable: false),
+                    Diem = table.Column<double>(type: "float", nullable: true),
+                    HeSo = table.Column<double>(type: "float", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HDPBCHAM", x => new { x.MaGV, x.MaHD, x.MaDT, x.MaSV, x.NamHoc, x.Dot });
+                    table.ForeignKey(
+                        name: "FK_HDPBCHAM_HDPHANBIEN",
+                        columns: x => new { x.MaGV, x.MaHD, x.MaDT },
+                        principalTable: "HDPHANBIEN",
+                        principalColumns: new[] { "MaGV", "MaHD", "MaDT" });
+                    table.ForeignKey(
+                        name: "FK_HDPBCHAM_THAMGIA",
+                        columns: x => new { x.MaSV, x.NamHoc, x.Dot },
+                        principalTable: "THAMGIA",
+                        principalColumns: new[] { "MaSV", "NamHoc", "Dot" });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HDPBNHANXET",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ThoiGian = table.Column<DateTime>(type: "datetime", nullable: true),
+                    NoiDung = table.Column<string>(type: "ntext", nullable: true),
+                    MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
+                    MaHD = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
+                    MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HDPBNHANXET", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_HDPBNHANXET_HDPHANBIEN",
+                        columns: x => new { x.MaGV, x.MaHD, x.MaDT },
+                        principalTable: "HDPHANBIEN",
+                        principalColumns: new[] { "MaGV", "MaHD", "MaDT" });
                 });
 
             migrationBuilder.CreateIndex(
@@ -1165,11 +1164,6 @@ namespace XuLyKhoaLuan.Migrations
                 column: "MaGV");
 
             migrationBuilder.CreateIndex(
-                name: "IX_NHOM_TruongNhom",
-                table: "NHOM",
-                column: "TruongNhom");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PBCHAM_MaSV_NamHoc_Dot",
                 table: "PBCHAM",
                 columns: new[] { "MaSV", "NamHoc", "Dot" });
@@ -1215,6 +1209,11 @@ namespace XuLyKhoaLuan.Migrations
                 column: "MaKhoa");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TRUONGBM_MaBM",
+                table: "TRUONGBM",
+                column: "MaBM");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TRUONGBM_MaGV",
                 table: "TRUONGBM",
                 column: "MaGV");
@@ -1223,6 +1222,11 @@ namespace XuLyKhoaLuan.Migrations
                 name: "IX_TRUONGKHOA_MaGV",
                 table: "TRUONGKHOA",
                 column: "MaGV");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TRUONGKHOA_MaKhoa",
+                table: "TRUONGKHOA",
+                column: "MaKhoa");
 
             migrationBuilder.CreateIndex(
                 name: "IX_XACNHAN_MaDT",
@@ -1338,10 +1342,10 @@ namespace XuLyKhoaLuan.Migrations
                 name: "DOTDK");
 
             migrationBuilder.DropTable(
-                name: "DETAI");
+                name: "SINHVIEN");
 
             migrationBuilder.DropTable(
-                name: "SINHVIEN");
+                name: "DETAI");
 
             migrationBuilder.DropTable(
                 name: "GIANGVIEN");

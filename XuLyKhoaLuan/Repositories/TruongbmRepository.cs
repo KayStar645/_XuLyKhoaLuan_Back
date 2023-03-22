@@ -26,20 +26,10 @@ namespace XuLyKhoaLuan.Repositories
             return returnString;
         }
 
-        //public Task<bool> CheckTruongbmsNghiAsync(TruongbmModel truongBM)
-        //{
-        //    // Nếu tồn tại thì ngày nghĩ phải nhỏ hơn hiện tại
-        //    if (truongBM.NgayNghi != null && truongBM.NgayNghi < DateTime.Now)
-        //    {
-        //        return Task.FromResult(true);
-        //    }
-        //    return Task.FromResult(false);
-        //}
-
-        public async Task DeleteTruongbmsAsync(TruongbmModel Truongbm)
+        public async Task DeleteTruongbmsAsync(int maTbm)
         {
             var deleteTruongbm = _context.Truongbms!.SingleOrDefault(
-                dTruongbm => dTruongbm.MaGv == Truongbm.MaGv && dTruongbm.MaBm == Truongbm.MaBm);
+                dTruongbm => dTruongbm.MaTbm == maTbm);
             if (deleteTruongbm != null)
             {
                 _context.Truongbms!.Remove(deleteTruongbm);
@@ -53,21 +43,29 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<TruongbmModel>>(Truongbms);
         }
 
-        public async Task<TruongbmModel> GetTruongbmByIDAsync(TruongbmModel Truongbm)
+        public async Task<string> CheckTruongBomonByMaGVAsync(string maGV)
         {
-            var hdCham = await _context.Truongbms.FindAsync(Truongbm.MaBm, Truongbm.MaGv);
+            // Lấy mã bộ môn giảng viên đang công tác
+            var gv = await _context.Giangviens.FindAsync(maGV);
+
+            // Kiểm tra đó có phải trưởng bộ môn của bộ môn đó không? (chưa nghĩ)
+            var isTruongBm = await _context.Truongbms.AnyAsync(b => b.MaBm == gv.MaBm &&
+                        b.MaGv== maGV && (b.NgayNghi == null || b.NgayNghi > DateTime.Now));
+            if (isTruongBm)
+                return gv?.MaBm != null ? gv.MaBm : "";
+            return "";
+
+        }
+
+        public async Task<TruongbmModel> GetTruongbmByIDAsync(int maTbm)
+        {
+            var hdCham = await _context.Truongbms.FindAsync(maTbm);
             return _mapper.Map<TruongbmModel>(hdCham);
         }
 
-        public async Task<TruongbmModel> GetTruongbmByMaGVAsync(string maGV)
+        public async Task UpdateTruongbmsAsync(int maTbm, TruongbmModel model)
         {
-            var truongBm = await _context.Truongbms.Where(k => k.MaGv == maGV && k.NgayNghi == null).SingleAsync();
-            return _mapper.Map<TruongbmModel>(truongBm);
-        }
-
-        public async Task UpdateTruongbmsAsync(TruongbmModel Truongbm, TruongbmModel model)
-        {
-            if (Truongbm.MaGv == model.MaGv && Truongbm.MaBm == model.MaBm)
+            if (maTbm == model.MaTbm)
             {
                 var updateTruongbm = _mapper.Map<Truongbm>(model);
                 _context.Truongbms.Update(updateTruongbm);

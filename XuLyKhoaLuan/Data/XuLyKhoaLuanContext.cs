@@ -65,9 +65,9 @@ namespace XuLyKhoaLuan.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Baocao>(entity =>
             {
+                base.OnModelCreating(modelBuilder);
                 entity.HasKey(e => new { e.MaCv, e.MaSv, e.NamHoc, e.Dot, e.LanNop });
 
                 entity.ToTable("BAOCAO");
@@ -893,16 +893,6 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.TenNhom).HasMaxLength(100);
-
-                entity.Property(e => e.TruongNhom)
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.TruongNhomNavigation)
-                    .WithMany(p => p.Nhoms)
-                    .HasForeignKey(d => d.TruongNhom)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_NHOM_SINHVIEN");
             });
 
             modelBuilder.Entity<Pbcham>(entity =>
@@ -1184,9 +1174,11 @@ namespace XuLyKhoaLuan.Data
 
             modelBuilder.Entity<Truongbm>(entity =>
             {
-                entity.HasKey(e => new { e.MaBm, e.MaGv });
+                entity.HasKey(e => e.MaTbm);
 
                 entity.ToTable("TRUONGBM");
+
+                entity.Property(e => e.MaTbm).HasColumnName("MaTBM");
 
                 entity.Property(e => e.MaBm)
                     .HasMaxLength(15)
@@ -1217,18 +1209,20 @@ namespace XuLyKhoaLuan.Data
 
             modelBuilder.Entity<Truongkhoa>(entity =>
             {
-                entity.HasKey(e => new { e.MaKhoa, e.MaGv });
+                entity.HasKey(e => e.MaTk);
 
                 entity.ToTable("TRUONGKHOA");
 
-                entity.Property(e => e.MaKhoa)
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
+                entity.Property(e => e.MaTk).HasColumnName("MaTK");
 
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)
                     .IsUnicode(false)
                     .HasColumnName("MaGV");
+
+                entity.Property(e => e.MaKhoa)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.NgayNghi).HasColumnType("date");
 

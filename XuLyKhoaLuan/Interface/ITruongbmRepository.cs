@@ -4,13 +4,12 @@ namespace XuLyKhoaLuan.Interface
 {
     public interface ITruongbmRepository
     {
-        public Task<List<TruongbmModel>> GetAllTruongbmsAsync();
-        public Task<TruongbmModel> GetTruongbmByIDAsync(TruongbmModel truongBM);
-        public Task<TruongbmModel> GetTruongbmByMaGVAsync(string maGV);
         public Task<string> AddTruongbmsAsync(TruongbmModel model);
-        public Task UpdateTruongbmsAsync(TruongbmModel truongBM, TruongbmModel model);
-        public Task DeleteTruongbmsAsync(TruongbmModel truongBM);
+        public Task DeleteTruongbmsAsync(int maTbm);
+        public Task<List<TruongbmModel>> GetAllTruongbmsAsync();
+        public Task<string> CheckTruongBomonByMaGVAsync(string maGV);
+        public Task<TruongbmModel> GetTruongbmByIDAsync(int maTbm);
+        public Task UpdateTruongbmsAsync(int maTbm, TruongbmModel model);
 
-        //public Task<bool> CheckTruongbmsNghiAsync(TruongbmModel truongBM);
     }
 }

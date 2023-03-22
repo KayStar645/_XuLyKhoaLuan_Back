@@ -7,7 +7,6 @@ namespace XuLyKhoaLuan.Data
     {
         public Sinhvien()
         {
-            Nhoms = new HashSet<Nhom>();
             Thamgia = new HashSet<Thamgium>();
         }
 
@@ -21,7 +20,6 @@ namespace XuLyKhoaLuan.Data
         public string? MaCn { get; set; }
 
         public virtual Chuyennganh? MaCnNavigation { get; set; }
-        public virtual ICollection<Nhom> Nhoms { get; set; }
         public virtual ICollection<Thamgium> Thamgia { get; set; }
     }
 }

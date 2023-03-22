@@ -29,23 +29,19 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpGet("MaGV, MaBM")]
-        public async Task<IActionResult> GetTruongbmByMaCN(string MaGV, string MaBM)
+        [HttpGet("maTbm")]
+        public async Task<IActionResult> GetTruongbmById(int maTbm)
         {
-            TruongbmModel truongBM = new()
-            {
-                MaGv = MaGV,
-                MaBm = MaBM
-            };
-            var Truongbm = await _TruongbmRepo.GetTruongbmByIDAsync(truongBM);
+            var Truongbm = await _TruongbmRepo.GetTruongbmByIDAsync(maTbm);
             return Truongbm == null ? BadRequest() : Ok(Truongbm);
         }
 
+
         [HttpGet("MaGV")]
-        public async Task<IActionResult> GetTruongbmByMaGV(string MaGV)
+        public async Task<IActionResult> CheckTruongBomonByMaGV(string MaGV)
         {
-            var truongbm = await _TruongbmRepo.GetTruongbmByMaGVAsync(MaGV);
-            return truongbm == null ? BadRequest() : Ok(truongbm);
+            var result = await _TruongbmRepo.CheckTruongBomonByMaGVAsync(MaGV);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -62,18 +58,13 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpPut("MaGV, MaBM")]
-        public async Task<IActionResult> UpdateTruongbm(string MaGV, string MaBM, TruongbmModel model)
+        [HttpPut("maTbm")]
+        public async Task<IActionResult> UpdateTruongbm(int maTbm, TruongbmModel model)
         {
 
             try
             {
-                TruongbmModel truongBM = new()
-                {
-                    MaGv = MaGV,
-                    MaBm = MaBM
-                };
-                await _TruongbmRepo.UpdateTruongbmsAsync(truongBM, model);
+                await _TruongbmRepo.UpdateTruongbmsAsync(maTbm, model);
                 return Ok();
             }
             catch
@@ -82,15 +73,10 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpDelete("MaGV, MaBM")]
-        public async Task<IActionResult> DeleteTruongbm(string MaGV, string MaBM)
+        [HttpDelete("maTbm")]
+        public async Task<IActionResult> DeleteTruongbm(int maTbm)
         {
-            TruongbmModel truongBM = new()
-            {
-                MaGv = MaGV,
-                MaBm = MaBM
-            };
-            await _TruongbmRepo.DeleteTruongbmsAsync(truongBM);
+            await _TruongbmRepo.DeleteTruongbmsAsync(maTbm);
             return Ok();
         }
     }

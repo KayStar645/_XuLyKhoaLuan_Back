@@ -7,7 +7,6 @@ namespace XuLyKhoaLuan.Models
     {
         public string MaNhom { get; set; } = null!;
         public string TenNhom { get; set; } = null!;
-        public string TruongNhom { get; set; } = null!;
 
     }
 }

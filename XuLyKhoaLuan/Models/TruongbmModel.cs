@@ -5,6 +5,7 @@ namespace XuLyKhoaLuan.Models
 {
     public  class TruongbmModel
     {
+        public int MaTbm { get; set; }
         public string MaBm { get; set; } = null!;
         public string MaGv { get; set; } = null!;
         public DateTime? NgayNhanChuc { get; set; }

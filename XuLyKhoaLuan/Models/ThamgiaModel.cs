@@ -11,5 +11,6 @@ namespace XuLyKhoaLuan.Models
         public int Dot { get; set; }
         public string MaNhom { get; set; } = null!;
         public double? DiemTb { get; set; }
+        public bool? TruongNhom { get; set; }
     }
 }

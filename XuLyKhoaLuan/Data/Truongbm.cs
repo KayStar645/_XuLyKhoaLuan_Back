@@ -5,6 +5,7 @@ namespace XuLyKhoaLuan.Data
 {
     public partial class Truongbm
     {
+        public int MaTbm { get; set; }
         public string MaBm { get; set; } = null!;
         public string MaGv { get; set; } = null!;
         public DateTime? NgayNhanChuc { get; set; }

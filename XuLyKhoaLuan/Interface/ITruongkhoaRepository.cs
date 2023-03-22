@@ -4,11 +4,11 @@ namespace XuLyKhoaLuan.Interface
 {
     public interface ITruongkhoaRepository
     {
-        public Task<List<TruongkhoaModel>> GetAllTruongkhoasAsync();
-        public Task<TruongkhoaModel> GetTruongkhoaByMaKhoaMaGVAsync(TruongkhoaModel truongKhoa);
-        public Task<TruongkhoaModel> GetTruongkhoaByMaGVAsync(string maGV);
         public Task<string> AddTruongkhoasAsync(TruongkhoaModel model);
-        public Task UpdateTruongkhoasAsync(TruongkhoaModel truongKhoa, TruongkhoaModel model);
-        public Task DeleteTruongkhoasAsync(TruongkhoaModel truongKhoa);
+        public Task DeleteTruongkhoasAsync(int maTk);
+        public Task<List<TruongkhoaModel>> GetAllTruongkhoasAsync();
+        public Task<string> CheckTruongKhoaByMaGVAsync(string maGV);
+        public Task<TruongkhoaModel> GetTruongkhoaByIDAsync(int maTk);
+        public Task UpdateTruongkhoasAsync(int maTk, TruongkhoaModel model);
     }
 }

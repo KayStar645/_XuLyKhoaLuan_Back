@@ -55,6 +55,19 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("name")]
+        public async Task<IActionResult> SearchThamgiaByNameAsync(string name)
+        {
+            try
+            {
+                return Ok(await _ThamgiaRepo.SearchThamgiaByNameAsync(name));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewThamgia(ThamgiaModel model)
         {

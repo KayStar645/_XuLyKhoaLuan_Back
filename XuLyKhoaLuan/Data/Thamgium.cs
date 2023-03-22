@@ -20,6 +20,7 @@ namespace XuLyKhoaLuan.Data
         public int Dot { get; set; }
         public string? MaNhom { get; set; }
         public double? DiemTb { get; set; }
+        public bool? TruongNhom { get; set; }
 
         public virtual Dotdk Dotdk { get; set; } = null!;
         public virtual Sinhvien MaSvNavigation { get; set; } = null!;

@@ -29,25 +29,22 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpGet("MaKhoa, MaGV")]
-        public async Task<IActionResult> GetTruongkhoaByMaKhoaMaGV(string MaKhoa, string MaGV)
+        [HttpGet("maTk")]
+        public async Task<IActionResult> GetTruongkhoaById(int maTk)
         {
-            TruongkhoaModel truongKhoa = new()
-            {
-                MaKhoa = MaKhoa,
-                MaGv = MaGV
-
-            };
-            var Truongkhoa = await _TruongkhoaRepo.GetTruongkhoaByMaKhoaMaGVAsync(truongKhoa);
+            var Truongkhoa = await _TruongkhoaRepo.GetTruongkhoaByIDAsync(maTk);
             return Truongkhoa == null ? BadRequest() : Ok(Truongkhoa);
         }
 
-        [HttpGet("MaGV")]
-        public async Task<IActionResult> GetTruongkhoaByMaGV(string MaGV)
+        [HttpGet("maGV")]
+        public async Task<IActionResult> CheckTruongKhoaByMaGV(string maGV)
         {
-            var truongkhoa = await _TruongkhoaRepo.GetTruongkhoaByMaGVAsync(MaGV);
-            return truongkhoa == null ? BadRequest() : Ok(truongkhoa);
+            var result = await _TruongkhoaRepo.CheckTruongKhoaByMaGVAsync(maGV);
+            return Ok(result);
         }
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> AddNewTruongkhoa(TruongkhoaModel model)
@@ -63,19 +60,13 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpPut("MaKhoa, MaGV")]
-        public async Task<IActionResult> UpdateTruongkhoa(string MaKhoa, string MaGV, TruongkhoaModel model)
+        [HttpPut("maTK")]
+        public async Task<IActionResult> UpdateTruongkhoa(int maTK, TruongkhoaModel model)
         {
 
             try
             {
-                TruongkhoaModel truongKhoa = new()
-                {
-                    MaKhoa = MaKhoa,
-                    MaGv = MaGV,
-    
-                };
-                await _TruongkhoaRepo.UpdateTruongkhoasAsync(truongKhoa, model);
+                await _TruongkhoaRepo.UpdateTruongkhoasAsync(maTK, model);
                 return Ok();
             }
             catch
@@ -84,16 +75,10 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpDelete("MaKhoa, MaGV")]
-        public async Task<IActionResult> DeleteTruongkhoa(string MaKhoa, string MaGV)
+        [HttpDelete("maTK")]
+        public async Task<IActionResult> DeleteTruongkhoa(int maTK)
         {
-            TruongkhoaModel truongKhoa = new()
-            {
-                MaKhoa = MaKhoa,
-                MaGv = MaGV,
-
-            };
-            await _TruongkhoaRepo.DeleteTruongkhoasAsync(truongKhoa);
+            await _TruongkhoaRepo.DeleteTruongkhoasAsync(maTK);
             return Ok();
         }
     }

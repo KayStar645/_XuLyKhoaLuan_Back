@@ -12,7 +12,7 @@ using XuLyKhoaLuan.Data;
 namespace XuLyKhoaLuan.Migrations
 {
     [DbContext(typeof(XuLyKhoaLuanContext))]
-    [Migration("20230319063949_AddIdentityAuthentication")]
+    [Migration("20230322061255_AddIdentityAuthentication")]
     partial class AddIdentityAuthentication
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1131,15 +1131,7 @@ namespace XuLyKhoaLuan.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("TruongNhom")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)");
-
                     b.HasKey("MaNhom");
-
-                    b.HasIndex("TruongNhom");
 
                     b.ToTable("NHOM", (string)null);
                 });
@@ -1372,6 +1364,9 @@ namespace XuLyKhoaLuan.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<bool?>("TruongNhom")
+                        .HasColumnType("bit");
+
                     b.HasKey("MaSv", "NamHoc", "Dot");
 
                     b.HasIndex("NamHoc", "Dot");
@@ -1424,13 +1419,22 @@ namespace XuLyKhoaLuan.Migrations
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Truongbm", b =>
                 {
+                    b.Property<int>("MaTbm")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("MaTBM");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTbm"), 1L, 1);
+
                     b.Property<string>("MaBm")
+                        .IsRequired()
                         .HasMaxLength(15)
                         .IsUnicode(false)
                         .HasColumnType("varchar(15)")
                         .HasColumnName("MaBM");
 
                     b.Property<string>("MaGv")
+                        .IsRequired()
                         .HasMaxLength(15)
                         .IsUnicode(false)
                         .HasColumnType("varchar(15)")
@@ -1442,7 +1446,9 @@ namespace XuLyKhoaLuan.Migrations
                     b.Property<DateTime?>("NgayNhanChuc")
                         .HasColumnType("date");
 
-                    b.HasKey("MaBm", "MaGv");
+                    b.HasKey("MaTbm");
+
+                    b.HasIndex("MaBm");
 
                     b.HasIndex("MaGv");
 
@@ -1451,16 +1457,25 @@ namespace XuLyKhoaLuan.Migrations
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Truongkhoa", b =>
                 {
-                    b.Property<string>("MaKhoa")
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)");
+                    b.Property<int>("MaTk")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("MaTK");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTk"), 1L, 1);
 
                     b.Property<string>("MaGv")
+                        .IsRequired()
                         .HasMaxLength(15)
                         .IsUnicode(false)
                         .HasColumnType("varchar(15)")
                         .HasColumnName("MaGV");
+
+                    b.Property<string>("MaKhoa")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(15)");
 
                     b.Property<DateTime?>("NgayNghi")
                         .HasColumnType("date");
@@ -1468,9 +1483,11 @@ namespace XuLyKhoaLuan.Migrations
                     b.Property<DateTime>("NgayNhanChuc")
                         .HasColumnType("date");
 
-                    b.HasKey("MaKhoa", "MaGv");
+                    b.HasKey("MaTk");
 
                     b.HasIndex("MaGv");
+
+                    b.HasIndex("MaKhoa");
 
                     b.ToTable("TRUONGKHOA", (string)null);
                 });
@@ -1884,17 +1901,6 @@ namespace XuLyKhoaLuan.Migrations
                     b.Navigation("MaGvNavigation");
                 });
 
-            modelBuilder.Entity("XuLyKhoaLuan.Data.Nhom", b =>
-                {
-                    b.HasOne("XuLyKhoaLuan.Data.Sinhvien", "TruongNhomNavigation")
-                        .WithMany("Nhoms")
-                        .HasForeignKey("TruongNhom")
-                        .IsRequired()
-                        .HasConstraintName("FK_NHOM_SINHVIEN");
-
-                    b.Navigation("TruongNhomNavigation");
-                });
-
             modelBuilder.Entity("XuLyKhoaLuan.Data.Pbcham", b =>
                 {
                     b.HasOne("XuLyKhoaLuan.Data.Phanbien", "Ma")
@@ -2213,8 +2219,6 @@ namespace XuLyKhoaLuan.Migrations
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Sinhvien", b =>
                 {
-                    b.Navigation("Nhoms");
-
                     b.Navigation("Thamgia");
                 });
 
