@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using XuLyKhoaLuan.Helpers;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
 
@@ -40,8 +41,21 @@ namespace XuLyKhoaLuan.Controllers
         [HttpGet("MaGV")]
         public async Task<IActionResult> CheckTruongBomonByMaGV(string MaGV)
         {
-            var result = await _TruongbmRepo.CheckTruongBomonByMaGVAsync(MaGV);
-            return Ok(result);
+            try
+            {
+                var result = await _TruongbmRepo.CheckTruongBomonByMaGVAsync(MaGV);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                switch (ex)
+                {
+                    case errorMessage:
+                        return StatusCode(409, ex.Message);
+                    default:
+                        return StatusCode(500, ex.Message);
+                }
+            }
         }
 
         [HttpPost]

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
+using XuLyKhoaLuan.Helpers;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
 
@@ -43,17 +44,19 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<TruongbmModel>>(Truongbms);
         }
 
-        public async Task<string> CheckTruongBomonByMaGVAsync(string maGV)
+        public async Task<TruongbmModel> CheckTruongBomonByMaGVAsync(string maGV)
         {
             // Lấy mã bộ môn giảng viên đang công tác
             var gv = await _context.Giangviens.FindAsync(maGV);
 
             // Kiểm tra đó có phải trưởng bộ môn của bộ môn đó không? (chưa nghĩ)
-            var isTruongBm = await _context.Truongbms.AnyAsync(b => b.MaBm == gv.MaBm &&
-                        b.MaGv== maGV && (b.NgayNghi == null || b.NgayNghi > DateTime.Now));
-            if (isTruongBm)
-                return gv?.MaBm != null ? gv.MaBm : "";
-            return "";
+            var truongBm = await _context.Truongbms.Where(b => b.MaBm == gv.MaBm &&
+                        b.MaGv== maGV && (b.NgayNghi == null || b.NgayNghi > DateTime.Now)).SingleAsync();
+            if (truongBm == null)
+            {
+                throw new errorMessage("Giảng viên này không phải là trưởng bộ môn!");
+            }
+            return _mapper.Map<TruongbmModel>(truongBm);
 
         }
 

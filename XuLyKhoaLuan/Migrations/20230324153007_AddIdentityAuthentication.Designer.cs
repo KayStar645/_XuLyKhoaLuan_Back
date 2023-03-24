@@ -12,7 +12,7 @@ using XuLyKhoaLuan.Data;
 namespace XuLyKhoaLuan.Migrations
 {
     [DbContext(typeof(XuLyKhoaLuanContext))]
-    [Migration("20230322061255_AddIdentityAuthentication")]
+    [Migration("20230324153007_AddIdentityAuthentication")]
     partial class AddIdentityAuthentication
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -332,8 +332,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenBm")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenBM");
 
                     b.HasKey("MaBm");
@@ -358,8 +357,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenCn")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenCN");
 
                     b.HasKey("MaCn");
@@ -404,8 +402,7 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("TenCv")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenCV");
 
                     b.Property<string>("YeuCau")
@@ -473,8 +470,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenDt")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenDT");
 
                     b.Property<string>("TomTat")
@@ -605,8 +601,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenGv")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenGV");
 
                     b.HasKey("MaGv");
@@ -655,8 +650,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenGv")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenGV");
 
                     b.HasKey("MaGv");
@@ -897,8 +891,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenHd")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenHD");
 
                     b.HasKey("MaHd");
@@ -969,8 +962,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenKh")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenKH");
 
                     b.Property<DateTime?>("ThoiGianBd")
@@ -1015,8 +1007,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenKhoa")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaKhoa");
 
@@ -1098,8 +1089,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenNv")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenNV");
 
                     b.Property<DateTime?>("ThoiGianBd")
@@ -1128,8 +1118,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenNhom")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaNhom");
 
@@ -1298,8 +1287,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenSv")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenSV");
 
                     b.HasKey("MaSv");
@@ -1406,8 +1394,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<string>("TenTb")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenTB");
 
                     b.HasKey("MaTb");
@@ -1501,8 +1488,8 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnName("MaVT");
 
                     b.Property<string>("TenVaiTro")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("MaVt");
 

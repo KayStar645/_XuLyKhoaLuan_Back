@@ -41,6 +41,9 @@ namespace XuLyKhoaLuan.Controllers
         {
             try
             {
+                // Nếu nhóm đủ 3 thành viên rồi thì không cho thêm
+
+
                 var newNhom = await _NhomRepo.AddNhomsAsync(model);
                 return Ok(model);
             }
@@ -70,6 +73,12 @@ namespace XuLyKhoaLuan.Controllers
         {
             await _NhomRepo.DeleteNhomsAsync(MaNhom);
             return Ok();
+        }
+
+        [HttpGet("ma")]
+        public async Task<IActionResult> CountThanhVienNhom(string ma)
+        {
+            return Ok(await _NhomRepo.CountThanhVienNhomAsync(ma));
         }
     }
 }

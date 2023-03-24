@@ -57,5 +57,17 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<int> CountThanhVienNhomAsync(string ma)
+        {
+            var result = await _context.Nhoms.CountAsync(n => n.MaNhom == ma);
+            return result;
+        }
+
+        public async Task<List<ThamgiaModel>> GetThanhVienNhomAsync(string ma)
+        {
+            var result = await _context.Thamgia.Where(t => t.MaNhom == ma).ToListAsync();
+            return _mapper.Map<List<ThamgiaModel>>(result);
+        }
     }
 }

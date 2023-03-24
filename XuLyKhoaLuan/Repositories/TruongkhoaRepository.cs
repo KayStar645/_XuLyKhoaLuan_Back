@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
+using XuLyKhoaLuan.Helpers;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
 
@@ -48,7 +49,7 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<TruongkhoaModel>(trKhoa);
         }
 
-        public async Task<string> CheckTruongKhoaByMaGVAsync(string maGV)
+        public async Task<TruongkhoaModel> CheckTruongKhoaByMaGVAsync(string maGV)
         {
             // Lấy khoa mà giảng viên đang công tác
             var maKhoa = await _context.Giangviens
@@ -58,12 +59,13 @@ namespace XuLyKhoaLuan.Repositories
                             .Select(bkk => bkk.k.MaKhoa).SingleAsync();
 
             // Kiểm tra giảng viên đó có phải là trưởng khoa không
-            var isTruongKhoa = await _context.Truongkhoas.AnyAsync(
-                t => t.MaKhoa == maKhoa && t.MaGv == maGV &&
-                (t.NgayNghi == null || t.NgayNghi > DateTime.Now));
-            if(isTruongKhoa)
-                return maKhoa;
-            return "";
+            var truongKhoa = await _context.Truongkhoas.Where(t => t.MaKhoa == maKhoa && t.MaGv == maGV &&
+                (t.NgayNghi == null || t.NgayNghi > DateTime.Now)).SingleAsync();
+            if(truongKhoa == null)
+            {
+               throw new errorMessage("Giảng viên này không phải là trưởng khoa!");
+            }
+            return _mapper.Map<TruongkhoaModel>(truongKhoa);
         }
 
         public async Task UpdateTruongkhoasAsync(int maTk, TruongkhoaModel model)

@@ -9,5 +9,7 @@ namespace XuLyKhoaLuan.Interface
         public Task<string> AddNhomsAsync(NhomModel model);
         public Task UpdateNhomsAsync(string ma, NhomModel model);
         public Task DeleteNhomsAsync(string ma);
+        public Task<int> CountThanhVienNhomAsync(string ma);
+        public Task<List<ThamgiaModel>> GetThanhVienNhomAsync(string ma);
     }
 }
