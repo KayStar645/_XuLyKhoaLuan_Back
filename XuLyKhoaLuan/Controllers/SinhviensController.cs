@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using XuLyKhoaLuan.Helpers;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
 
@@ -9,6 +10,7 @@ namespace XuLyKhoaLuan.Controllers
     public class SinhviensController : ControllerBase
     {
         private readonly ISinhvienRepository _sinhvienRepo;
+        TestSocket test = new TestSocket();
 
         public SinhviensController(ISinhvienRepository repo)
         {
