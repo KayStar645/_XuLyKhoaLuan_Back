@@ -102,6 +102,58 @@ namespace XuLyKhoaLuan.Controllers
             return Detais == null ? BadRequest() : Ok(Detais);
         }
 
+        [HttpGet("maKhoa")]
+        public async Task<IActionResult> GetAllDeTaisByMakhoaAsync(string maKhoa)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.GetAllDeTaisByMakhoaAsync(maKhoa));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maBm")]
+        public async Task<IActionResult> GetAllDeTaisByMaBomonAsync(string maBm)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.GetAllDeTaisByMaBomonAsync(maBm));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maGv")]
+        public async Task<IActionResult> GetAllDeTaisByGiangvienAsync(string maGv)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.GetAllDeTaisByGiangvienAsync(maGv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maDt, maGv")]
+        public async Task<IActionResult> CheckisDetaiOfGiangvien(string maDt, string maGv)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.CheckisDetaiOfGiangvienAsync(maDt, maGv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
 
     }
 }
