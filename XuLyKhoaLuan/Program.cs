@@ -9,6 +9,7 @@ using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Repositories;
 using Sieve;
 using XuLyKhoaLuan.Interface;
+using XuLyKhoaLuan.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,11 @@ builder.Services.AddDbContext<XuLyKhoaLuanContext>(option => option.UseSqlServer
 builder.Services.AddCors(p => p.AddPolicy("MyCors", build =>
 {
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+
+    build.WithOrigins("http://localhost:4200")
+           .AllowCredentials()
+           .AllowAnyHeader()
+           .AllowAnyMethod();
 }));
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -116,6 +122,7 @@ builder.Services.AddTransient<IVaitroRepository, VaitroRepository>();
 builder.Services.AddTransient<IXacnhanRepository, XacnhanRepository>();
 builder.Services.AddTransient<IDetaichuyennganhRepository, DetaichuyennganhRepositoty>();
 builder.Services.AddTransient<IRadeRepository, RadeRepository>();
+builder.Services.AddSignalR();
 
 //builder.Services.AddSieve();
 
@@ -133,7 +140,16 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("MyCors");
 
+app.UseRouting();
+
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<TestSocket>("/TestSocket");
+});
+
 
 app.MapControllers();
 
