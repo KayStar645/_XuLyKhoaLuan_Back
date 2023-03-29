@@ -164,9 +164,7 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("SDT");
 
-                entity.Property(e => e.TenBm)
-                    .HasMaxLength(100)
-                    .HasColumnName("TenBM");
+                entity.Property(e => e.TenBm).HasColumnName("TenBM");
 
                 entity.HasOne(d => d.MaKhoaNavigation)
                     .WithMany(p => p.Bomons)
@@ -189,9 +187,7 @@ namespace XuLyKhoaLuan.Data
                     .HasMaxLength(15)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TenCn)
-                    .HasMaxLength(100)
-                    .HasColumnName("TenCN");
+                entity.Property(e => e.TenCn).HasColumnName("TenCN");
 
                 entity.HasOne(d => d.MaKhoaNavigation)
                     .WithMany(p => p.Chuyennganhs)
@@ -228,9 +224,7 @@ namespace XuLyKhoaLuan.Data
 
                 entity.Property(e => e.MoTa).HasColumnType("ntext");
 
-                entity.Property(e => e.TenCv)
-                    .HasMaxLength(200)
-                    .HasColumnName("TenCV");
+                entity.Property(e => e.TenCv).HasColumnName("TenCV");
 
                 entity.Property(e => e.YeuCau).HasColumnType("ntext");
 
@@ -302,9 +296,7 @@ namespace XuLyKhoaLuan.Data
 
                 entity.Property(e => e.Slmin).HasColumnName("SLMin");
 
-                entity.Property(e => e.TenDt)
-                    .HasMaxLength(100)
-                    .HasColumnName("TenDT");
+                entity.Property(e => e.TenDt).HasColumnName("TenDT");
 
                 entity.Property(e => e.TomTat).HasColumnType("ntext");
             });
@@ -421,9 +413,7 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("SDT");
 
-                entity.Property(e => e.TenGv)
-                    .HasMaxLength(150)
-                    .HasColumnName("TenGV");
+                entity.Property(e => e.TenGv).HasColumnName("TenGV");
 
                 entity.HasOne(d => d.MaBmNavigation)
                     .WithMany(p => p.Giangviens)
@@ -463,9 +453,7 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("SDT");
 
-                entity.Property(e => e.TenGv)
-                    .HasMaxLength(150)
-                    .HasColumnName("TenGV");
+                entity.Property(e => e.TenGv).HasColumnName("TenGV");
 
                 entity.HasOne(d => d.MaKhoaNavigation)
                     .WithMany(p => p.Giaovus)
@@ -678,9 +666,7 @@ namespace XuLyKhoaLuan.Data
 
                 entity.Property(e => e.NgayLap).HasColumnType("date");
 
-                entity.Property(e => e.TenHd)
-                    .HasMaxLength(100)
-                    .HasColumnName("TenHD");
+                entity.Property(e => e.TenHd).HasColumnName("TenHD");
 
                 entity.HasOne(d => d.MaBmNavigation)
                     .WithMany(p => p.Hoidongs)
@@ -746,9 +732,7 @@ namespace XuLyKhoaLuan.Data
 
                 entity.Property(e => e.SoLuongDt).HasColumnName("SoLuongDT");
 
-                entity.Property(e => e.TenKh)
-                    .HasMaxLength(200)
-                    .HasColumnName("TenKH");
+                entity.Property(e => e.TenKh).HasColumnName("TenKH");
 
                 entity.Property(e => e.ThoiGianBd)
                     .HasColumnType("datetime")
@@ -791,8 +775,6 @@ namespace XuLyKhoaLuan.Data
                     .HasMaxLength(15)
                     .IsUnicode(false)
                     .HasColumnName("SDT");
-
-                entity.Property(e => e.TenKhoa).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Loimoi>(entity =>
@@ -859,9 +841,7 @@ namespace XuLyKhoaLuan.Data
 
                 entity.Property(e => e.SoLuongDt).HasColumnName("SoLuongDT");
 
-                entity.Property(e => e.TenNv)
-                    .HasMaxLength(200)
-                    .HasColumnName("TenNV");
+                entity.Property(e => e.TenNv).HasColumnName("TenNV");
 
                 entity.Property(e => e.ThoiGianBd)
                     .HasColumnType("datetime")
@@ -891,8 +871,6 @@ namespace XuLyKhoaLuan.Data
                 entity.Property(e => e.MaNhom)
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
-                entity.Property(e => e.TenNhom).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Pbcham>(entity =>
@@ -1054,9 +1032,7 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("SDT");
 
-                entity.Property(e => e.TenSv)
-                    .HasMaxLength(150)
-                    .HasColumnName("TenSV");
+                entity.Property(e => e.TenSv).HasColumnName("TenSV");
 
                 entity.HasOne(d => d.MaCnNavigation)
                     .WithMany(p => p.Sinhviens)
@@ -1162,9 +1138,7 @@ namespace XuLyKhoaLuan.Data
 
                 entity.Property(e => e.NoiDung).HasColumnType("ntext");
 
-                entity.Property(e => e.TenTb)
-                    .HasMaxLength(200)
-                    .HasColumnName("TenTB");
+                entity.Property(e => e.TenTb).HasColumnName("TenTB");
 
                 entity.HasOne(d => d.MaKhoaNavigation)
                     .WithMany(p => p.Thongbaos)
@@ -1252,7 +1226,7 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("MaVT");
 
-                entity.Property(e => e.TenVaiTro).HasMaxLength(50);
+                entity.Property(e => e.TenVaiTro).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Xacnhan>(entity =>

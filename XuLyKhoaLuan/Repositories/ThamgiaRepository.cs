@@ -26,11 +26,11 @@ namespace XuLyKhoaLuan.Repositories
             return returnString;
         }
 
-        public async Task DeleteThamgiasAsync(ThamgiaModel Thamgia)
+        public async Task DeleteThamgiasAsync(string maSV, string namHoc, int dot)
         {
             var deleteThamgia = _context.Thamgia!.SingleOrDefault(
-                thamGia => thamGia.NamHoc == Thamgia.NamHoc && thamGia.MaSv == Thamgia.MaSv
-                && thamGia.Dot == Thamgia.Dot);
+                thamGia => thamGia.NamHoc == namHoc && thamGia.MaSv == maSV
+                && thamGia.Dot == dot);
             if (deleteThamgia != null)
             {
                 _context.Thamgia!.Remove(deleteThamgia);
@@ -44,9 +44,9 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<ThamgiaModel>>(Thamgias);
         }
 
-        public async Task<ThamgiaModel> GetThamgiaByIDAsync(ThamgiaModel Thamgia)
+        public async Task<ThamgiaModel> GetThamgiaByIDAsync(string maSV, string namHoc, int dot)
         {
-            var thamGia = await _context.Thamgia.FindAsync(Thamgia.MaSv, Thamgia.NamHoc, Thamgia.Dot);
+            var thamGia = await _context.Thamgia.FindAsync(maSV, namHoc, dot);
             return _mapper.Map<ThamgiaModel>(thamGia);
         }
 

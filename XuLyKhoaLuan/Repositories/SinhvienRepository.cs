@@ -78,10 +78,9 @@ namespace XuLyKhoaLuan.Repositories
             else
             {
                 var sinhViens = await _context.Sinhviens
-                    .Join(_context.Thamgia, s => s.MaSv, tg => tg.MaSv, (s, tg) => new { s = s, tg = tg })
-                    .Where(st => st.tg.NamHoc != namHoc || st.tg.Dot != dot)
-                    .Select(st => st.s)
-                    .ToListAsync();
+                       .Where(s => !(_context.Thamgia
+                       .Any(t => t.MaSv == s.MaSv && t.NamHoc == namHoc && t.Dot == dot)) || s.MaSv == null)
+                       .ToListAsync();
                 return _mapper.Map<List<SinhvienModel>>(sinhViens);
             }
         }

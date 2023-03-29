@@ -10,10 +10,12 @@ namespace XuLyKhoaLuan.Controllers
     public class ThamgiasController : ControllerBase
     {
         private readonly IThamgiaRepository _ThamgiaRepo;
+        private readonly INhomRepository _NhomRepo;
 
-        public ThamgiasController(IThamgiaRepository repo)
+        public ThamgiasController(IThamgiaRepository repo, INhomRepository nhomRepo)
         {
             _ThamgiaRepo = repo;
+            _NhomRepo = nhomRepo;
         }
 
         [HttpGet]
@@ -32,13 +34,7 @@ namespace XuLyKhoaLuan.Controllers
         [HttpGet("MaSV, NamHoc, Dot")]
         public async Task<IActionResult> GetThamgiaByMaCN(string MaSV, string NamHoc, int Dot)
         {
-            ThamgiaModel thamGia = new()
-            {
-                MaSv = MaSV,
-                NamHoc = NamHoc,
-                Dot = Dot
-            };
-            var Thamgia = await _ThamgiaRepo.GetThamgiaByIDAsync(thamGia);
+            var Thamgia = await _ThamgiaRepo.GetThamgiaByIDAsync(MaSV, NamHoc, Dot);
             return Thamgia == null ? BadRequest() : Ok(Thamgia);
         }
 
@@ -106,14 +102,31 @@ namespace XuLyKhoaLuan.Controllers
         [HttpDelete("MaSV, NamHoc, Dot")]
         public async Task<IActionResult> DeleteThamgia(string MaSV, string NamHoc, int Dot)
         {
-            ThamgiaModel thamGia = new()
+            try
             {
-                MaSv = MaSV,
-                NamHoc = NamHoc,
-                Dot = Dot
-            };
-            await _ThamgiaRepo.DeleteThamgiasAsync(thamGia);
-            return Ok();
+                var thamGia = await _ThamgiaRepo.GetThamgiaByIDAsync(MaSV, NamHoc, Dot);
+                var number = await _NhomRepo.CountThanhVienNhomAsync(thamGia.MaNhom);
+
+                await _ThamgiaRepo.DeleteThamgiasAsync(MaSV, NamHoc, Dot);
+
+                // Nếu tham gia này có nhóm 1 người thì xóa nhóm
+                if (number < 2)
+                {
+                    await _NhomRepo.DeleteNhomsAsync(thamGia.MaNhom);
+                }
+                // Nếu sinh viên này có nhóm > 1 người thì chuyển quyền trưởng nhóm cho thành viên trong nhóm
+                else
+                {
+                    var list = await _NhomRepo.GetThanhVienNhomAsync(thamGia.MaNhom);
+                    list[0].TruongNhom = true;
+                    await _ThamgiaRepo.UpdateThamgiasAsync(list[0], list[0]);
+                }
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }
