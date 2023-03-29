@@ -43,6 +43,7 @@ builder.Services.AddCors(p => p.AddPolicy("MyCors", build =>
 {
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 
+    ///
     build.WithOrigins("http://localhost:4200")
            .AllowCredentials()
            .AllowAnyHeader()
@@ -122,6 +123,8 @@ builder.Services.AddTransient<IVaitroRepository, VaitroRepository>();
 builder.Services.AddTransient<IXacnhanRepository, XacnhanRepository>();
 builder.Services.AddTransient<IDetaichuyennganhRepository, DetaichuyennganhRepositoty>();
 builder.Services.AddTransient<IRadeRepository, RadeRepository>();
+
+//
 builder.Services.AddSignalR();
 
 //builder.Services.AddSieve();
@@ -144,10 +147,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+//
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-    endpoints.MapHub<TestSocket>("/TestSocket");
+    endpoints.MapHub<Websocket>("/websocket");
 });
 
 

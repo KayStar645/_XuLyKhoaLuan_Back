@@ -10,7 +10,7 @@ namespace XuLyKhoaLuan.Controllers
     public class SinhviensController : ControllerBase
     {
         private readonly ISinhvienRepository _sinhvienRepo;
-        TestSocket test = new TestSocket();
+        Websocket test = new Websocket();
 
         public SinhviensController(ISinhvienRepository repo)
         {

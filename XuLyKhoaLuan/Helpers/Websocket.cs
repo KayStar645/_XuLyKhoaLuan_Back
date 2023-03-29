@@ -2,9 +2,9 @@
 
 namespace XuLyKhoaLuan.Helpers
 {
-    public class TestSocket : Hub
+    public class Websocket : Hub
     {
-        public async Task SendMessage(string message)
+        public async Task SendMessage(bool message)
         {
             await Clients.All.SendAsync("ReceiveMessage", message);
         }
