@@ -50,6 +50,19 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("maDT")]
+        public async Task<IActionResult> GetChuyennganhByMaDT(string maDT)
+        {
+            try
+            {
+                return Ok(await _DetaiChuyennganhRepo.GetChuyennganhByMaDTAsync(maDT));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewDetaiChuyennganh(DetaiChuyennganhModel model)
         {

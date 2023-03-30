@@ -82,5 +82,14 @@ namespace XuLyKhoaLuan.Repositories
                 }
             }
         }
+
+        public async Task<List<ChuyennganhModel>> GetChuyennganhByMaDTAsync(string maDT)
+        {
+            var chuyenNganhs = await _context.DetaiChuyennganhs
+                        .Join(_context.Chuyennganhs, d => d.MaCn, c => c.MaCn, (d, c) => new { d = d, c = c })
+                        .Where(dc => dc.d.MaDt == maDT)
+                        .Select(dc => dc.c).ToListAsync();
+            return _mapper.Map<List<ChuyennganhModel>>(chuyenNganhs);
+        }
     }
 }

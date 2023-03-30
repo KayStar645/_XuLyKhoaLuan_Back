@@ -8,5 +8,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<List<DetaiChuyennganhModel>> GetDetaiChuyennganhByMaDTMaCNAsync(string? maDT, string? maCN);
         public Task<string> AddDetaiChuyennganhsAsync(DetaiChuyennganhModel model);
         public Task DeleteDetaiChuyennganhsAsync(DetaiChuyennganhModel model);
+        public Task<List<ChuyennganhModel>> GetChuyennganhByMaDTAsync(string maDT);
     }
 }
