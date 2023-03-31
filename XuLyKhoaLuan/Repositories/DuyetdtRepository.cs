@@ -59,5 +59,14 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<DuyetdtModel>> GetDuyetdtByMaDT(string maDt)
+        {
+            var duyetDts = await _context.Duyetdts
+                            .Where(d => d.MaDt == maDt)
+                            .OrderByDescending(d => d.NgayDuyet)
+                            .ToListAsync();
+            return _mapper.Map<List<DuyetdtModel>>(duyetDts);
+        }
     }
 }

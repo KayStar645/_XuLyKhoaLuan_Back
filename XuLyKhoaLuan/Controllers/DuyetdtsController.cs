@@ -51,6 +51,19 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("maDt")]
+        public async Task<IActionResult> GetDuyetdtByMaDTAsync(string maDt)
+        {
+            try
+            {
+                return Ok(await _DuyetdtRepo.GetDuyetdtByMaDT(maDt));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         // POST api/<DuyetdtsController>
         [HttpPost]
         public async Task<IActionResult> AddNewDuyetdt(DuyetdtModel model)

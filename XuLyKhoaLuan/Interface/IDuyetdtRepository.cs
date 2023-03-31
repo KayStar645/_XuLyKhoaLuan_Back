@@ -9,5 +9,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<string> AddDuyetdtsAsync(DuyetdtModel model);
         public Task UpdateDuyetdtsAsync(DuyetdtModel duyetDT, DuyetdtModel model);
         public Task DeleteDuyetdtsAsync(DuyetdtModel duyetDT);
+        public Task<List<DuyetdtModel>> GetDuyetdtByMaDT(string maDt);
     }
 }
