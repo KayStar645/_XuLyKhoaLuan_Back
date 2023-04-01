@@ -49,27 +49,13 @@ namespace XuLyKhoaLuan.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DETAI",
-                columns: table => new
-                {
-                    MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    TenDT = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TomTat = table.Column<string>(type: "ntext", nullable: true),
-                    SLMin = table.Column<int>(type: "int", nullable: true),
-                    SLMax = table.Column<int>(type: "int", nullable: true),
-                    TrangThai = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DETAI", x => x.MaDT);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DOTDK",
                 columns: table => new
                 {
                     NamHoc = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
-                    Dot = table.Column<int>(type: "int", nullable: false)
+                    Dot = table.Column<int>(type: "int", nullable: false),
+                    NgayBD = table.Column<DateTime>(type: "date", nullable: true),
+                    NgayKT = table.Column<DateTime>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -219,6 +205,29 @@ namespace XuLyKhoaLuan.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DETAI",
+                columns: table => new
+                {
+                    MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    TenDT = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TomTat = table.Column<string>(type: "ntext", nullable: true),
+                    SLMin = table.Column<int>(type: "int", nullable: true),
+                    SLMax = table.Column<int>(type: "int", nullable: true),
+                    TrangThai = table.Column<bool>(type: "bit", nullable: true),
+                    NamHoc = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: true),
+                    Dot = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DETAI", x => x.MaDT);
+                    table.ForeignKey(
+                        name: "FK_DETAI_DOTDK",
+                        columns: x => new { x.NamHoc, x.Dot },
+                        principalTable: "DOTDK",
+                        principalColumns: new[] { "NamHoc", "Dot" });
                 });
 
             migrationBuilder.CreateTable(
@@ -1074,6 +1083,11 @@ namespace XuLyKhoaLuan.Migrations
                 column: "MaDT");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DETAI_NamHoc_Dot",
+                table: "DETAI",
+                columns: new[] { "NamHoc", "Dot" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DETAI_CHUYENNGANH_MaDT",
                 table: "DETAI_CHUYENNGANH",
                 column: "MaDT");
@@ -1339,9 +1353,6 @@ namespace XuLyKhoaLuan.Migrations
                 name: "THAMGIAHD");
 
             migrationBuilder.DropTable(
-                name: "DOTDK");
-
-            migrationBuilder.DropTable(
                 name: "SINHVIEN");
 
             migrationBuilder.DropTable(
@@ -1358,6 +1369,9 @@ namespace XuLyKhoaLuan.Migrations
 
             migrationBuilder.DropTable(
                 name: "CHUYENNGANH");
+
+            migrationBuilder.DropTable(
+                name: "DOTDK");
 
             migrationBuilder.DropTable(
                 name: "BOMON");

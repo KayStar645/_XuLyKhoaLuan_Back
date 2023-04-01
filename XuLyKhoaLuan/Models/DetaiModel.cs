@@ -16,6 +16,8 @@ namespace XuLyKhoaLuan.Models
         public int SLMax { get; set; }
 
         public bool TrangThai { get; set; }
+        public string? NamHoc { get; set; }
+        public int? Dot { get; set; }
 
     }
 }

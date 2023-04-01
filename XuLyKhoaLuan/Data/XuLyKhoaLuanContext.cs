@@ -65,9 +65,9 @@ namespace XuLyKhoaLuan.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Baocao>(entity =>
             {
-                base.OnModelCreating(modelBuilder);
                 entity.HasKey(e => new { e.MaCv, e.MaSv, e.NamHoc, e.Dot, e.LanNop });
 
                 entity.ToTable("BAOCAO");
@@ -292,6 +292,10 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("MaDT");
 
+                entity.Property(e => e.NamHoc)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Slmax).HasColumnName("SLMax");
 
                 entity.Property(e => e.Slmin).HasColumnName("SLMin");
@@ -299,6 +303,11 @@ namespace XuLyKhoaLuan.Data
                 entity.Property(e => e.TenDt).HasColumnName("TenDT");
 
                 entity.Property(e => e.TomTat).HasColumnType("ntext");
+
+                entity.HasOne(d => d.Dotdk)
+                    .WithMany(p => p.Detais)
+                    .HasForeignKey(d => new { d.NamHoc, d.Dot })
+                    .HasConstraintName("FK_DETAI_DOTDK");
             });
 
             modelBuilder.Entity<DetaiChuyennganh>(entity =>
@@ -341,6 +350,14 @@ namespace XuLyKhoaLuan.Data
                 entity.Property(e => e.NamHoc)
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                entity.Property(e => e.NgayBd)
+                    .HasColumnType("date")
+                    .HasColumnName("NgayBD");
+
+                entity.Property(e => e.NgayKt)
+                    .HasColumnType("date")
+                    .HasColumnName("NgayKT");
             });
 
             modelBuilder.Entity<Duyetdt>(entity =>

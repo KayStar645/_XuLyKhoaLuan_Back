@@ -38,7 +38,7 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task<List<NhiemvuModel>> GetAllNhiemvusAsync()
         {
-            var Nhiemvus = await _context.Nhiemvus.ToListAsync();
+            var Nhiemvus = await _context.Nhiemvus.OrderByDescending(n => n.ThoiGianKt).ToListAsync();
             return _mapper.Map<List<NhiemvuModel>>(Nhiemvus);
         }
 
