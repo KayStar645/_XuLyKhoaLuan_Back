@@ -458,6 +458,14 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnType("varchar(15)")
                         .HasColumnName("MaDT");
 
+                    b.Property<int?>("Dot")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NamHoc")
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
+
                     b.Property<int?>("Slmax")
                         .HasColumnType("int")
                         .HasColumnName("SLMax");
@@ -478,6 +486,8 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("MaDt");
+
+                    b.HasIndex("NamHoc", "Dot");
 
                     b.ToTable("DETAI", (string)null);
                 });
@@ -515,6 +525,14 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.Property<int>("Dot")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("NgayBd")
+                        .HasColumnType("date")
+                        .HasColumnName("NgayBD");
+
+                    b.Property<DateTime?>("NgayKt")
+                        .HasColumnType("date")
+                        .HasColumnName("NgayKT");
 
                     b.HasKey("NamHoc", "Dot");
 
@@ -1662,6 +1680,16 @@ namespace XuLyKhoaLuan.Migrations
                     b.Navigation("MaNhomNavigation");
                 });
 
+            modelBuilder.Entity("XuLyKhoaLuan.Data.Detai", b =>
+                {
+                    b.HasOne("XuLyKhoaLuan.Data.Dotdk", "Dotdk")
+                        .WithMany("Detais")
+                        .HasForeignKey("NamHoc", "Dot")
+                        .HasConstraintName("FK_DETAI_DOTDK");
+
+                    b.Navigation("Dotdk");
+                });
+
             modelBuilder.Entity("XuLyKhoaLuan.Data.DetaiChuyennganh", b =>
                 {
                     b.HasOne("XuLyKhoaLuan.Data.Chuyennganh", "MaCnNavigation")
@@ -2126,6 +2154,8 @@ namespace XuLyKhoaLuan.Migrations
 
             modelBuilder.Entity("XuLyKhoaLuan.Data.Dotdk", b =>
                 {
+                    b.Navigation("Detais");
+
                     b.Navigation("Thamgia");
                 });
 

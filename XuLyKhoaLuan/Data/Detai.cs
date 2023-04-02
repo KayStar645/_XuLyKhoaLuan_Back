@@ -23,7 +23,10 @@ namespace XuLyKhoaLuan.Data
         public int? Slmin { get; set; }
         public int? Slmax { get; set; }
         public bool? TrangThai { get; set; }
+        public string? NamHoc { get; set; }
+        public int? Dot { get; set; }
 
+        public virtual Dotdk? Dotdk { get; set; }
         public virtual ICollection<Dangky> Dangkies { get; set; }
         public virtual ICollection<DetaiChuyennganh> DetaiChuyennganhs { get; set; }
         public virtual ICollection<Duyetdt> Duyetdts { get; set; }
