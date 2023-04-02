@@ -38,7 +38,7 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task<List<ThongbaoModel>> GetAllThongbaosAsync()
         {
-            var Thongbaos = await _context.Thongbaos.ToListAsync();
+            var Thongbaos = await _context.Thongbaos.OrderByDescending(t => t.NgayTb).ToListAsync();
             return _mapper.Map<List<ThongbaoModel>>(Thongbaos);
         }
 

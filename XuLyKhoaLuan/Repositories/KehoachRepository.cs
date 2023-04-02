@@ -38,7 +38,7 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task<List<KehoachModel>> GetAllKehoachesAsync()
         {
-            var Kehoaches = await _context.Kehoaches.ToListAsync();
+            var Kehoaches = await _context.Kehoaches.OrderByDescending(t => t.ThoiGianKt).ToListAsync();
             return _mapper.Map<List<KehoachModel>>(Kehoaches);
         }
 
