@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
@@ -19,11 +19,21 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task<string> AddDuyetdtsAsync(DuyetdtModel model)
         {
+            // Tự động cập nhật lần duyệt đề tài
+            model.LanDuyet = (await maxLanDuyetdtAsync(model.MaGv, model.MaDt)) + 1;
+
             var newDuyetdt = _mapper.Map<Duyetdt>(model);
             _context.Duyetdts!.Add(newDuyetdt);
             await _context.SaveChangesAsync();
             string returnString = newDuyetdt.MaGv + newDuyetdt.MaDt + newDuyetdt.LanDuyet;
             return returnString;
+        }
+
+        public async Task<int> maxLanDuyetdtAsync(string maGv, string maDt)
+        {
+            return await _context.Duyetdts
+                    .Where(d => d.MaGv == maGv && d.MaDt == maDt)
+                     .MaxAsync(d => (int?)d.LanDuyet) ?? 0;
         }
 
         public async Task DeleteDuyetdtsAsync(DuyetdtModel Duyetdt)

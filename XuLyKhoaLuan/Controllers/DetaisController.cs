@@ -141,6 +141,19 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("maCn, maGv")]
+        public async Task<IActionResult> GetDeTaisByChuyennganhGiangvienAsync(string maCn, string maGv)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.GetDeTaisByChuyennganhGiangvienAsync(maCn, maGv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("maDt, maGv")]
         public async Task<IActionResult> CheckisDetaiOfGiangvien(string maDt, string maGv)
         {

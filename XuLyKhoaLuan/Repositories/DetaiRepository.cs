@@ -77,6 +77,18 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<DetaiModel>>(deTais);
         }
 
+        public async Task<List<DetaiModel>> GetDeTaisByChuyennganhGiangvienAsync(string maCn, string maGv)
+        {
+            var deTais = await _context.Detais
+            .Join(_context.Rades, d => d.MaDt, r => r.MaDt, (d, r) => new { d = d, r = r })
+            .Join(_context.Giangviens, rd => rd.r.MaGv, g => g.MaGv, (rd, g) => new { rd = rd, g = g })
+            .Join(_context.DetaiChuyennganhs, cn => cn.rd.d.MaDt, dtcn => dtcn.MaDt, (dtcn, cn) => new {dt = dtcn, cn = cn })
+            .Where(grd => grd.dt.g.MaGv == maGv && grd.cn.MaCn == maCn)
+            .Select(grd => grd.dt.rd.d)
+            .ToListAsync();
+            return _mapper.Map<List<DetaiModel>>(deTais);
+        }
+
         public async Task<DetaiModel> GetDeTaiByIDAsync(string maDT)
         {
             var deTai = await _context.Detais.FindAsync(maDT);
