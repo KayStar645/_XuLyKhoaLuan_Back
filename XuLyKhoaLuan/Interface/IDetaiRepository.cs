@@ -18,5 +18,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<List<DetaiModel>> GetAllDeTaisByGiangvienAsync(string maGv);
         public Task<bool> CheckisDetaiOfGiangvienAsync(string maDt, string maGv);
         public Task<List<DetaiModel>> GetDeTaisByChuyennganhGiangvienAsync(string maCn, string maGv);
+        public Task<string> createMaDT(string maKhoa);
     }
 }

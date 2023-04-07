@@ -47,11 +47,9 @@ namespace XuLyKhoaLuan.Controllers
         {
             try
             {
+                model.MaDT = await _detaiRepo.createMaDT("CNTT");
                 var newDetai = await _detaiRepo.AddDeTaisAsync(model);
                 return Ok(model);
-                //return CreatedAtAction(nameof(GetDetaiByMaDT), new { Controller = "Detais", newDetai }, newDetai);
-                //var detai = await _detaiRepo.GetDeTaiByMaDTsAsync(newDetai);
-                //return detai == null ? BadRequest() : Ok(detai);
             }
             catch
             {

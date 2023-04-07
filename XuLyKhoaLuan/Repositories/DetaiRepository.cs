@@ -25,6 +25,18 @@ namespace XuLyKhoaLuan.Repositories
             return newDeTai.MaDt;
         }
 
+        public async Task<string> createMaDT(string maKhoa)
+        {
+            string maxMaDT = await _context.Detais.MaxAsync(d => d.MaDt.Substring(d.MaDt.Length - 3));
+            int maxMaDTNumber = (maxMaDT == null) ? 0 : Convert.ToInt32(maxMaDT);
+            string maDT = maxMaDTNumber.ToString();
+            while (maDT.Length < 6)
+            {
+                maDT = "0" + maDT;
+            }
+            return maKhoa + maDT;
+        }
+
         public async Task DeleteDeTaisAsync(string maDT)
         {
             var deleteDeTai = _context.Detais!.SingleOrDefault(dt => dt.MaDt.Equals(maDT));
