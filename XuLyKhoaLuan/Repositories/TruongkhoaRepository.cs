@@ -68,6 +68,21 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<TruongkhoaModel>(truongKhoa);
         }
 
+        public async Task<bool> isTruongKhoaByMaGVAsync(string isMaGV)
+        {
+            // Lấy khoa mà giảng viên đang công tác
+            var maKhoa = await _context.Giangviens
+                            .Join(_context.Bomons, g => g.MaBm, b => b.MaBm, (g, b) => new { g, b })
+                            .Join(_context.Khoas, bk => bk.b.MaKhoa, k => k.MaKhoa, (bk, k) => new { bk, k })
+                            .Where(bkk => bkk.bk.g.MaGv == isMaGV)
+                            .Select(bkk => bkk.k.MaKhoa).SingleAsync();
+
+            // Kiểm tra giảng viên đó có phải là trưởng khoa không
+            var isTruongKhoa = await _context.Truongkhoas.AnyAsync(t => t.MaKhoa == maKhoa && t.MaGv == isMaGV &&
+                (t.NgayNghi == null || t.NgayNghi > DateTime.Now));
+            return isTruongKhoa;
+        }
+
         public async Task UpdateTruongkhoasAsync(int maTk, TruongkhoaModel model)
         {
             if (maTk == model.MaTk)

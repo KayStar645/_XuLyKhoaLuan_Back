@@ -58,6 +58,19 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("isMaGV")]
+        public async Task<IActionResult> IsTruongBomonByMaGVAsync(string isMaGV)
+        {
+            try
+            {
+                return Ok(await _TruongbmRepo.IsTruongBomonByMaGVAsync(isMaGV));
+            }   
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewTruongbm(TruongbmModel model)
         {

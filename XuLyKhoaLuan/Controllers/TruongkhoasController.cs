@@ -57,7 +57,18 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-
+        [HttpGet("isMaGV")]
+        public async Task<IActionResult> isTruongKhoaByMaGVAsync(string isMaGV)
+        {
+            try
+            {
+                return Ok(await _TruongkhoaRepo.isTruongKhoaByMaGVAsync(isMaGV));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
 
 
         [HttpPost]

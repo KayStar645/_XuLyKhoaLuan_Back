@@ -10,6 +10,7 @@ namespace XuLyKhoaLuan.Interface
         public Task<TruongbmModel> CheckTruongBomonByMaGVAsync(string maGV);
         public Task<TruongbmModel> GetTruongbmByIDAsync(int maTbm);
         public Task UpdateTruongbmsAsync(int maTbm, TruongbmModel model);
+        public Task<bool> IsTruongBomonByMaGVAsync(string isMaGV);
 
     }
 }

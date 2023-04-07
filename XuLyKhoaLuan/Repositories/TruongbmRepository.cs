@@ -57,7 +57,17 @@ namespace XuLyKhoaLuan.Repositories
                 throw new errorMessage("Giảng viên này không phải là trưởng bộ môn!");
             }
             return _mapper.Map<TruongbmModel>(truongBm);
+        }
 
+        public async Task<bool> IsTruongBomonByMaGVAsync(string isMaGV)
+        {
+            // Lấy mã bộ môn giảng viên đang công tác
+            var gv = await _context.Giangviens.FindAsync(isMaGV);
+
+            // Kiểm tra đó có phải trưởng bộ môn của bộ môn đó không? (chưa nghĩ)
+            var isTruongBm = await _context.Truongbms.AnyAsync(b => b.MaBm == gv.MaBm &&
+                        b.MaGv == isMaGV && (b.NgayNghi == null || b.NgayNghi > DateTime.Now));
+            return isTruongBm;
         }
 
         public async Task<TruongbmModel> GetTruongbmByIDAsync(int maTbm)
