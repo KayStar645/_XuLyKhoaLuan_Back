@@ -36,6 +36,33 @@ namespace XuLyKhoaLuan.Controllers
             return Kehoach == null ? BadRequest() : Ok(Kehoach);
         }
 
+        [HttpGet("maKhoa")]
+        public async Task<IActionResult> GetKehoachesByMakhoaAsync(string maKhoa)
+        {
+            try
+            {
+                return Ok(await _KehoachRepo.GetKehoachesByMakhoaAsync(maKhoa));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maBM")]
+        public async Task<IActionResult> GetKehoachesByMabmAsync(string maBM)
+        {
+            try
+            {
+                return Ok(await _KehoachRepo.GetKehoachesByMabmAsync(maBM));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> AddNewKehoach(KehoachModel model)
         {

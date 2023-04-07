@@ -42,6 +42,22 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<NhiemvuModel>>(Nhiemvus);
         }
 
+        public async Task<List<NhiemvuModel>> GetNhiemvusByMabmAsync(string maBM)
+        {
+            var Nhiemvus = await _context.Nhiemvus
+                            .Where(n => n.MaBm == maBM)
+                            .OrderByDescending(t => t.ThoiGianKt).ToListAsync();
+            return _mapper.Map<List<NhiemvuModel>>(Nhiemvus);
+        }
+
+        public async Task<List<NhiemvuModel>> GetNhiemvusByMagvAsync(string maGV)
+        {
+            var Nhiemvus = await _context.Nhiemvus
+                            .Where(n => n.MaGv == maGV)
+                            .OrderByDescending(t => t.ThoiGianKt).ToListAsync();
+            return _mapper.Map<List<NhiemvuModel>>(Nhiemvus);
+        }
+
         public async Task<NhiemvuModel> GetNhiemvuByIDAsync(int ma)
         {
             var hdgy = await _context.Nhiemvus.FindAsync(ma);

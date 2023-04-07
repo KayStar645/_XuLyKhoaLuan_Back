@@ -9,5 +9,7 @@ namespace XuLyKhoaLuan.Interface
         public Task<string> AddKehoachesAsync(KehoachModel model);
         public Task UpdateKehoachesAsync(int ma, KehoachModel model);
         public Task DeleteKehoachesAsync(int ma);
+        public Task<List<KehoachModel>> GetKehoachesByMakhoaAsync(string maKhoa);
+        public Task<List<KehoachModel>> GetKehoachesByMabmAsync(string maBM);
     }
 }

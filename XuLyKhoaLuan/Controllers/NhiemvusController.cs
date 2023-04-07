@@ -36,6 +36,32 @@ namespace XuLyKhoaLuan.Controllers
             return Nhiemvu == null ? BadRequest() : Ok(Nhiemvu);
         }
 
+        [HttpGet("maBM")]
+        public async Task<IActionResult> GetNhiemvusByMabmAsync(string maBM)
+        {
+            try
+            {
+                return Ok(await _NhiemvuRepo.GetNhiemvusByMabmAsync(maBM));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maGV")]
+        public async Task<IActionResult> GetNhiemvusByMagvAsync(string maGV)
+        {
+            try
+            {
+                return Ok(await _NhiemvuRepo.GetNhiemvusByMagvAsync(maGV));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewNhiemvu(NhiemvuModel model)
         {
