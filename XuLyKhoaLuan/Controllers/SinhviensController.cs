@@ -10,11 +10,12 @@ namespace XuLyKhoaLuan.Controllers
     public class SinhviensController : ControllerBase
     {
         private readonly ISinhvienRepository _sinhvienRepo;
-        Websocket test = new Websocket();
+        private readonly IAccountRepository accountRepo;
 
-        public SinhviensController(ISinhvienRepository repo)
+        public SinhviensController(ISinhvienRepository repo, IAccountRepository repoAccount)
         {
             _sinhvienRepo = repo;
+            accountRepo = repoAccount;
         }
 
         [HttpGet]
@@ -43,6 +44,13 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newSinhvien = await _sinhvienRepo.AddSinhViensAsync(model);
+                var user = new SigUpModel
+                {
+                    Id = model.MaSv,
+                    Password = model.MaSv
+
+                };
+                await accountRepo.SigUpAsync(user);
                 return Ok(model);
             }
             catch
@@ -70,6 +78,7 @@ namespace XuLyKhoaLuan.Controllers
         public async Task<IActionResult> DeleteSinhvien(string maSV)
         {
             await _sinhvienRepo.DeleteSinhViensAsync(maSV);
+            await accountRepo.DeleteAsync(maSV);
             return Ok();
         }
 
@@ -99,6 +108,19 @@ namespace XuLyKhoaLuan.Controllers
         {
             var sinhVien = await _sinhvienRepo.SearchSinhvienByNameAsync(tenSV);
             return sinhVien == null ? BadRequest() : Ok(sinhVien);
+        }
+
+        [HttpGet("maDT")]
+        public async Task<IActionResult> GetSinhvienByDetaiAsync(string maDT)
+        {
+            try
+            {
+                return Ok(await _sinhvienRepo.GetSinhvienByDetaiAsync(maDT));
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }

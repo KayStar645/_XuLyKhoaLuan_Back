@@ -36,6 +36,19 @@ namespace XuLyKhoaLuan.Controllers
             return Bomon == null ? BadRequest() : Ok(Bomon);
         }
 
+        [HttpGet("tenBM")]
+        public async Task<IActionResult> GetBomonByTendt(string tenBM)
+        {
+            try
+            {
+                return Ok(await _BomonRepo.GetBomonByTenbmAsync(tenBM));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewBomon(BomonModel model)
         {

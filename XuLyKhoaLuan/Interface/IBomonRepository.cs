@@ -9,5 +9,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<string> AddBomonsAsync(BomonModel model);
         public Task UpdateBomonsAsync(string ma, BomonModel model);
         public Task DeleteBomonsAsync(string ma);
+        public Task<BomonModel> GetBomonByTenbmAsync(string tenBM);
     }
 }

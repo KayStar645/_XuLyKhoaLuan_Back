@@ -100,5 +100,17 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<SinhvienModel>> GetSinhvienByDetaiAsync(string maDT)
+        {
+            var sinhViens = await _context.Sinhviens
+                            .Join(_context.Thamgia, sv => sv.MaSv, tg => tg.MaSv, (sv, tg) => new { sv = sv, tg = tg })
+                            .Join(_context.Nhoms, svtg => svtg.tg.MaNhom, n => n.MaNhom, (svtg, n) => new { svtg = svtg, n = n })
+                            .Join(_context.Dangkies, svtgn => svtgn.n.MaNhom, dk => dk.MaNhom, (svtgndk, dk) => new { svtgndk = svtgndk, dk = dk })
+                            .Where(re => re.dk.MaDt == maDT)
+                            .Select(re => re.svtgndk.svtg.sv)
+                            .ToListAsync();
+            return _mapper.Map<List<SinhvienModel>>(sinhViens);
+        }
     }
 }

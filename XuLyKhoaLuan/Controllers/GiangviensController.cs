@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
 
@@ -10,10 +11,12 @@ namespace XuLyKhoaLuan.Controllers
     public class GiangviensController : ControllerBase
     {
         private readonly IGiangvienRepository _GiangvienRepo;
+        private readonly IAccountRepository accountRepo;
 
-        public GiangviensController(IGiangvienRepository repo)
+        public GiangviensController(IGiangvienRepository repo, IAccountRepository repoAccount)
         {
             _GiangvienRepo = repo;
+            accountRepo = repoAccount;
         }
 
         [HttpGet]
@@ -63,6 +66,14 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newGiangvien = await _GiangvienRepo.AddGiangviensAsync(model);
+                // Nếu thêm giảng viên thành công thì thêm tài khoản cho giảng viên
+                var user = new SigUpModel
+                {
+                    Id = model.MaGv,
+                    Password = model.MaGv
+
+                };
+                await accountRepo.SigUpAsync(user);
                 return Ok(model);
             }
             catch
@@ -90,6 +101,7 @@ namespace XuLyKhoaLuan.Controllers
         public async Task<IActionResult> DeleteGiangvien(string MaGV)
         {
             await _GiangvienRepo.DeleteGiangviensAsync(MaGV);
+            await accountRepo.DeleteAsync(MaGV);
             return Ok();
         }
     }

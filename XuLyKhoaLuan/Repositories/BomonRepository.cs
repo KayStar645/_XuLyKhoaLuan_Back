@@ -57,5 +57,11 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<BomonModel> GetBomonByTenbmAsync(string tenBM)
+        {
+            var boMon = await _context.Bomons.Where(bm => bm.TenBm == tenBM).SingleAsync();
+            return _mapper.Map<BomonModel>(boMon);
+        }
     }
 }

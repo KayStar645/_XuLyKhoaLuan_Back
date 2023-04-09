@@ -42,19 +42,6 @@ namespace XuLyKhoaLuan.Controllers
             return detai == null ? BadRequest() : Ok(detai);
         }
 
-        [HttpGet("deTai")]
-        public async Task<IActionResult> GetSinhvienByDetaiAsync(string deTai)
-        {
-            try
-            {
-                return Ok(await _detaiRepo.GetSinhvienByDetaiAsync(deTai));
-            }   
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
         [HttpGet("maK")]
         public async Task<IActionResult> GetMaxMaDtByKhoa(string maK)
         {
@@ -62,6 +49,19 @@ namespace XuLyKhoaLuan.Controllers
             {
                 var maDT = await _detaiRepo.createMaDT(maK);
                 return Ok(maDT);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("nameDT")]
+        public async Task<IActionResult> GetDetaiByTendt(string nameDT)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.GetDetaiByTendt(nameDT));
             }
             catch
             {

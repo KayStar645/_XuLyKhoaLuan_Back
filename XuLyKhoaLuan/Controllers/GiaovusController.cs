@@ -10,10 +10,11 @@ namespace XuLyKhoaLuan.Controllers
     public class GiaovusController : ControllerBase
     {
         private readonly IGiaovuRepository _GiaovuRepo;
-
-        public GiaovusController(IGiaovuRepository repo)
+        private readonly IAccountRepository accountRepo;
+        public GiaovusController(IGiaovuRepository repo, IAccountRepository repoAccount)
         {
             _GiaovuRepo = repo;
+            accountRepo = repoAccount;
         }
 
         [HttpGet]
@@ -42,6 +43,13 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 var newGiaovu = await _GiaovuRepo.AddGiaovusAsync(model);
+                var user = new SigUpModel
+                {
+                    Id = model.MaGv,
+                    Password = model.MaGv
+
+                };
+                await accountRepo.SigUpAsync(user);
                 return Ok(model);
             }
             catch
@@ -69,6 +77,7 @@ namespace XuLyKhoaLuan.Controllers
         public async Task<IActionResult> DeleteGiaovu(string MaGV)
         {
             await _GiaovuRepo.DeleteGiaovusAsync(MaGV);
+            await accountRepo.DeleteAsync(MaGV);
             return Ok();
         }
     }
