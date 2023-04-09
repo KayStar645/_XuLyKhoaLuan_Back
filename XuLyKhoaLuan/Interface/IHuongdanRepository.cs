@@ -9,5 +9,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<string> AddHuongdansAsync(HuongdanModel model);
         public Task UpdateHuongdansAsync(HuongdanModel hdpbNhanXet, HuongdanModel model);
         public Task DeleteHuongdansAsync(HuongdanModel hdpbNhanXet);
+        public Task<List<GiangvienModel>> GetGiangvienByDetaiAsync(string maDT);
     }
 }

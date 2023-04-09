@@ -60,5 +60,15 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<GiangvienModel>> GetGiangvienByDetaiAsync(string maDT)
+        {
+            var giangViens = await _context.Giangviens
+                            .Join(_context.Phanbiens, gv => gv.MaGv, pb => pb.MaGv, (gv, pb) => new { gv = gv, pb = pb })
+                            .Where(re => re.pb.MaDt == maDT)
+                            .Select(re => re.gv)
+                            .ToListAsync();
+            return _mapper.Map<List<GiangvienModel>>(giangViens);
+        }
     }
 }

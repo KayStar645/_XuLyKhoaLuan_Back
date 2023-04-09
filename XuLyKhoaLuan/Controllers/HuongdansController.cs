@@ -41,6 +41,19 @@ namespace XuLyKhoaLuan.Controllers
             return Huongdan == null ? BadRequest() : Ok(Huongdan);
         }
 
+        [HttpGet("MaDT")]
+        public async Task<IActionResult> GetGiangvienByDetaiAsync(string maDT)
+        {
+            try
+            {
+                return Ok(await _HuongdanRepo.GetGiangvienByDetaiAsync(maDT));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }    
+
         [HttpPost]
         public async Task<IActionResult> AddNewHuongdan(HuongdanModel model)
         {

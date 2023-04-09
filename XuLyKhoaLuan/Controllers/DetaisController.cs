@@ -42,12 +42,42 @@ namespace XuLyKhoaLuan.Controllers
             return detai == null ? BadRequest() : Ok(detai);
         }
 
+        [HttpGet("deTai")]
+        public async Task<IActionResult> GetSinhvienByDetaiAsync(string deTai)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.GetSinhvienByDetaiAsync(deTai));
+            }   
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maK")]
+        public async Task<IActionResult> GetMaxMaDtByKhoa(string maK)
+        {
+            try
+            {
+                var maDT = await _detaiRepo.createMaDT(maK);
+                return Ok(maDT);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewDetai(DetaiModel model)
         {
             try
             {
-                model.MaDT = await _detaiRepo.createMaDT("CNTT");
+                if(model.MaDT == "")
+                {
+                   model.MaDT = await _detaiRepo.createMaDT("CNTT");
+                }    
                 var newDetai = await _detaiRepo.AddDeTaisAsync(model);
                 return Ok(model);
             }

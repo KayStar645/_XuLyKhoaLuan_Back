@@ -86,5 +86,18 @@ namespace XuLyKhoaLuan.Controllers
             await _PhanbienRepo.DeletePhanbiensAsync(phanBien);
             return Ok();
         }
+
+        [HttpGet("maDT")]
+        public async Task<IActionResult> GetGiangvienByDetaiAsync(string maDT)
+        {
+            try
+            {
+                return Ok(await _PhanbienRepo.GetGiangvienByDetaiAsync(maDT));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
