@@ -15,12 +15,16 @@ namespace XuLyKhoaLuan.Interface
         public Task UpdateDeTaisAsync(string maDT, DetaiModel model);
         public Task DeleteDeTaisAsync(string maDT);
         public Task<List<DetaiModel>> GetAllDeTaisByMakhoaAsync(string maKhoa);
-        public Task<List<DetaiModel>> GetAllDeTaisByMaBomonAsync(string maBm);
+        public Task<List<DetaiModel>> GetAllDeTaisByMaBomonAsync(string maBm, bool flag);
         public Task<List<DetaiModel>> GetAllDeTaisByGiangvienAsync(string maGv);
         public Task<bool> CheckisDetaiOfGiangvienAsync(string maDt, string maGv);
         public Task<List<DetaiModel>> GetDeTaisByChuyennganhGiangvienAsync(string maCn, string maGv);
         public Task<string> createMaDT(string maKhoa);
         public Task<DetaiModel> GetDetaiByTendt(string tenDT);
         public Task<List<DetaiModel>> GetDetaiByDotdk(string namHoc, int dot);
+        public Task<List<DetaiModel>> GetDetaiByBomonDotdk(string maBM, string namHoc, int dot, bool flag);
+        public Task<List<DetaiModel>> GetDetaiByHuongdanOfGiangvienDotdkAsync(string maGv, string namHoc, int dot);
+        public Task<List<DetaiModel>> GetDetaiByPhanbienOfGiangvienDotdkAsync(string maGv, string namHoc, int dot);
+        public Task<List<DetaiModel>> GetDetaiByChuyenNganhBomonAsync(string maCN, string maBM);
     }
 }

@@ -79,6 +79,7 @@ namespace XuLyKhoaLuan.Controllers
                    model.MaDT = await _detaiRepo.createMaDT("CNTT");
                 }    
                 var newDetai = await _detaiRepo.AddDeTaisAsync(model);
+
                 return Ok(model);
             }
             catch
@@ -116,6 +117,13 @@ namespace XuLyKhoaLuan.Controllers
             return Detais == null ? BadRequest() : Ok(Detais);
         }
 
+        [HttpGet("maCN, maBM")]
+        public async Task<IActionResult> GetDetaiByChuyenNganhBomonAsync(string maCN, string maBM)
+        {
+            var Detais = await _detaiRepo.GetDetaiByChuyenNganhBomonAsync(maCN, maBM);
+            return Detais == null ? BadRequest() : Ok(Detais);
+        }
+
         [HttpGet("MaDeTai")]
         public async Task<IActionResult> GetChuyennganhOfDetai(string MaDeTai)
         {
@@ -143,12 +151,12 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpGet("maBm")]
-        public async Task<IActionResult> GetAllDeTaisByMaBomonAsync(string maBm)
+        [HttpGet("maBm, flag")]
+        public async Task<IActionResult> GetAllDeTaisByMaBomonAsync(string maBm, bool flag)
         {
             try
             {
-                return Ok(await _detaiRepo.GetAllDeTaisByMaBomonAsync(maBm));
+                return Ok(await _detaiRepo.GetAllDeTaisByMaBomonAsync(maBm, flag));
             }
             catch
             {
@@ -208,5 +216,43 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("maBM, namHoc, dot, flag")]
+        public async Task<IActionResult> GetDetaiByBomonDotdk(string maBM, string namHoc, int dot, bool flag)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.GetDetaiByBomonDotdk(maBM, namHoc, dot, flag));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maGVHD, namHoc, dot")]
+        public async Task<IActionResult> GetDetaiByHuongdanOfGiangvienDotdkAsync(string maGVHD, string namHoc, int dot)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.GetDetaiByHuongdanOfGiangvienDotdkAsync(maGVHD, namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maGVPB, namHoc, dot")]
+        public async Task<IActionResult> GetDetaiByPhanbienOfGiangvienDotdkAsync(string maGVPB, string namHoc, int dot)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.GetDetaiByPhanbienOfGiangvienDotdkAsync(maGVPB, namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

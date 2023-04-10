@@ -66,16 +66,32 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<DetaiModel>>(deTais);
         }
 
-        public async Task<List<DetaiModel>> GetAllDeTaisByMaBomonAsync(string maBm)
+        public async Task<List<DetaiModel>> GetAllDeTaisByMaBomonAsync(string maBm, bool flag)
         {
-            var deTais = await _context.Detais
-            .Join(_context.Rades, d => d.MaDt, r => r.MaDt, (d, r) => new { d = d, r = r })
-            .Join(_context.Giangviens, rd => rd.r.MaGv, g => g.MaGv, (rd, g) => new { rd = rd, g = g })
-            .Join(_context.Bomons, grd => grd.g.MaBm, b => b.MaBm, (grd, b) => new { grd = grd, b = b})
-            .Where(grdb => grdb.b.MaBm == maBm)
-            .Select(grdb => grdb.grd.rd.d)
-            .ToListAsync();
-            return _mapper.Map<List<DetaiModel>>(deTais);
+            if(flag)
+            {
+                // Chỉ lấy đề tài đạt yêu cầu
+                var deTais = await _context.Detais
+                .Join(_context.Rades, d => d.MaDt, r => r.MaDt, (d, r) => new { d = d, r = r })
+                .Join(_context.Giangviens, rd => rd.r.MaGv, g => g.MaGv, (rd, g) => new { rd = rd, g = g })
+                .Join(_context.Bomons, grd => grd.g.MaBm, b => b.MaBm, (grd, b) => new { grd = grd, b = b })
+                .Where(grdb => grdb.b.MaBm == maBm && grdb.grd.rd.d.TrangThai == true)
+                .Select(grdb => grdb.grd.rd.d)
+                .ToListAsync();
+                return _mapper.Map<List<DetaiModel>>(deTais);
+            }
+            else
+            {
+                // Lấy hết đề tài
+                var deTais = await _context.Detais
+                .Join(_context.Rades, d => d.MaDt, r => r.MaDt, (d, r) => new { d = d, r = r })
+                .Join(_context.Giangviens, rd => rd.r.MaGv, g => g.MaGv, (rd, g) => new { rd = rd, g = g })
+                .Join(_context.Bomons, grd => grd.g.MaBm, b => b.MaBm, (grd, b) => new { grd = grd, b = b })
+                .Where(grdb => grdb.b.MaBm == maBm)
+                .Select(grdb => grdb.grd.rd.d)
+                .ToListAsync();
+                return _mapper.Map<List<DetaiModel>>(deTais);
+            }
         }
 
         public async Task<List<DetaiModel>> GetAllDeTaisByGiangvienAsync(string maGv)
@@ -126,6 +142,19 @@ namespace XuLyKhoaLuan.Repositories
                          select dt).ToListAsync();
             return _mapper.Map<List<DetaiModel>>(Detais);
         }
+
+        public async Task<List<DetaiModel>> GetDetaiByChuyenNganhBomonAsync(string maCN, string maBM)
+        {
+            var deTais = await _context.Detais
+                        .Join(_context.DetaiChuyennganhs, dt => dt.MaDt, cn => cn.MaDt, (dt, cn) => new { dt = dt, cn = cn })
+                        .Join(_context.Rades, dc => dc.dt.MaDt, rd => rd.MaDt, (dc, rd) => new { dc = dc, rd = rd })
+                        .Join(_context.Giangviens, dcr => dcr.rd.MaGv, gv => gv.MaGv, (dcr, gv) => new { dcr = dcr, gv = gv })
+                        .Where(re => re.dcr.dc.cn.MaCn == maCN && re.gv.MaBm == maBM)
+                        .Select(re => re.dcr.dc.dt)
+                        .ToListAsync();            
+            return _mapper.Map<List<DetaiModel>>(deTais);
+        }
+
         public async Task<List<ChuyennganhModel>> GetChuyennganhOfDetaiAsync(string maDT)
         {
             var Chuyennganhs = await (from dt in _context.Detais
@@ -157,6 +186,50 @@ namespace XuLyKhoaLuan.Repositories
         {
             var deTais = await _context.Detais.Where(dt => dt.NamHoc == namHoc && dt.Dot == dot).ToListAsync();
             return _mapper.Map<List<DetaiModel>>(deTais);
+        }
+
+        public async Task<List<DetaiModel>> GetDetaiByBomonDotdk(string maBM, string namHoc, int dot, bool flag)
+        {
+            if(flag)
+            {
+                var deTais = await _context.Detais
+                            .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt = dt, rd = rd })
+                            .Join(_context.Giangviens, rdt => rdt.rd.MaGv, gv => gv.MaGv, (rdt, gv) => new { rdt = rdt, gv = gv })
+                            .Where(re => re.rdt.dt.NamHoc == namHoc && re.rdt.dt.Dot == dot && re.gv.MaBm == maBM && re.rdt.dt.TrangThai == true)
+                            .Select(re => re.rdt.dt)
+                            .ToListAsync();
+                return _mapper.Map<List<DetaiModel>>(deTais);
+            }
+            else
+            {
+                var deTais = await _context.Detais
+                            .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt = dt, rd = rd })
+                            .Join(_context.Giangviens, rdt => rdt.rd.MaGv, gv => gv.MaGv, (rdt, gv) => new { rdt = rdt, gv = gv })
+                            .Where(re => re.rdt.dt.NamHoc == namHoc && re.rdt.dt.Dot == dot && re.gv.MaBm == maBM)
+                            .Select(re => re.rdt.dt)
+                            .ToListAsync();
+                return _mapper.Map<List<DetaiModel>>(deTais);
+            }
+        }
+
+        public async Task<List<DetaiModel>> GetDetaiByHuongdanOfGiangvienDotdkAsync(string maGv, string namHoc, int dot)
+        {
+            var deTaiHds = await _context.Detais
+                        .Join(_context.Huongdans, dt => dt.MaDt, hd => hd.MaDt, (dt, hd) => new { hd = hd, dt = dt })
+                        .Where(re => re.hd.MaGv == maGv && re.dt.NamHoc == namHoc && re.dt.Dot == dot)
+                        .Select(re => re.dt)
+                        .ToListAsync();
+            return _mapper.Map<List<DetaiModel>>(deTaiHds);
+        }
+
+        public async Task<List<DetaiModel>> GetDetaiByPhanbienOfGiangvienDotdkAsync(string maGv, string namHoc, int dot)
+        {
+            var deTaiPbs = await _context.Detais
+                        .Join(_context.Phanbiens, dt => dt.MaDt, pb => pb.MaDt, (dt, pb) => new { dt = dt, pb = pb })
+                        .Where(re => re.pb.MaGv == maGv && re.dt.NamHoc == namHoc && re.dt.Dot == dot)
+                        .Select(re => re.dt)
+                        .ToListAsync();
+            return _mapper.Map<List<DetaiModel>>(deTaiPbs);
         }
     }
 }
