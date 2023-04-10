@@ -11,5 +11,8 @@ namespace XuLyKhoaLuan.Interface
         public Task<List<ThamgiaModel>> SearchThamgiaByNameAsync(string name);
         public Task UpdateThamgiasAsync(ThamgiaModel thamGia, ThamgiaModel model);
         public Task DeleteThamgiasAsync(string maSV, string namHoc, int dot);
+        public Task<List<SinhvienModel>> GetSinhvienByNhomAsync(string maNhom, bool flag);
+        public Task<List<ThamgiaModel>> GetThamgiaByDotdk(string namHoc, int dot);
+        public Task<List<ThamgiaModel>> GetThamgiaByChuyennganhDotdk(string maCn, string namHoc, int dot);
     }
 }

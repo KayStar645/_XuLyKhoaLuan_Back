@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
+using static Sieve.Extensions.MethodInfoExtended;
 
 namespace XuLyKhoaLuan.Controllers
 {
@@ -99,6 +100,19 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("namHoc, dot")]
+        public async Task<IActionResult> GetThamgiaByDotdk(string namHoc, int dot)
+        {
+            try
+            {
+                return Ok(await _ThamgiaRepo.GetThamgiaByDotdk(namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpDelete("MaSV, NamHoc, Dot")]
         public async Task<IActionResult> DeleteThamgia(string MaSV, string NamHoc, int Dot)
         {
@@ -122,6 +136,33 @@ namespace XuLyKhoaLuan.Controllers
                     await _ThamgiaRepo.UpdateThamgiasAsync(list[0], list[0]);
                 }
                 return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        
+        [HttpGet("maNhom, flag")]
+        public async Task<IActionResult> GetSinhvienByNhomAsync(string maNhom, bool flag)
+        {
+            try
+            {
+                return Ok(await _ThamgiaRepo.GetSinhvienByNhomAsync(maNhom, flag));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maCn, namHoc, dot")]
+        public async Task<IActionResult> GetThamgiaByChuyennganhDotdk(string maCn, string namHoc, int dot)
+        {
+            try
+            {
+                return Ok(await _ThamgiaRepo.GetThamgiaByChuyennganhDotdk(maCn, namHoc, dot));
             }
             catch
             {

@@ -80,5 +80,45 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<SinhvienModel>> GetSinhvienByNhomAsync(string maNhom, bool flag)
+        {
+            if(flag)
+            {
+                // Trả về trưởng nhóm
+                var sinhVien = await _context.Sinhviens
+                                .Join(_context.Thamgia, sv => sv.MaSv, tg => tg.MaSv, (sv, tg) => new { sv = sv, tg = tg })
+                                .Where(re => re.tg.MaNhom == maNhom && re.tg.TruongNhom == true)
+                                .Select(re => re.sv)
+                                .ToListAsync();
+                return _mapper.Map<List<SinhvienModel>>(sinhVien);
+            }
+            else
+            {
+                // Trả về thành viên cả nhóm
+                var sinhViens = await _context.Sinhviens
+                                .Join(_context.Thamgia, sv => sv.MaSv, tg => tg.MaSv, (sv, tg) => new { sv = sv, tg = tg })
+                                .Where(re => re.tg.MaNhom == maNhom)
+                                .Select(re => re.sv)
+                                .ToListAsync();
+                return _mapper.Map<List<SinhvienModel>>(sinhViens);
+            }
+        }
+
+        public async Task<List<ThamgiaModel>> GetThamgiaByDotdk(string namHoc, int dot)
+        {
+            var Thamgias = await _context.Thamgia.Where(tg => tg.NamHoc == namHoc && tg.Dot == dot).ToListAsync();
+            return _mapper.Map<List<ThamgiaModel>>(Thamgias);
+        }
+
+        public async Task<List<ThamgiaModel>> GetThamgiaByChuyennganhDotdk(string maCn, string namHoc, int dot)
+        {
+            var Thamgias = await _context.Thamgia
+                        .Join(_context.Sinhviens, tg => tg.MaSv, sv => sv.MaSv, (tg, sv) => new { tg = tg, sv = sv })
+                        .Where(re => re.tg.NamHoc == namHoc && re.tg.Dot == dot && re.sv.MaCn == maCn)
+                        .Select(re => re.tg)
+                        .ToListAsync();
+            return _mapper.Map<List<ThamgiaModel>>(Thamgias);
+        }
     }
 }
