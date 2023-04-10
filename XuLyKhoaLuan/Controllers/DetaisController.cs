@@ -195,6 +195,18 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("namHoc, dot")]
+        public async Task<IActionResult> GetDetaiByDotdk(string namHoc, int dot)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.GetDetaiByDotdk(namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
 
     }
 }

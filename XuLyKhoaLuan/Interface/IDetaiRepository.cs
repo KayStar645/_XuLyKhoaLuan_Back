@@ -21,5 +21,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<List<DetaiModel>> GetDeTaisByChuyennganhGiangvienAsync(string maCn, string maGv);
         public Task<string> createMaDT(string maKhoa);
         public Task<DetaiModel> GetDetaiByTendt(string tenDT);
+        public Task<List<DetaiModel>> GetDetaiByDotdk(string namHoc, int dot);
     }
 }

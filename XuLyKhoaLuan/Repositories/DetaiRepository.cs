@@ -153,5 +153,10 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<DetaiModel>(deTai);
         }
 
+        public async Task<List<DetaiModel>> GetDetaiByDotdk(string namHoc, int dot)
+        {
+            var deTais = await _context.Detais.Where(dt => dt.NamHoc == namHoc && dt.Dot == dot).ToListAsync();
+            return _mapper.Map<List<DetaiModel>>(deTais);
+        }
     }
 }

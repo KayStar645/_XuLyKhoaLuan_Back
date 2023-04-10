@@ -73,5 +73,10 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        //public async Task<int> CountNhiemVuConhanByGiangvienAsync(string maGV)
+        //{
+        //    var count = await _context.Nhiemvus
+        //}
     }
 }
