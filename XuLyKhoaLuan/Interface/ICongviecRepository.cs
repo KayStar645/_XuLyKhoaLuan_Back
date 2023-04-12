@@ -9,5 +9,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<string> AddCongviecsAsync(CongviecModel model);
         public Task UpdateCongviecsAsync(string maCV, CongviecModel model);
         public Task DeleteCongviecsAsync(string maCV);
+        public Task<List<CongviecModel>> GetCongviecByMadtAsync(string maDT);
     }
 }

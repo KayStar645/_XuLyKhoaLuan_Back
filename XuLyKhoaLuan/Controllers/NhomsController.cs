@@ -80,5 +80,6 @@ namespace XuLyKhoaLuan.Controllers
         {
             return Ok(await _NhomRepo.CountThanhVienNhomAsync(ma));
         }
+
     }
 }

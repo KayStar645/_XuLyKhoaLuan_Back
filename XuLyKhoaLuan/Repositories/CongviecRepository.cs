@@ -57,5 +57,17 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<CongviecModel>> GetCongviecByMadtAsync(string maDT)
+        {
+            var congViecs = await _context.Detais
+                        .Join(_context.Dangkies, dt => dt.MaDt, dk => dk.MaDt, (dt, dk) => new { dt = dt, dk = dk })
+                        .Join(_context.Nhoms, dtk => dtk.dk.MaNhom, n => n.MaNhom, (dtk, n) => new { dtk = dtk, n = n })
+                        .Join(_context.Congviecs, dtkn => dtkn.n.MaNhom, c => c.MaNhom, (dtkn, c) => new { dtkn = dtkn, c = c })
+                        .Where(re => re.dtkn.dtk.dt.MaDt == maDT)
+                        .Select(re => re.c)
+                        .ToListAsync();
+            return _mapper.Map<List<CongviecModel>>(congViecs);
+        }
     }
 }

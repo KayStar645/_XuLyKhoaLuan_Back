@@ -71,5 +71,19 @@ namespace XuLyKhoaLuan.Controllers
             await _CongviecRepo.DeleteCongviecsAsync(maCV);
             return Ok();
         }
+
+
+        [HttpGet("maDT")]
+        public async Task<IActionResult> GetCongviecByMadtAsync(string maDT)
+        {
+            try
+            {
+                return Ok(await _CongviecRepo.GetCongviecByMadtAsync(maDT));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
