@@ -69,5 +69,16 @@ namespace XuLyKhoaLuan.Repositories
             var result = await _context.Thamgia.Where(t => t.MaNhom == ma).ToListAsync();
             return _mapper.Map<List<ThamgiaModel>>(result);
         }
+
+        public async Task<NhomModel> GetNhomByMadtAsync(string maDT)
+        {
+            var nhom = await _context.Detais
+                        .Join(_context.Dangkies, dt => dt.MaDt, dk => dk.MaDt, (dt, dk) => new { dt = dt, dk = dk })
+                        .Join(_context.Nhoms, dtk => dtk.dk.MaNhom, n => n.MaNhom, (dtk, n) => new { dtk = dtk, n = n })
+                        .Where(re => re.dtk.dt.MaDt == maDT)
+                        .Select(re => re.n)
+                        .SingleAsync();
+            return _mapper.Map<NhomModel>(nhom);
+        }
     }
 }
