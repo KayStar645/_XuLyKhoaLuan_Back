@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
@@ -59,5 +59,16 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        // Chỉ lấy những đề tài đã được duyệt, chưa đăng ký, chuyên ngành phù hợp và đã có giảng viên hướng dẫn
+        // Nếu true thì lấy đúng đợt đăng ký, ngược lại lấy sớm hơn 2 ngày
+        // Dữ liệu đề tài sẽ được lấy ra mà không quan tâm tới ngày, client sẽ xử lý vấn đề đó
+        public async Task<List<DetaiModel>> GetAllDetaiDangkyAsync(bool flag)
+        {
+            var deTais = await _context.Detais
+                    .Join(_context.Huongdans, dt => dt.MaDt, hd => hd.MaDt, (dt, hd) => new { dt = dt, hd = hd })
+                    .Join(_context.Dotdks)
+        }
+
     }
 }

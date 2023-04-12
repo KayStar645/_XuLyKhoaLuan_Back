@@ -99,5 +99,19 @@ namespace XuLyKhoaLuan.Controllers
             await _HuongdanRepo.DeleteHuongdansAsync(huongDan);
             return Ok();
         }
+
+
+        [HttpGet("maGV, namHoc, dot")]
+        public async Task<IActionResult> GetDetaiByGVHDDotdkAsync(string maGV, string namHoc, int dot)
+        {
+            try
+            {
+                return Ok(await _HuongdanRepo.GetDetaiByGVHDDotdkAsync(maGV, namHoc , dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
