@@ -41,6 +41,7 @@ namespace XuLyKhoaLuan.Controllers
         {
             try
             {
+                model.MaCv = await _CongviecRepo.createMaCongviecAsync();
                 var newCongviec = await _CongviecRepo.AddCongviecsAsync(model);
                 return Ok(model);
             }

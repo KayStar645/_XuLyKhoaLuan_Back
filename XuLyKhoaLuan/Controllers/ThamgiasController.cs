@@ -32,6 +32,19 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("maSV")]
+        public async Task<IActionResult> GetAllThamgiaNotmesAsync(string maSV)
+        {
+            try
+            {
+                return Ok(await _ThamgiaRepo.GetAllThamgiaNotmesAsync(maSV));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("MaSV, NamHoc, Dot")]
         public async Task<IActionResult> GetThamgiaByMaCN(string MaSV, string NamHoc, int Dot)
         {

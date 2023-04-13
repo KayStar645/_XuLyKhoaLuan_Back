@@ -44,6 +44,12 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<ThamgiaModel>>(Thamgias);
         }
 
+        public async Task<List<ThamgiaModel>> GetAllThamgiaNotmesAsync(string maSV)
+        {
+            var Thamgias = await _context.Thamgia.Where(t => t.MaSv != maSV).ToListAsync();
+            return _mapper.Map<List<ThamgiaModel>>(Thamgias);
+        }
+
         public async Task<ThamgiaModel> GetThamgiaByIDAsync(string maSV, string namHoc, int dot)
         {
             var thamGia = await _context.Thamgia.FindAsync(maSV, namHoc, dot);
