@@ -5,6 +5,7 @@ namespace XuLyKhoaLuan.Interface
     public interface IThamgiaRepository
     {
         public Task<List<ThamgiaModel>> GetAllThamgiasAsync();
+        public Task<List<ThamgiaModel>> GetAllThamgiaDotdkNotmesAsync(string maSV, string namHoc, int dot);
         public Task<ThamgiaModel> GetThamgiaByIDAsync(string maSV, string namHoc, int dot);
         public Task<List<ThamgiaModel>> GetThamgiaByMacnAsync(string maCn);
         public Task<string> AddThamgiasAsync(ThamgiaModel model);

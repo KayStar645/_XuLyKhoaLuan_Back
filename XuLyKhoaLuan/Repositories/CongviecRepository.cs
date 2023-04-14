@@ -25,6 +25,18 @@ namespace XuLyKhoaLuan.Repositories
             return newCongviec.MaCv;
         }
 
+        public async Task<string> createMaCongviecAsync()
+        {
+            string maxMaCv = await _context.Detais.MaxAsync(d => d.MaDt.Substring(d.MaDt.Length - 3));
+            int maxMaCvNumber = (maxMaCv == null) ? 0 : Convert.ToInt32(maxMaCv) + 1;
+            string maCv = maxMaCvNumber.ToString();
+            while (maCv.Length < 14)
+            {
+                maCv = "0" + maCv;
+            }
+            return maCv;
+        }
+
         public async Task DeleteCongviecsAsync(string maCV)
         {
             var deleteCongviec = _context.Congviecs!.SingleOrDefault(dt => dt.MaCv.Equals(maCV));
