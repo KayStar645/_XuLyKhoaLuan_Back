@@ -10,7 +10,7 @@
         public double? MucDoHoanThanh { get; set; }
         public string? MaGv { get; set; }
         public string? MaDt { get; set; }
-        public int? MaNhom { get; set; }
+        public string? MaNhom { get; set; }
 
     }
 }
