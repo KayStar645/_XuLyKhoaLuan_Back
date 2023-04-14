@@ -99,7 +99,7 @@ namespace XuLyKhoaLuan.Repositories
             {
                 // Nếu là thời gian đăng ký học phần
                 var isDotdk = await _context.Dotdks
-                    .AnyAsync(d => d.NamHoc == namHoc && d.Dot == dot && d.NgayBd <= DateTime.Now && d.NgayKt <= DateTime.Now);
+                    .AnyAsync(d => d.NamHoc == namHoc && d.Dot == dot && d.NgayBd <= DateTime.Now && DateTime.Now <= d.NgayKt);
                 if (isDotdk)
                 {
                     // Chưa có bảng đăng ký
