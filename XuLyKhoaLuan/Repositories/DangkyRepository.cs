@@ -86,6 +86,7 @@ namespace XuLyKhoaLuan.Repositories
         //            .Join(_context.Dotdks)
         //}
 
+        // Thiếu ngày đăng ký
         public async Task<List<DetaiModel>> GetAllDetaiDangkyAsync(string namHoc, int dot, string maNhom)
         {
             // Đề tài đã được duyệt => trạng thái = true (Trong đợt đăng ký)
@@ -96,57 +97,79 @@ namespace XuLyKhoaLuan.Repositories
 
             for(int i = 0; i < deTaisModel.Count; i++)
             {
-                // Chưa có bảng đăng ký
-                var isDangky = await _context.Dangkies.AnyAsync(d => d.MaDt == deTaisModel[i].MaDT);
-
-                // Đã có giảng viên hướng dẫn
-                var isHuongdan = await _context.Huongdans.AnyAsync(d => d.MaDt == deTaisModel[i].MaDT);
-
-                // Lấy danh sách chuyên ngành phù hợp
-                var deTai_Chuyennganhs = await _context.DetaiChuyennganhs
-                        .Where(dc => dc.MaDt == deTaisModel[i].MaDT)
-                        .ToListAsync();
-                List<DetaiChuyennganhModel> deTai_ChuyennsModel = _mapper.Map<List<DetaiChuyennganhModel>>(deTai_Chuyennganhs);
-
-                // Phù hợp chuyên ngành với sinh viên => maNhom => Lấy thành viên nhóm
-                var thanhViens = await _context.Thamgia
-                        .Join(_context.Sinhviens, tg => tg.MaSv, sv => sv.MaSv, (tg, sv) => new { tg = tg, sv = sv })
-                        .Where(re => re.tg.MaNhom == maNhom)
-                        .Select(re => re.sv)
-                        .ToListAsync();
-                List<SinhvienModel> thamGiasModel = _mapper.Map<List<SinhvienModel>>(thanhViens);
-
-                // Kiểm tra từng sinh viên trong nhóm có phù hợp hay không
-                bool flag = true;
-                foreach (SinhvienModel sv in thamGiasModel)
+                // Nếu là thời gian đăng ký học phần
+                var isDotdk = await _context.Dotdks
+                    .AnyAsync(d => d.NamHoc == namHoc && d.Dot == dot && d.NgayBd <= DateTime.Now && d.NgayKt <= DateTime.Now);
+                if (isDotdk)
                 {
-                    bool _flag = false;
-                    foreach (DetaiChuyennganhModel dc in deTai_ChuyennsModel)
+                    // Chưa có bảng đăng ký
+                    var isDangky = await _context.Dangkies.AnyAsync(d => d.MaDt == deTaisModel[i].MaDT);
+
+                    if (!isDangky)
                     {
-                        if(sv.MaCn == dc.MaCn)
+                        // Đã có giảng viên hướng dẫn
+                        var isHuongdan = await _context.Huongdans.AnyAsync(d => d.MaDt == deTaisModel[i].MaDT);
+
+                        if (isHuongdan)
                         {
-                            _flag = true;
-                            break;
-                        }    
+                            // Lấy danh sách chuyên ngành phù hợp
+                            var deTai_Chuyennganhs = await _context.DetaiChuyennganhs
+                                    .Where(dc => dc.MaDt == deTaisModel[i].MaDT)
+                                    .ToListAsync();
+                            List<DetaiChuyennganhModel> deTai_ChuyennsModel = _mapper.Map<List<DetaiChuyennganhModel>>(deTai_Chuyennganhs);
+
+                            // Phù hợp chuyên ngành với sinh viên => maNhom => Lấy thành viên nhóm
+                            var thanhViens = await _context.Thamgia
+                                    .Join(_context.Sinhviens, tg => tg.MaSv, sv => sv.MaSv, (tg, sv) => new { tg = tg, sv = sv })
+                                    .Where(re => re.tg.MaNhom == maNhom)
+                                    .Select(re => re.sv)
+                                    .ToListAsync();
+                            List<SinhvienModel> thamGiasModel = _mapper.Map<List<SinhvienModel>>(thanhViens);
+
+                            // Kiểm tra từng sinh viên trong nhóm có phù hợp hay không
+                            bool flag = true;
+                            foreach (SinhvienModel sv in thamGiasModel)
+                            {
+                                bool _flag = false;
+                                foreach (DetaiChuyennganhModel dc in deTai_ChuyennsModel)
+                                {
+                                    if (sv.MaCn == dc.MaCn)
+                                    {
+                                        _flag = true;
+                                        break;
+                                    }
+                                }
+                                if (!_flag)
+                                {
+                                    flag = false;
+                                    break;
+                                }
+                            }
+                            if (!flag)
+                            {
+                                deTaisModel.Remove(deTaisModel[i]);
+                                i--;
+                            }
+                        }
+                        else
+                        {
+                            deTaisModel.Remove(deTaisModel[i]);
+                            i--;
+                        }
                     }
-                    if(!_flag)
+                    else
                     {
-                        flag = false;
-                        break;
-                    }    
-                }    
-
-
-                if (isDangky || !isHuongdan || !flag)
+                        deTaisModel.Remove(deTaisModel[i]);
+                        i--;
+                    }
+                }
+                else
                 {
                     deTaisModel.Remove(deTaisModel[i]);
                     i--;
                 }
-
-                
             }
             return deTaisModel;
         }
-
     }
 }
