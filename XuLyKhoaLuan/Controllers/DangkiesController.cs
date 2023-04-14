@@ -86,5 +86,18 @@ namespace XuLyKhoaLuan.Controllers
             await _DangkyRepo.DeleteDangkiesAsync(dangKyM);
             return Ok();
         }
+
+        [HttpGet("namHoc, dot, maNhom")]
+        public async Task<IActionResult> GetAllDetaiDangkyAsync(string namHoc, int dot, string maNhom)
+        {
+            try
+            {
+                return Ok(await _DangkyRepo.GetAllDetaiDangkyAsync(namHoc, dot, maNhom));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

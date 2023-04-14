@@ -9,5 +9,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<string> AddDangkiesAsync(DangkyModel model);
         public Task UpdateDangkiesAsync(DangkyModel dk, DangkyModel model);
         public Task DeleteDangkiesAsync(DangkyModel dk);
+        public Task<List<DetaiModel>> GetAllDetaiDangkyAsync(string namHoc, int dot, string maNhom);
     }
 }
