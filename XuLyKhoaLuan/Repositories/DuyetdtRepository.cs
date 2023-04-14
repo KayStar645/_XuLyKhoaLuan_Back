@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace XuLyKhoaLuan.Repositories
 {
@@ -77,6 +79,36 @@ namespace XuLyKhoaLuan.Repositories
                             .OrderByDescending(d => d.NgayDuyet)
                             .ToListAsync();
             return _mapper.Map<List<DuyetdtModel>>(duyetDts);
+        }
+
+        public async Task UpdateTrangthaiDetaiAsync(string maDT, string maGV, bool trangThai)
+        {
+            var deTai = await _context.Detais.FindAsync(maDT);
+            deTai.TrangThai = trangThai;
+            _context.Detais.Update(deTai);
+
+            var huongDan = await _context.Huongdans.FindAsync(maGV, maDT);
+
+            // Nếu duyệt đề tài thì mặc định thêm giảng viên ra đề vào hướng dẫn
+            if (trangThai && huongDan == null)
+            {
+                HuongdanModel huongDanModel = new HuongdanModel()
+                {
+                    MaGv = maGV,
+                    MaDt = maDT,
+                    DuaRaHd = false
+                };
+                var huongDanMap = _mapper.Map<Huongdan>(huongDanModel);
+                _context.Huongdans!.Add(huongDanMap);
+            }
+            // Nếu yêu cầu chỉnh sửa lại thì xóa giảng viên hướng dẫn nếu có
+            else if (!trangThai && huongDan != null)
+            {
+                _context.Huongdans!.Remove(huongDan);
+            }
+            await _context.SaveChangesAsync();
+
+
         }
     }
 }

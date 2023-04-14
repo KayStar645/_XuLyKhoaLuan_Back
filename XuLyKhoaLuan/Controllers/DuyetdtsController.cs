@@ -113,5 +113,19 @@ namespace XuLyKhoaLuan.Controllers
             await _DuyetdtRepo.DeleteDuyetdtsAsync(model);
             return Ok();
         }
+
+        [HttpPost("maDT, maGV, trangThai")]
+        public async Task<IActionResult> UpdateTrangthaiDetaiAsync(string maDT, string maGV, bool trangThai)
+        {
+            try
+            {
+                await _DuyetdtRepo.UpdateTrangthaiDetaiAsync(maDT, maGV, trangThai);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
