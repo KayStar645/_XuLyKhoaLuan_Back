@@ -80,5 +80,12 @@ namespace XuLyKhoaLuan.Repositories
                         .SingleAsync();
             return _mapper.Map<NhomModel>(nhom);
         }
+
+        public async Task<bool> isTruongNhomByMasvAsync(string maSV, string namHoc, int dot, string maNhom)
+        {
+            var isTruongnhom = await _context.Thamgia
+                .AnyAsync(t => t.MaSv == maSV && t.NamHoc == namHoc && t.Dot == dot && t.MaNhom == maNhom);
+            return isTruongnhom;
+        }
     }
 }

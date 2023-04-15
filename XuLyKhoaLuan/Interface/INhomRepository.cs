@@ -12,5 +12,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<int> CountThanhVienNhomAsync(string ma);
         public Task<List<ThamgiaModel>> GetThanhVienNhomAsync(string ma);
         public Task<NhomModel> GetNhomByMadtAsync(string maDT);
+        public Task<bool> isTruongNhomByMasvAsync(string maSV, string namHoc, int dot, string maNhom);
     }
 }

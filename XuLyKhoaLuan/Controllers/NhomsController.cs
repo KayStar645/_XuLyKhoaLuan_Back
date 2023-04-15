@@ -86,5 +86,17 @@ namespace XuLyKhoaLuan.Controllers
             return Nhom == null ? BadRequest() : Ok(Nhom);
         }
 
+        public async Task<IActionResult> isTruongNhomByMasvAsync(string maSV, string namHoc, int dot, string maNhom)
+        {
+            try
+            {
+                return Ok(await _NhomRepo.isTruongNhomByMasvAsync(maSV, namHoc, dot, maNhom));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }
