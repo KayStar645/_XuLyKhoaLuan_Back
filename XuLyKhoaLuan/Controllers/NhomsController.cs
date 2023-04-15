@@ -86,6 +86,7 @@ namespace XuLyKhoaLuan.Controllers
             return Nhom == null ? BadRequest() : Ok(Nhom);
         }
 
+        [HttpGet("maSV, namHoc, dot, maNhom")]
         public async Task<IActionResult> isTruongNhomByMasvAsync(string maSV, string namHoc, int dot, string maNhom)
         {
             try
