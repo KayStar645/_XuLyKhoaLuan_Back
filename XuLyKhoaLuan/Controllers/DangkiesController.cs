@@ -99,5 +99,26 @@ namespace XuLyKhoaLuan.Controllers
                 return BadRequest();
             }
         }
+
+        // Chỉ kiểm tra trong đợt đó thôi
+        [HttpGet("maNhom")]
+        public async Task<IActionResult> isNhomDangkyDetaiAsyc(string maNhom)
+        {
+            return Ok(await _DangkyRepo.isNhomDangkyDetaiAsyc(maNhom));
+        }
+
+
+        [HttpGet("nhom, namHoc, dot")]
+        public async Task<IActionResult> GetDetaiDangkyAsync(string nhom, string namHoc, int dot)
+        {
+            try
+            {
+                return Ok(await _DangkyRepo.GetDetaiDangkyAsync(nhom, namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

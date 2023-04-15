@@ -60,33 +60,22 @@ namespace XuLyKhoaLuan.Repositories
             }
         }
 
-        // Chỉ lấy những đề tài đã được duyệt, chưa đăng ký, chuyên ngành phù hợp và đã có giảng viên hướng dẫn
-        // Nếu true thì lấy đúng đợt đăng ký, ngược lại lấy sớm hơn 2 ngày
-        // Dữ liệu đề tài sẽ được lấy ra mà không quan tâm tới ngày, client sẽ xử lý vấn đề đó
-        // Tất cả sinh viên trong nhóm phải thuộc chuyên ngành phù hợp
-        //public async Task<List<DetaiModel>> GetAllDetaiDangkyAsync(bool flag, string namHoc, int dot, string maNhom)
-        //{
-        //    // Lấy danh sách Thamgia
-        //    var thamGias = await _context.Thamgia.Where(t => t.MaNhom == maNhom).ToListAsync();
+       public async Task<bool> isNhomDangkyDetaiAsyc(string maNhom)
+       {
+            var isDk = await _context.Dangkies.AnyAsync(d => d.MaNhom == maNhom);
+            return isDk;
+       }
 
-        //    // Lấy danh sách Detai: Dotdk, trangThai, GVHD
-        //    var deTais = await _context.Detais
-        //            .Join(_context.Huongdans, dt => dt.MaDt, hd => hd.MaDt, (dt, hd) => new { dt = dt, hd = hd })
-        //            .Where(re => re.dt.NamHoc == namHoc && re.dt.Dot == dot && re.dt.TrangThai == true)
-        //            .ToListAsync();
+        public async Task<DetaiModel> GetDetaiDangkyAsync(string maNhom, string namHoc, int dot)
+        {
+            var deTai = await _context.Detais
+                    .Join(_context.Dangkies, dt => dt.MaDt, dk => dk.MaDt, (dt, dk) => new { dt = dt, dk = dk })
+                    .Where(re => re.dt.NamHoc == namHoc && re.dt.Dot == dot)
+                    .Select(re => re.dt)
+                    .SingleAsync();
+            return _mapper.Map<DetaiModel>(deTai);
+        }
 
-
-
-        //    // Đề tài phải phù hợp với tất cả các thành viên trong nhóm
-
-
-
-        //    var deTais = await _context.Detais
-        //            .Join(_context.Huongdans, dt => dt.MaDt, hd => hd.MaDt, (dt, hd) => new { dt = dt, hd = hd })
-        //            .Join(_context.Dotdks)
-        //}
-
-        // Thiếu ngày đăng ký
         public async Task<List<DetaiModel>> GetAllDetaiDangkyAsync(string namHoc, int dot, string maNhom)
         {
             // Đề tài đã được duyệt => trạng thái = true (Trong đợt đăng ký)
