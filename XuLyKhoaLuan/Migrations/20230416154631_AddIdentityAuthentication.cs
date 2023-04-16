@@ -374,7 +374,8 @@ namespace XuLyKhoaLuan.Migrations
                     MaHD = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     TenHD = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NgayLap = table.Column<DateTime>(type: "date", nullable: true),
-                    NgayBaoVe = table.Column<DateTime>(type: "datetime", nullable: true),
+                    ThoiGianBD = table.Column<DateTime>(type: "datetime", nullable: true),
+                    ThoiGianKT = table.Column<DateTime>(type: "datetime", nullable: true),
                     DiaDiem = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     MaBM = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true)
                 },
@@ -495,6 +496,9 @@ namespace XuLyKhoaLuan.Migrations
                 {
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    ThoiGianBD = table.Column<DateTime>(type: "datetime", nullable: true),
+                    ThoiGianKT = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DiaDiem = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
                     DuaRaHD = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
@@ -548,6 +552,9 @@ namespace XuLyKhoaLuan.Migrations
                 {
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    ThoiGianBD = table.Column<DateTime>(type: "datetime", nullable: true),
+                    ThoiGianKT = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DiaDiem = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
                     DuaRaHD = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>

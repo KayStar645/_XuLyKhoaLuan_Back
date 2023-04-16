@@ -72,6 +72,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("BAOCAO");
 
+                entity.HasIndex(e => new { e.MaSv, e.NamHoc, e.Dot }, "IX_BAOCAO_MaSV_NamHoc_Dot");
+
                 entity.Property(e => e.MaCv)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -108,6 +110,10 @@ namespace XuLyKhoaLuan.Data
             modelBuilder.Entity<Binhluan>(entity =>
             {
                 entity.ToTable("BINHLUAN");
+
+                entity.HasIndex(e => e.MaCv, "IX_BINHLUAN_MaCV");
+
+                entity.HasIndex(e => new { e.MaSv, e.NamHoc, e.Dot }, "IX_BINHLUAN_MaSV_NamHoc_Dot");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
@@ -146,6 +152,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("BOMON");
 
+                entity.HasIndex(e => e.MaKhoa, "IX_BOMON_MaKhoa");
+
                 entity.Property(e => e.MaBm)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -178,6 +186,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("CHUYENNGANH");
 
+                entity.HasIndex(e => e.MaKhoa, "IX_CHUYENNGANH_MaKhoa");
+
                 entity.Property(e => e.MaCn)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -200,6 +210,10 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => e.MaCv);
 
                 entity.ToTable("CONGVIEC");
+
+                entity.HasIndex(e => new { e.MaGv, e.MaDt }, "IX_CONGVIEC_MaGV_MaDT");
+
+                entity.HasIndex(e => e.MaNhom, "IX_CONGVIEC_MaNhom");
 
                 entity.Property(e => e.MaCv)
                     .HasMaxLength(15)
@@ -245,6 +259,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("DANGKY");
 
+                entity.HasIndex(e => e.MaDt, "IX_DANGKY_MaDT");
+
                 entity.Property(e => e.MaNhom)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -287,6 +303,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("DETAI");
 
+                entity.HasIndex(e => new { e.NamHoc, e.Dot }, "IX_DETAI_NamHoc_Dot");
+
                 entity.Property(e => e.MaDt)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -315,6 +333,8 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => new { e.MaCn, e.MaDt });
 
                 entity.ToTable("DETAI_CHUYENNGANH");
+
+                entity.HasIndex(e => e.MaDt, "IX_DETAI_CHUYENNGANH_MaDT");
 
                 entity.Property(e => e.MaCn)
                     .HasMaxLength(15)
@@ -366,6 +386,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("DUYETDT");
 
+                entity.HasIndex(e => e.MaDt, "IX_DUYETDT_MaDT");
+
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -398,6 +420,8 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => e.MaGv);
 
                 entity.ToTable("GIANGVIEN");
+
+                entity.HasIndex(e => e.MaBm, "IX_GIANGVIEN_MaBM");
 
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)
@@ -444,6 +468,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("GIAOVU");
 
+                entity.HasIndex(e => e.MaKhoa, "IX_GIAOVU_MaKhoa");
+
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -484,6 +510,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("HDCHAM");
 
+                entity.HasIndex(e => new { e.MaSv, e.NamHoc, e.Dot }, "IX_HDCHAM_MaSV_NamHoc_Dot");
+
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -519,6 +547,10 @@ namespace XuLyKhoaLuan.Data
             modelBuilder.Entity<Hdgopy>(entity =>
             {
                 entity.ToTable("HDGOPY");
+
+                entity.HasIndex(e => e.MaCv, "IX_HDGOPY_MaCV");
+
+                entity.HasIndex(e => new { e.MaGv, e.MaDt }, "IX_HDGOPY_MaGV_MaDT");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
@@ -557,6 +589,8 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => new { e.MaGv, e.MaHd, e.MaDt, e.MaSv, e.NamHoc, e.Dot });
 
                 entity.ToTable("HDPBCHAM");
+
+                entity.HasIndex(e => new { e.MaSv, e.NamHoc, e.Dot }, "IX_HDPBCHAM_MaSV_NamHoc_Dot");
 
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)
@@ -599,6 +633,8 @@ namespace XuLyKhoaLuan.Data
             {
                 entity.ToTable("HDPBNHANXET");
 
+                entity.HasIndex(e => new { e.MaGv, e.MaHd, e.MaDt }, "IX_HDPBNHANXET_MaGV_MaHD_MaDT");
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.MaDt)
@@ -632,6 +668,10 @@ namespace XuLyKhoaLuan.Data
                     .HasName("PK_CHAMDIEM");
 
                 entity.ToTable("HDPHANBIEN");
+
+                entity.HasIndex(e => e.MaDt, "IX_HDPHANBIEN_MaDT");
+
+                entity.HasIndex(e => new { e.MaHd, e.MaGv }, "IX_HDPHANBIEN_MaHD_MaGV");
 
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)
@@ -667,6 +707,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("HOIDONG");
 
+                entity.HasIndex(e => e.MaBm, "IX_HOIDONG_MaBM");
+
                 entity.Property(e => e.MaHd)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -679,11 +721,17 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("MaBM");
 
-                entity.Property(e => e.NgayBaoVe).HasColumnType("datetime");
-
                 entity.Property(e => e.NgayLap).HasColumnType("date");
 
                 entity.Property(e => e.TenHd).HasColumnName("TenHD");
+
+                entity.Property(e => e.ThoiGianBd)
+                    .HasColumnType("datetime")
+                    .HasColumnName("ThoiGianBD");
+
+                entity.Property(e => e.ThoiGianKt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("ThoiGianKT");
 
                 entity.HasOne(d => d.MaBmNavigation)
                     .WithMany(p => p.Hoidongs)
@@ -697,6 +745,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("HUONGDAN");
 
+                entity.HasIndex(e => e.MaDt, "IX_HUONGDAN_MaDT");
+
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -707,7 +757,17 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("MaDT");
 
+                entity.Property(e => e.DiaDiem).HasMaxLength(300);
+
                 entity.Property(e => e.DuaRaHd).HasColumnName("DuaRaHD");
+
+                entity.Property(e => e.ThoiGianBd)
+                    .HasColumnType("datetime")
+                    .HasColumnName("ThoiGianBD");
+
+                entity.Property(e => e.ThoiGianKt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("ThoiGianKT");
 
                 entity.HasOne(d => d.MaDtNavigation)
                     .WithMany(p => p.Huongdans)
@@ -727,6 +787,10 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => e.MaKh);
 
                 entity.ToTable("KEHOACH");
+
+                entity.HasIndex(e => e.MaBm, "IX_KEHOACH_MaBM");
+
+                entity.HasIndex(e => e.MaKhoa, "IX_KEHOACH_MaKhoa");
 
                 entity.Property(e => e.MaKh).HasColumnName("MaKH");
 
@@ -800,6 +864,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("LOIMOI");
 
+                entity.HasIndex(e => e.MaNhom, "IX_LOIMOI_MaNhom");
+
                 entity.Property(e => e.MaSv)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -835,6 +901,10 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => e.MaNv);
 
                 entity.ToTable("NHIEMVU");
+
+                entity.HasIndex(e => e.MaBm, "IX_NHIEMVU_MaBM");
+
+                entity.HasIndex(e => e.MaGv, "IX_NHIEMVU_MaGV");
 
                 entity.Property(e => e.MaNv).HasColumnName("MaNV");
 
@@ -896,6 +966,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("PBCHAM");
 
+                entity.HasIndex(e => new { e.MaSv, e.NamHoc, e.Dot }, "IX_PBCHAM_MaSV_NamHoc_Dot");
+
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -932,6 +1004,8 @@ namespace XuLyKhoaLuan.Data
             {
                 entity.ToTable("PBNHANXET");
 
+                entity.HasIndex(e => new { e.MaGv, e.MaDt }, "IX_PBNHANXET_MaGV_MaDT");
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.MaDt)
@@ -960,6 +1034,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("PHANBIEN");
 
+                entity.HasIndex(e => e.MaDt, "IX_PHANBIEN_MaDT");
+
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -970,7 +1046,17 @@ namespace XuLyKhoaLuan.Data
                     .IsUnicode(false)
                     .HasColumnName("MaDT");
 
+                entity.Property(e => e.DiaDiem).HasMaxLength(300);
+
                 entity.Property(e => e.DuaRaHd).HasColumnName("DuaRaHD");
+
+                entity.Property(e => e.ThoiGianBd)
+                    .HasColumnType("datetime")
+                    .HasColumnName("ThoiGianBD");
+
+                entity.Property(e => e.ThoiGianKt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("ThoiGianKT");
 
                 entity.HasOne(d => d.MaDtNavigation)
                     .WithMany(p => p.Phanbiens)
@@ -990,6 +1076,8 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => new { e.MaGv, e.MaDt });
 
                 entity.ToTable("RADE");
+
+                entity.HasIndex(e => e.MaDt, "IX_RADE_MaDT");
 
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)
@@ -1021,6 +1109,8 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => e.MaSv);
 
                 entity.ToTable("SINHVIEN");
+
+                entity.HasIndex(e => e.MaCn, "IX_SINHVIEN_MaCN");
 
                 entity.Property(e => e.MaSv)
                     .HasMaxLength(15)
@@ -1063,6 +1153,10 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("THAMGIAHD");
 
+                entity.HasIndex(e => e.MaGv, "IX_THAMGIAHD_MaGV");
+
+                entity.HasIndex(e => e.MaVt, "IX_THAMGIAHD_MaVT");
+
                 entity.Property(e => e.MaHd)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -1103,6 +1197,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("THAMGIA");
 
+                entity.HasIndex(e => new { e.NamHoc, e.Dot }, "IX_THAMGIA_NamHoc_Dot");
+
                 entity.Property(e => e.MaSv)
                     .HasMaxLength(15)
                     .IsUnicode(false)
@@ -1137,6 +1233,8 @@ namespace XuLyKhoaLuan.Data
 
                 entity.ToTable("THONGBAO");
 
+                entity.HasIndex(e => e.MaKhoa, "IX_THONGBAO_MaKhoa");
+
                 entity.Property(e => e.MaTb).HasColumnName("MaTB");
 
                 entity.Property(e => e.FileTb)
@@ -1168,6 +1266,10 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => e.MaTbm);
 
                 entity.ToTable("TRUONGBM");
+
+                entity.HasIndex(e => e.MaBm, "IX_TRUONGBM_MaBM");
+
+                entity.HasIndex(e => e.MaGv, "IX_TRUONGBM_MaGV");
 
                 entity.Property(e => e.MaTbm).HasColumnName("MaTBM");
 
@@ -1203,6 +1305,10 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => e.MaTk);
 
                 entity.ToTable("TRUONGKHOA");
+
+                entity.HasIndex(e => e.MaGv, "IX_TRUONGKHOA_MaGV");
+
+                entity.HasIndex(e => e.MaKhoa, "IX_TRUONGKHOA_MaKhoa");
 
                 entity.Property(e => e.MaTk).HasColumnName("MaTK");
 
@@ -1251,6 +1357,8 @@ namespace XuLyKhoaLuan.Data
                 entity.HasKey(e => new { e.MaGv, e.MaDt });
 
                 entity.ToTable("XACNHAN");
+
+                entity.HasIndex(e => e.MaDt, "IX_XACNHAN_MaDT");
 
                 entity.Property(e => e.MaGv)
                     .HasMaxLength(15)

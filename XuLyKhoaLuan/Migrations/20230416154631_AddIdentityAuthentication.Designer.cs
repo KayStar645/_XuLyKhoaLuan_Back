@@ -12,7 +12,7 @@ using XuLyKhoaLuan.Data;
 namespace XuLyKhoaLuan.Migrations
 {
     [DbContext(typeof(XuLyKhoaLuanContext))]
-    [Migration("20230401124725_AddIdentityAuthentication")]
+    [Migration("20230416154631_AddIdentityAuthentication")]
     partial class AddIdentityAuthentication
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -257,7 +257,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaCv", "MaSv", "NamHoc", "Dot", "LanNop");
 
-                    b.HasIndex("MaSv", "NamHoc", "Dot");
+                    b.HasIndex(new[] { "MaSv", "NamHoc", "Dot" }, "IX_BAOCAO_MaSV_NamHoc_Dot");
 
                     b.ToTable("BAOCAO", (string)null);
                 });
@@ -299,9 +299,9 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaCv");
+                    b.HasIndex(new[] { "MaCv" }, "IX_BINHLUAN_MaCV");
 
-                    b.HasIndex("MaSv", "NamHoc", "Dot");
+                    b.HasIndex(new[] { "MaSv", "NamHoc", "Dot" }, "IX_BINHLUAN_MaSV_NamHoc_Dot");
 
                     b.ToTable("BINHLUAN", (string)null);
                 });
@@ -337,7 +337,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaBm");
 
-                    b.HasIndex("MaKhoa");
+                    b.HasIndex(new[] { "MaKhoa" }, "IX_BOMON_MaKhoa");
 
                     b.ToTable("BOMON", (string)null);
                 });
@@ -362,7 +362,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaCn");
 
-                    b.HasIndex("MaKhoa");
+                    b.HasIndex(new[] { "MaKhoa" }, "IX_CHUYENNGANH_MaKhoa");
 
                     b.ToTable("CHUYENNGANH", (string)null);
                 });
@@ -410,9 +410,9 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaCv");
 
-                    b.HasIndex("MaNhom");
+                    b.HasIndex(new[] { "MaGv", "MaDt" }, "IX_CONGVIEC_MaGV_MaDT");
 
-                    b.HasIndex("MaGv", "MaDt");
+                    b.HasIndex(new[] { "MaNhom" }, "IX_CONGVIEC_MaNhom");
 
                     b.ToTable("CONGVIEC", (string)null);
                 });
@@ -447,7 +447,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaNhom", "MaDt");
 
-                    b.HasIndex("MaDt");
+                    b.HasIndex(new[] { "MaDt" }, "IX_DANGKY_MaDT");
 
                     b.ToTable("DANGKY", (string)null);
                 });
@@ -489,7 +489,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaDt");
 
-                    b.HasIndex("NamHoc", "Dot");
+                    b.HasIndex(new[] { "NamHoc", "Dot" }, "IX_DETAI_NamHoc_Dot");
 
                     b.ToTable("DETAI", (string)null);
                 });
@@ -513,7 +513,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaCn", "MaDt");
 
-                    b.HasIndex("MaDt");
+                    b.HasIndex(new[] { "MaDt" }, "IX_DETAI_CHUYENNGANH_MaDT");
 
                     b.ToTable("DETAI_CHUYENNGANH", (string)null);
                 });
@@ -566,7 +566,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaGv", "MaDt", "LanDuyet");
 
-                    b.HasIndex("MaDt");
+                    b.HasIndex(new[] { "MaDt" }, "IX_DUYETDT_MaDT");
 
                     b.ToTable("DUYETDT", (string)null);
                 });
@@ -624,7 +624,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaGv");
 
-                    b.HasIndex("MaBm");
+                    b.HasIndex(new[] { "MaBm" }, "IX_GIANGVIEN_MaBM");
 
                     b.ToTable("GIANGVIEN", (string)null);
                 });
@@ -673,7 +673,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaGv");
 
-                    b.HasIndex("MaKhoa");
+                    b.HasIndex(new[] { "MaKhoa" }, "IX_GIAOVU_MaKhoa");
 
                     b.ToTable("GIAOVU", (string)null);
                 });
@@ -716,7 +716,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaGv", "MaDt");
 
-                    b.HasIndex("MaSv", "NamHoc", "Dot");
+                    b.HasIndex(new[] { "MaSv", "NamHoc", "Dot" }, "IX_HDCHAM_MaSV_NamHoc_Dot");
 
                     b.ToTable("HDCHAM", (string)null);
                 });
@@ -756,9 +756,9 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaCv");
+                    b.HasIndex(new[] { "MaCv" }, "IX_HDGOPY_MaCV");
 
-                    b.HasIndex("MaGv", "MaDt");
+                    b.HasIndex(new[] { "MaGv", "MaDt" }, "IX_HDGOPY_MaGV_MaDT");
 
                     b.ToTable("HDGOPY", (string)null);
                 });
@@ -805,7 +805,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaGv", "MaHd", "MaDt", "MaSv", "NamHoc", "Dot");
 
-                    b.HasIndex("MaSv", "NamHoc", "Dot");
+                    b.HasIndex(new[] { "MaSv", "NamHoc", "Dot" }, "IX_HDPBCHAM_MaSV_NamHoc_Dot");
 
                     b.ToTable("HDPBCHAM", (string)null);
                 });
@@ -845,7 +845,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaGv", "MaHd", "MaDt");
+                    b.HasIndex(new[] { "MaGv", "MaHd", "MaDt" }, "IX_HDPBNHANXET_MaGV_MaHD_MaDT");
 
                     b.ToTable("HDPBNHANXET", (string)null);
                 });
@@ -876,9 +876,9 @@ namespace XuLyKhoaLuan.Migrations
                     b.HasKey("MaGv", "MaHd", "MaDt")
                         .HasName("PK_CHAMDIEM");
 
-                    b.HasIndex("MaDt");
+                    b.HasIndex(new[] { "MaDt" }, "IX_HDPHANBIEN_MaDT");
 
-                    b.HasIndex("MaHd", "MaGv");
+                    b.HasIndex(new[] { "MaHd", "MaGv" }, "IX_HDPHANBIEN_MaHD_MaGV");
 
                     b.ToTable("HDPHANBIEN", (string)null);
                 });
@@ -901,9 +901,6 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnType("varchar(15)")
                         .HasColumnName("MaBM");
 
-                    b.Property<DateTime?>("NgayBaoVe")
-                        .HasColumnType("datetime");
-
                     b.Property<DateTime?>("NgayLap")
                         .HasColumnType("date");
 
@@ -912,9 +909,17 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("TenHD");
 
+                    b.Property<DateTime?>("ThoiGianBd")
+                        .HasColumnType("datetime")
+                        .HasColumnName("ThoiGianBD");
+
+                    b.Property<DateTime?>("ThoiGianKt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("ThoiGianKT");
+
                     b.HasKey("MaHd");
 
-                    b.HasIndex("MaBm");
+                    b.HasIndex(new[] { "MaBm" }, "IX_HOIDONG_MaBM");
 
                     b.ToTable("HOIDONG", (string)null);
                 });
@@ -933,13 +938,25 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnType("varchar(15)")
                         .HasColumnName("MaDT");
 
+                    b.Property<string>("DiaDiem")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.Property<bool?>("DuaRaHd")
                         .HasColumnType("bit")
                         .HasColumnName("DuaRaHD");
 
+                    b.Property<DateTime?>("ThoiGianBd")
+                        .HasColumnType("datetime")
+                        .HasColumnName("ThoiGianBD");
+
+                    b.Property<DateTime?>("ThoiGianKt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("ThoiGianKT");
+
                     b.HasKey("MaGv", "MaDt");
 
-                    b.HasIndex("MaDt");
+                    b.HasIndex(new[] { "MaDt" }, "IX_HUONGDAN_MaDT");
 
                     b.ToTable("HUONGDAN", (string)null);
                 });
@@ -993,9 +1010,9 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaKh");
 
-                    b.HasIndex("MaBm");
+                    b.HasIndex(new[] { "MaBm" }, "IX_KEHOACH_MaBM");
 
-                    b.HasIndex("MaKhoa");
+                    b.HasIndex(new[] { "MaKhoa" }, "IX_KEHOACH_MaKhoa");
 
                     b.ToTable("KEHOACH", (string)null);
                 });
@@ -1065,7 +1082,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaSv", "NamHoc", "Dot", "MaNhom");
 
-                    b.HasIndex("MaNhom");
+                    b.HasIndex(new[] { "MaNhom" }, "IX_LOIMOI_MaNhom");
 
                     b.ToTable("LOIMOI", (string)null);
                 });
@@ -1120,9 +1137,9 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaNv");
 
-                    b.HasIndex("MaBm");
+                    b.HasIndex(new[] { "MaBm" }, "IX_NHIEMVU_MaBM");
 
-                    b.HasIndex("MaGv");
+                    b.HasIndex(new[] { "MaGv" }, "IX_NHIEMVU_MaGV");
 
                     b.ToTable("NHIEMVU", (string)null);
                 });
@@ -1178,7 +1195,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaGv", "MaDt");
 
-                    b.HasIndex("MaSv", "NamHoc", "Dot");
+                    b.HasIndex(new[] { "MaSv", "NamHoc", "Dot" }, "IX_PBCHAM_MaSV_NamHoc_Dot");
 
                     b.ToTable("PBCHAM", (string)null);
                 });
@@ -1212,7 +1229,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaGv", "MaDt");
+                    b.HasIndex(new[] { "MaGv", "MaDt" }, "IX_PBNHANXET_MaGV_MaDT");
 
                     b.ToTable("PBNHANXET", (string)null);
                 });
@@ -1231,13 +1248,25 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnType("varchar(15)")
                         .HasColumnName("MaDT");
 
+                    b.Property<string>("DiaDiem")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.Property<bool?>("DuaRaHd")
                         .HasColumnType("bit")
                         .HasColumnName("DuaRaHD");
 
+                    b.Property<DateTime?>("ThoiGianBd")
+                        .HasColumnType("datetime")
+                        .HasColumnName("ThoiGianBD");
+
+                    b.Property<DateTime?>("ThoiGianKt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("ThoiGianKT");
+
                     b.HasKey("MaGv", "MaDt");
 
-                    b.HasIndex("MaDt");
+                    b.HasIndex(new[] { "MaDt" }, "IX_PHANBIEN_MaDT");
 
                     b.ToTable("PHANBIEN", (string)null);
                 });
@@ -1261,7 +1290,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaGv", "MaDt");
 
-                    b.HasIndex("MaDt");
+                    b.HasIndex(new[] { "MaDt" }, "IX_RADE_MaDT");
 
                     b.ToTable("RADE", (string)null);
                 });
@@ -1310,7 +1339,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaSv");
 
-                    b.HasIndex("MaCn");
+                    b.HasIndex(new[] { "MaCn" }, "IX_SINHVIEN_MaCN");
 
                     b.ToTable("SINHVIEN", (string)null);
                 });
@@ -1338,9 +1367,9 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaHd", "MaGv");
 
-                    b.HasIndex("MaGv");
+                    b.HasIndex(new[] { "MaGv" }, "IX_THAMGIAHD_MaGV");
 
-                    b.HasIndex("MaVt");
+                    b.HasIndex(new[] { "MaVt" }, "IX_THAMGIAHD_MaVT");
 
                     b.ToTable("THAMGIAHD", (string)null);
                 });
@@ -1375,7 +1404,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaSv", "NamHoc", "Dot");
 
-                    b.HasIndex("NamHoc", "Dot");
+                    b.HasIndex(new[] { "NamHoc", "Dot" }, "IX_THAMGIA_NamHoc_Dot");
 
                     b.ToTable("THAMGIA", (string)null);
                 });
@@ -1417,7 +1446,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaTb");
 
-                    b.HasIndex("MaKhoa");
+                    b.HasIndex(new[] { "MaKhoa" }, "IX_THONGBAO_MaKhoa");
 
                     b.ToTable("THONGBAO", (string)null);
                 });
@@ -1453,9 +1482,9 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaTbm");
 
-                    b.HasIndex("MaBm");
+                    b.HasIndex(new[] { "MaBm" }, "IX_TRUONGBM_MaBM");
 
-                    b.HasIndex("MaGv");
+                    b.HasIndex(new[] { "MaGv" }, "IX_TRUONGBM_MaGV");
 
                     b.ToTable("TRUONGBM", (string)null);
                 });
@@ -1490,9 +1519,9 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaTk");
 
-                    b.HasIndex("MaGv");
+                    b.HasIndex(new[] { "MaGv" }, "IX_TRUONGKHOA_MaGV");
 
-                    b.HasIndex("MaKhoa");
+                    b.HasIndex(new[] { "MaKhoa" }, "IX_TRUONGKHOA_MaKhoa");
 
                     b.ToTable("TRUONGKHOA", (string)null);
                 });
@@ -1534,7 +1563,7 @@ namespace XuLyKhoaLuan.Migrations
 
                     b.HasKey("MaGv", "MaDt");
 
-                    b.HasIndex("MaDt");
+                    b.HasIndex(new[] { "MaDt" }, "IX_XACNHAN_MaDT");
 
                     b.ToTable("XACNHAN", (string)null);
                 });
