@@ -87,12 +87,12 @@ namespace XuLyKhoaLuan.Controllers
             return Ok();
         }
 
-        [HttpGet("namHoc, dot, maNhom")]
-        public async Task<IActionResult> GetAllDetaiDangkyAsync(string namHoc, int dot, string maNhom)
+        [HttpGet("namHoc, dot, maNhom, isThamkhao")]
+        public async Task<IActionResult> GetAllDetaiDangkyAsync(string namHoc, int dot, string maNhom, bool isThamkhao)
         {
             try
             {
-                return Ok(await _DangkyRepo.GetAllDetaiDangkyAsync(namHoc, dot, maNhom));
+                return Ok(await _DangkyRepo.GetAllDetaiDangkyAsync(namHoc, dot, maNhom, isThamkhao));
             }
             catch
             {

@@ -53,17 +53,47 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<DetaiModel>>(deTais);
         }
 
-        public async Task<List<DetaiModel>> GetAllDeTaisByMakhoaAsync(string maKhoa)
+        public async Task<List<DetaiModel>> GetAllDeTaisByMakhoaAsync(string maKhoa, int trangThaiDT)
         {
-            var deTais = await _context.Detais
-            .Join(_context.Rades, d => d.MaDt, r => r.MaDt, (d, r) => new { d = d, r = r })
-            .Join(_context.Giangviens, rd => rd.r.MaGv, g => g.MaGv, (rd, g) => new { rd = rd, g = g })
-            .Join(_context.Bomons, grd => grd.g.MaBm, b => b.MaBm, (grd, b) => new { grd = grd, b = b })
-            .Join(_context.Khoas, grdb => grdb.b.MaKhoa, k => k.MaKhoa, (grdb, k) => new {grdb = grdb, k = k})
-            .Where(grdbk => grdbk.k.MaKhoa == maKhoa)
-            .Select(grdbk => grdbk.grdb.grd.rd.d)
-            .ToListAsync();
-            return _mapper.Map<List<DetaiModel>>(deTais);
+            if(trangThaiDT == -1)
+            {
+                // Lấy tất cả đề tài của khoa
+                var deTais = await _context.Detais
+                    .Join(_context.Rades, d => d.MaDt, r => r.MaDt, (d, r) => new { d = d, r = r })
+                    .Join(_context.Giangviens, rd => rd.r.MaGv, g => g.MaGv, (rd, g) => new { rd = rd, g = g })
+                    .Join(_context.Bomons, grd => grd.g.MaBm, b => b.MaBm, (grd, b) => new { grd = grd, b = b })
+                    .Join(_context.Khoas, grdb => grdb.b.MaKhoa, k => k.MaKhoa, (grdb, k) => new { grdb = grdb, k = k })
+                    .Where(grdbk => grdbk.k.MaKhoa == maKhoa)
+                    .Select(grdbk => grdbk.grdb.grd.rd.d)
+                    .ToListAsync();
+                return _mapper.Map<List<DetaiModel>>(deTais);
+            }
+            else if(trangThaiDT == 1)
+            {
+                // Lấy tất cả đề tài của khoa đạt yêu cầu
+                var deTais = await _context.Detais
+                    .Join(_context.Rades, d => d.MaDt, r => r.MaDt, (d, r) => new { d = d, r = r })
+                    .Join(_context.Giangviens, rd => rd.r.MaGv, g => g.MaGv, (rd, g) => new { rd = rd, g = g })
+                    .Join(_context.Bomons, grd => grd.g.MaBm, b => b.MaBm, (grd, b) => new { grd = grd, b = b })
+                    .Join(_context.Khoas, grdb => grdb.b.MaKhoa, k => k.MaKhoa, (grdb, k) => new { grdb = grdb, k = k })
+                    .Where(grdbk => grdbk.k.MaKhoa == maKhoa && grdbk.grdb.grd.rd.d.TrangThai == true)
+                    .Select(grdbk => grdbk.grdb.grd.rd.d)
+                    .ToListAsync();
+                return _mapper.Map<List<DetaiModel>>(deTais);
+            }
+            else
+            {
+                // Lấy tất cả đề tài của khoa chưa đạt yêu cầu
+                var deTais = await _context.Detais
+                    .Join(_context.Rades, d => d.MaDt, r => r.MaDt, (d, r) => new { d = d, r = r })
+                    .Join(_context.Giangviens, rd => rd.r.MaGv, g => g.MaGv, (rd, g) => new { rd = rd, g = g })
+                    .Join(_context.Bomons, grd => grd.g.MaBm, b => b.MaBm, (grd, b) => new { grd = grd, b = b })
+                    .Join(_context.Khoas, grdb => grdb.b.MaKhoa, k => k.MaKhoa, (grdb, k) => new { grdb = grdb, k = k })
+                    .Where(grdbk => grdbk.k.MaKhoa == maKhoa && grdbk.grdb.grd.rd.d.TrangThai == false)
+                    .Select(grdbk => grdbk.grdb.grd.rd.d)
+                    .ToListAsync();
+                return _mapper.Map<List<DetaiModel>>(deTais);
+            }
         }
 
         public async Task<List<DetaiModel>> GetAllDeTaisByMaBomonAsync(string maBm, bool flag)
