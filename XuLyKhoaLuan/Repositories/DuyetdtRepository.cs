@@ -107,8 +107,6 @@ namespace XuLyKhoaLuan.Repositories
                 _context.Huongdans!.Remove(huongDan);
             }
             await _context.SaveChangesAsync();
-
-
         }
     }
 }

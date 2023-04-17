@@ -28,8 +28,7 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task DeleteHuongdansAsync(HuongdanModel Huongdan)
         {
-            var deleteHuongdan = _context.Huongdans!.SingleOrDefault(
-                dHuongdan => dHuongdan.MaDt == Huongdan.MaDt && dHuongdan.MaGv == Huongdan.MaGv);
+            var deleteHuongdan = await _context.Huongdans.FindAsync(Huongdan.MaGv, Huongdan.MaDt);
             if (deleteHuongdan != null)
             {
                 _context.Huongdans!.Remove(deleteHuongdan);

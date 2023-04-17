@@ -28,9 +28,7 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task DeletePhanbiensAsync(PhanbienModel Phanbien)
         {
-            var deletePhanbien = _context.Phanbiens!.SingleOrDefault(
-                phanBien => phanBien.MaGv == Phanbien.MaGv
-                && phanBien.MaDt == Phanbien.MaDt);
+            var deletePhanbien = await _context.Phanbiens.FindAsync(Phanbien.MaGv, Phanbien.MaDt);
             if (deletePhanbien != null)
             {
                 _context.Phanbiens!.Remove(deletePhanbien);

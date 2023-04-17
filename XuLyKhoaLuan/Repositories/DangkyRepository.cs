@@ -91,7 +91,7 @@ namespace XuLyKhoaLuan.Repositories
             else
             {
                 // Số lượng sinh viên phải đạt yêu cầu
-                var soLuong = await _context.Nhoms.CountAsync(n => n.MaNhom == maNhom);
+                var soLuong = await _context.Thamgia.CountAsync(n => n.MaNhom == maNhom);
                 // Đề tài đã được duyệt => trạng thái = true (Trong đợt đăng ký)
                 var deTaisDuyet = await _context.Detais
                         .Where(dt => dt.NamHoc == namHoc && dt.Dot == dot &&
@@ -151,8 +151,8 @@ namespace XuLyKhoaLuan.Repositories
                                 }
                                 if (!flag)
                                 {
-                                    deTaisModel.Remove(deTaisModel[i]);
-                                    i--;
+                                    //deTaisModel.Remove(deTaisModel[i]);
+                                    //i--;
                                 }
                             }
                             else

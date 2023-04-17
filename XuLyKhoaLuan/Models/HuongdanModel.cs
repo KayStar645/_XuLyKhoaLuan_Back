@@ -8,9 +8,9 @@ namespace XuLyKhoaLuan.Models
 
         public string MaGv { get; set; } = null!;
         public string MaDt { get; set; } = null!;
-        public DateTime ThoiGianBD { get; set; }
-        public DateTime ThoiGianKT { get; set; }
-        public string DiaDiem { get; set; }
+        public DateTime? ThoiGianBd { get; set; }
+        public DateTime? ThoiGianKt { get; set; }
+        public string? DiaDiem { get; set; }
         public bool? DuaRaHd { get; set; }
 
     }

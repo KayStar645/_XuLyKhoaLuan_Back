@@ -91,13 +91,20 @@ namespace XuLyKhoaLuan.Controllers
         [HttpDelete("MaGV, MaDT")]
         public async Task<IActionResult> DeleteHuongdan(string MaGV, string MaDT)
         {
-            HuongdanModel huongDan = new()
+            try
             {
-                MaGv = MaGV,
-                MaDt = MaDT
-            };
-            await _HuongdanRepo.DeleteHuongdansAsync(huongDan);
-            return Ok();
+                HuongdanModel huongDan = new()
+                {
+                    MaGv = MaGV,
+                    MaDt = MaDT
+                };
+                await _HuongdanRepo.DeleteHuongdansAsync(huongDan);
+                return Ok();
+            }
+            catch 
+            {
+                return BadRequest(); 
+            }
         }
 
 
