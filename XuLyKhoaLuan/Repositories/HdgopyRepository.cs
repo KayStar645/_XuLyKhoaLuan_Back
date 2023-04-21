@@ -58,5 +58,14 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<HdgopyModel>> GetHdGopyByMacv(string maCv)
+        {
+            var duyetDts = await _context.Hdgopies
+                            .Where(g => g.MaCv == maCv)
+                            .OrderByDescending(d => d.ThoiGian)
+                            .ToListAsync();
+            return _mapper.Map<List<HdgopyModel>>(duyetDts);
+        }
     }
 }

@@ -72,8 +72,9 @@ namespace XuLyKhoaLuan.Repositories
         {
             var deTais = await _context.Detais
                         .Join(_context.Huongdans, dt => dt.MaDt, hd => hd.MaDt, (dt, hd) => new { dt = dt, hd = hd })
-                        .Where(re => re.hd.MaGv == maGV && re.dt.NamHoc == namHoc && re.dt.Dot == dot)
-                        .Select(re => re.dt) .ToListAsync();
+                        .Join(_context.Dangkies, ht => ht.dt.MaDt, dk => dk.MaDt, (ht, dk) => new { ht = ht, dk = dk })
+                        .Where(re => re.ht.hd.MaGv == maGV && re.ht.dt.NamHoc == namHoc && re.ht.dt.Dot == dot && re.dk.MaNhom != null)
+                        .Select(re => re.ht.dt) .ToListAsync();
             return _mapper.Map<List<DetaiModel>>(deTais);
         }
     }

@@ -71,5 +71,18 @@ namespace XuLyKhoaLuan.Controllers
             await _HdgopyRepo.DeleteHdgopiesAsync(id);
             return Ok();
         }
+
+        [HttpGet("maCv")]
+        public async Task<IActionResult> GetHdGopyByMacv(string maCv)
+        {
+            try
+            {
+                return Ok(await _HdgopyRepo.GetHdGopyByMacv(maCv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<string> AddHdgopiesAsync(HdgopyModel model);
         public Task UpdateHdgopiesAsync(int ma, HdgopyModel model);
         public Task DeleteHdgopiesAsync(int ma);
+        public Task<List<HdgopyModel>> GetHdGopyByMacv(string maCv);
     }
 }
