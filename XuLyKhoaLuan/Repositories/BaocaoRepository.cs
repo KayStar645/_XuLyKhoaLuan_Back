@@ -31,10 +31,20 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task<int> createLanNop(string maCv, string maSv, string namHoc, int dot)
         {
-            var maxLanNop = await _context.Baocaos
-                .Where(b => b.MaCv == maCv && b.MaSv == maSv && b.NamHoc == namHoc && b.Dot == dot)
-                .MaxAsync(b => b.LanNop);
-            return (int)maxLanNop + 1;
+            var hasBaocao = await _context.Baocaos
+                .AnyAsync(b => b.MaCv == maCv && b.MaSv == maSv && b.NamHoc == namHoc && b.Dot == dot);
+
+            if (hasBaocao)
+            {
+                var maxLanNop = await _context.Baocaos
+                    .Where(b => b.MaCv == maCv && b.MaSv == maSv && b.NamHoc == namHoc && b.Dot == dot)
+                    .MaxAsync(b => b.LanNop);
+                return (int)maxLanNop + 1;
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         public async Task DeleteBaoCaosAsync(BaocaoModel baocao)
