@@ -21,11 +21,20 @@ namespace XuLyKhoaLuan.Repositories
         [Authorize]
         public async Task<string> AddBaoCaosAsync(BaocaoModel model)
         {
+            
             var newBaoCao = _mapper.Map<Baocao>(model);
             _context.Baocaos!.Add(newBaoCao);
             await _context.SaveChangesAsync();
             string returnString = newBaoCao.MaCv + newBaoCao.MaSv + newBaoCao.NamHoc + newBaoCao.Dot + newBaoCao.LanNop;
             return returnString;
+        }
+
+        public async Task<int> createLanNop(string maCv, string maSv, string namHoc, int dot)
+        {
+            var maxLanNop = await _context.Baocaos
+                .Where(b => b.MaCv == maCv && b.MaSv == maSv && b.NamHoc == namHoc && b.Dot == dot)
+                .MaxAsync(b => b.LanNop);
+            return (int)maxLanNop;
         }
 
         public async Task DeleteBaoCaosAsync(BaocaoModel baocao)

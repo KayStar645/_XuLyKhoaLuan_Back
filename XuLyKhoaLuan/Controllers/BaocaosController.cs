@@ -62,6 +62,7 @@ namespace XuLyKhoaLuan.Controllers
         {
             try
             {
+                model.LanNop = await _BaocaoRepo.createLanNop(model.MaCv, model.MaSv, model.NamHoc, model.Dot);
                 var newBaocao = await _BaocaoRepo.AddBaoCaosAsync(model);
                 return Ok(model);
             }
