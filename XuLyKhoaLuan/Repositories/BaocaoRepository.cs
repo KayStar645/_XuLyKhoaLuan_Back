@@ -34,7 +34,7 @@ namespace XuLyKhoaLuan.Repositories
             var maxLanNop = await _context.Baocaos
                 .Where(b => b.MaCv == maCv && b.MaSv == maSv && b.NamHoc == namHoc && b.Dot == dot)
                 .MaxAsync(b => b.LanNop);
-            return (int)maxLanNop;
+            return (int)maxLanNop + 1;
         }
 
         public async Task DeleteBaoCaosAsync(BaocaoModel baocao)
