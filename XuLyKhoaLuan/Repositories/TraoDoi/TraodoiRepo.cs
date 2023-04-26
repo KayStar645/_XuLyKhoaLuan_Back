@@ -43,7 +43,7 @@ namespace XuLyKhoaLuan.Repositories.BinhLuan
                 })
                 .ToListAsync();
 
-            return binhLuanList.Concat(hdGopyList).OrderBy(t => t.ThoiGian).ToList();
+            return binhLuanList.Concat(hdGopyList).OrderBy(t => t.ThoiGian).OrderByDescending(td => td.ThoiGian).ToList();
         }
     }
 }
