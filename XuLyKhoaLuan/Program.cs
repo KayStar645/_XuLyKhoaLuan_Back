@@ -10,6 +10,8 @@ using XuLyKhoaLuan.Repositories;
 using Sieve;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Helpers;
+using XuLyKhoaLuan.Interface.TraoDoi;
+using XuLyKhoaLuan.Repositories.BinhLuan;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -121,8 +123,8 @@ builder.Services.AddTransient<ITruongbmRepository, TruongbmRepository>();
 builder.Services.AddTransient<ITruongkhoaRepository, TruongkhoaRepository>();
 builder.Services.AddTransient<IVaitroRepository, VaitroRepository>();
 builder.Services.AddTransient<IXacnhanRepository, XacnhanRepository>();
-builder.Services.AddTransient<IDetaichuyennganhRepository, DetaichuyennganhRepositoty>();
-builder.Services.AddTransient<IRadeRepository, RadeRepository>();
+
+builder.Services.AddTransient<ITraodoiRepo, TraodoiRepo>();
 
 //
 builder.Services.AddSignalR();
