@@ -11,5 +11,6 @@ namespace XuLyKhoaLuan.Interface
         public Task DeleteNhiemvusAsync(int ma);
         public Task<List<NhiemvuModel>> GetNhiemvusByMabmAsync(string maBM);
         public Task<List<NhiemvuModel>> GetNhiemvusByMagvAsync(string maGV);
+        public Task<int> CountNhiemVuConHanByGiangvienAsync(string maGV);
     }
 }

@@ -123,6 +123,8 @@ builder.Services.AddTransient<ITruongbmRepository, TruongbmRepository>();
 builder.Services.AddTransient<ITruongkhoaRepository, TruongkhoaRepository>();
 builder.Services.AddTransient<IVaitroRepository, VaitroRepository>();
 builder.Services.AddTransient<IXacnhanRepository, XacnhanRepository>();
+builder.Services.AddTransient<IRadeRepository, RadeRepository>();
+builder.Services.AddTransient<IDetaichuyennganhRepository, DetaichuyennganhRepositoty>();
 
 builder.Services.AddTransient<ITraodoiRepo, TraodoiRepo>();
 

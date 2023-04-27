@@ -77,5 +77,12 @@ namespace XuLyKhoaLuan.Repositories
                         .Select(re => re.ht.dt) .ToListAsync();
             return _mapper.Map<List<DetaiModel>>(deTais);
         }
+
+        public async Task<int> CountDetaiHuongDanByGiangVienAsync(string maGv)
+        {
+            return await _context.Huongdans
+                    .Where(hd => hd.MaGv == maGv)
+                    .CountAsync();
+        }
     }
 }

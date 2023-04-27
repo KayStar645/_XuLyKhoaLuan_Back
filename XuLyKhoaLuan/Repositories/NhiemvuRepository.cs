@@ -74,9 +74,11 @@ namespace XuLyKhoaLuan.Repositories
             }
         }
 
-        //public async Task<int> CountNhiemVuConhanByGiangvienAsync(string maGV)
-        //{
-        //    var count = await _context.Nhiemvus
-        //}
+        public async Task<int> CountNhiemVuConHanByGiangvienAsync(string maGV)
+        {
+            return await _context.Nhiemvus
+                        .Where(nv => nv.MaGv == maGV && DateTime.Now < nv.ThoiGianKt)
+                        .SumAsync(nv => nv.SoLuongDt);
+        }
     }
 }

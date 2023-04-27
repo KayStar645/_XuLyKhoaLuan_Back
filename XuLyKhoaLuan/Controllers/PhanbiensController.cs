@@ -99,5 +99,18 @@ namespace XuLyKhoaLuan.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("maGv")]
+        public async Task<IActionResult> CountDetaiPhanbienByGiangVienAsync(string maGv)
+        {
+            try
+            {
+                return Ok(await _PhanbienRepo.CountDetaiPhanbienByGiangVienAsync(maGv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

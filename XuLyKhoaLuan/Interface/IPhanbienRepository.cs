@@ -10,5 +10,6 @@ namespace XuLyKhoaLuan.Interface
         public Task UpdatePhanbiensAsync(PhanbienModel thamGia, PhanbienModel model);
         public Task DeletePhanbiensAsync(PhanbienModel thamGia);
         public Task<List<GiangvienModel>> GetGiangvienByDetaiAsync(string maDT);
+        public Task<int> CountDetaiPhanbienByGiangVienAsync(string maGv);
     }
 }

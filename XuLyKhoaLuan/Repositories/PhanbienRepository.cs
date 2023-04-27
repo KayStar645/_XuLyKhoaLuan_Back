@@ -68,5 +68,12 @@ namespace XuLyKhoaLuan.Repositories
                             .ToListAsync();
             return _mapper.Map<List<GiangvienModel>>(giangViens);
         }
+
+        public async Task<int> CountDetaiPhanbienByGiangVienAsync(string maGv)
+        {
+            return await _context.Phanbiens
+                    .Where(hd => hd.MaGv == maGv)
+                    .CountAsync();
+        }
     }
 }

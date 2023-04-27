@@ -97,5 +97,18 @@ namespace XuLyKhoaLuan.Controllers
             await _NhiemvuRepo.DeleteNhiemvusAsync(MaNV);
             return Ok();
         }
+
+        [HttpGet("maGVien")]
+        public async Task<IActionResult> CountNhiemVuConHanByGiangvienAsync(string maGVien)
+        {
+            try
+            {
+                return Ok(await _NhiemvuRepo.CountNhiemVuConHanByGiangvienAsync(maGVien));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

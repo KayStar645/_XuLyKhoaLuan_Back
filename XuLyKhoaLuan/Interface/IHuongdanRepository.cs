@@ -11,5 +11,6 @@ namespace XuLyKhoaLuan.Interface
         public Task DeleteHuongdansAsync(HuongdanModel hdpbNhanXet);
         public Task<List<GiangvienModel>> GetGiangvienByDetaiAsync(string maDT);
         public Task<List<DetaiModel>> GetDetaiByGVHDDotdkAsync(string maGV, string namHoc, int dot);
+        public Task<int> CountDetaiHuongDanByGiangVienAsync(string maGv);
     }
 }

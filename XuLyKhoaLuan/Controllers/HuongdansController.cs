@@ -120,5 +120,18 @@ namespace XuLyKhoaLuan.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("maGv")]
+        public async Task<IActionResult> CountDetaiHuongDanByGiangVienAsync(string maGv)
+        {
+            try
+            {
+                return Ok(await _HuongdanRepo.CountDetaiHuongDanByGiangVienAsync(maGv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
