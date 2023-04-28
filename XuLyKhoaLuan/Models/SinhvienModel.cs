@@ -4,7 +4,6 @@
     {
         public string MaSv { get; set; } = null!;
         public string TenSv { get; set; } = null!;
-        public DateTime? NgaySinh { get; set; }
         public string? GioiTinh { get; set; }
         public string? Lop { get; set; }
         public string? Sdt { get; set; }

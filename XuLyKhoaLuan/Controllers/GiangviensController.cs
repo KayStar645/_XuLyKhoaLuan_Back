@@ -53,10 +53,10 @@ namespace XuLyKhoaLuan.Controllers
             return Giangvien == null ? BadRequest() : Ok(Giangvien);
         }
 
-        [HttpGet("tenGV")]
-        public async Task<IActionResult> SearchGiangvienByName(string tenGV)
+        [HttpGet("tenGV, maBm")]
+        public async Task<IActionResult> SearchGiangvienByName(string name, string maBm)
         {
-            var Giangvien = await _GiangvienRepo.SearchGiangvienByNameAsync(tenGV);
+            var Giangvien = await _GiangvienRepo.SearchGiangvienByNameAsync(name, maBm);
             return Giangvien == null ? BadRequest() : Ok(Giangvien);
         }
 

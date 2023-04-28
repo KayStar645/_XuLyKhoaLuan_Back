@@ -9,7 +9,7 @@ namespace XuLyKhoaLuan.Interface
 
         public Task<List<GiangvienModel>> GetGiangvienByBoMonAsync(string maBM);
         public Task<List<GiangvienModel>> GetGiangvienByKhoaAsync(string maKhoa);
-        public Task<List<GiangvienModel>> SearchGiangvienByNameAsync(string name);
+        public Task<List<GiangvienModel>> SearchGiangvienByNameAsync(string name, string maBm);
         public Task<string> AddGiangviensAsync(GiangvienModel model);
         public Task UpdateGiangviensAsync(string ma, GiangvienModel model);
         public Task DeleteGiangviensAsync(string ma);

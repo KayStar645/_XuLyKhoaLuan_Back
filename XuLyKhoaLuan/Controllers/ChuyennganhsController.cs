@@ -71,5 +71,18 @@ namespace XuLyKhoaLuan.Controllers
             await _ChuyennganhRepo.DeleteChuyennganhsAsync(maCN);
             return Ok();
         }
+
+        [HttpGet("tenCn")]
+        public async Task<IActionResult> GetMaCnByTenAsync(string tenCn)
+        {
+            try
+            {
+                return Ok(await _ChuyennganhRepo.GetMaCnByTenAsync(tenCn));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }    
     }
 }

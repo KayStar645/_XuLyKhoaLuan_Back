@@ -46,6 +46,12 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<ChuyennganhModel>(Chuyennganh);
         }
 
+        public async Task<ChuyennganhModel> GetMaCnByTenAsync(string tenCn)
+        {
+            var Chuyennganh = await _context.Chuyennganhs.Where(c => c.TenCn == tenCn).SingleAsync();
+            return _mapper.Map<ChuyennganhModel>(Chuyennganh);
+        }
+
         public async Task UpdateChuyennganhsAsync(string ma, ChuyennganhModel model)
         {
             if (ma.Equals(model.MaCn))

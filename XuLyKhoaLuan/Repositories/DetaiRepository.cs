@@ -28,7 +28,7 @@ namespace XuLyKhoaLuan.Repositories
         public async Task<string> createMaDT(string maKhoa)
         {
             string maxMaDT = await _context.Detais.MaxAsync(d => d.MaDt.Substring(d.MaDt.Length - 3));
-            int maxMaDTNumber = (maxMaDT == null) ? 0 : Convert.ToInt32(maxMaDT) + 1;
+            int maxMaDTNumber = (maxMaDT == null) ? 1 : Convert.ToInt32(maxMaDT) + 1;
             string maDT = maxMaDTNumber.ToString();
             while (maDT.Length < 6)
             {
