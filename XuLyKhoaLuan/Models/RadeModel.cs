@@ -4,6 +4,7 @@
     {
         public string MaGv { get; set; } = null!;
         public string MaDt { get; set; } = null!;
-        //public string? Note { get; set; }
+
+        public DateTime? ThoiGian { get; set; }
     }
 }

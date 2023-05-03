@@ -35,6 +35,22 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        //[HttpGet("maDt, tenDt, maCn, maBm, gvrd, gvhd, gvpb, trangThai, namHoc, dot, maNhom, isThamKhao")]
+        //public async Task<IActionResult> GetDetaiByRequestAsync(string maDt, string tenDt, string maCn, string maBm,
+        //    string gvrd, string gvhd, string gvpb, bool trangThai, string namHoc, int dot, string maNhom, bool isThamkhao)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _detaiRepo.GetDetaiByRequestAsync(maDt, tenDt, maCn, maBm,
+        //    gvrd, gvhd, gvpb, trangThai, namHoc, dot, maNhom, isThamkhao));
+        //    }
+        //    catch
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
+
+
         [HttpGet("maDT")]
         public async Task<IActionResult> GetDetaiByMaDT(string maDT)
         {

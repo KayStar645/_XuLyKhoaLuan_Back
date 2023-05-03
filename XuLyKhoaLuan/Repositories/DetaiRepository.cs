@@ -4,6 +4,9 @@ using System.Runtime.InteropServices.ComTypes;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Models.VirtualModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace XuLyKhoaLuan.Repositories
 {
@@ -260,6 +263,73 @@ namespace XuLyKhoaLuan.Repositories
                         .Select(re => re.dt)
                         .ToListAsync();
             return _mapper.Map<List<DetaiModel>>(deTaiPbs);
+        }
+
+        public async Task<List<DetaiVTModel>> GetDetaiByRequestAsync(string maDt, string tenDt, string maCn, string maBm,
+            string gvrd, string gvhd, string gvpb, bool trangThai, string namHoc, int dot, string maNhom, bool isThamkhao)
+        {
+
+            var result = await (from d in _context.Detais
+                                where d.MaDt == maDt && d.NamHoc == namHoc && d.Dot == dot
+                                join _dtcn in _context.DetaiChuyennganhs on d.MaDt equals _dtcn.MaDt into cnpbList
+                                from _dtcn in cnpbList.DefaultIfEmpty()
+                                join _gvrd in _context.Rades on d.MaDt equals _gvrd.MaDt into gvrdList
+                                from _gvrd in gvrdList.DefaultIfEmpty()
+                                join _gvhd in _context.Huongdans on d.MaDt equals _gvhd.MaDt into gvhdList
+                                from _gvhd in gvhdList.DefaultIfEmpty()
+                                join _gvpb in _context.Phanbiens on d.MaDt equals _gvpb.MaDt into gvpbList
+                                from _gvpb in gvpbList.DefaultIfEmpty()
+                                select new DetaiVTModel
+                                {
+                                    MaDT = d.MaDt,
+                                    TenDT = d.TenDt,
+                                    TomTat = d.TomTat,
+                                    SLMin = d.Slmin,
+                                    SLMax = d.Slmax,
+                                    NamHoc = d.NamHoc,
+                                    Dot = d.Dot,
+                                    CnPhuHop = cnpbList.Select(cn => cn.MaCn).ToList(),
+                                    GVRD = gvrdList.Select(rd => rd.MaGv).ToList(),
+                                    GVHD = gvhdList.Select(hd => hd.MaGv).ToList(),
+                                    GVPB = gvpbList.Select(pb => pb.MaGv).ToList(),
+                                }
+                 ).Take(3).ToListAsync();
+
+
+
+            //List<DetaiVTModel> results = new List<DetaiVTModel>();
+            //foreach(var dt in result)
+            //{
+            //    DetaiVTModel _dt = new DetaiVTModel(dt.ma, dt.ten, dt.tomtat, dt.min, dt.max, dt.trangThai, dt.nam, dt.dot);
+
+            //    foreach (var cn in dt.cnph)
+            //    {
+            //        var cnph = await _context.Chuyennganhs.FindAsync(cn.MaCn);
+            //        _dt.CnPhuHop.Add(cnph.TenCn);
+            //    }
+
+            //    foreach (var rd in dt.gvrd)
+            //    {
+            //        var gv = await _context.Giangviens.FindAsync(rd.MaGv);
+            //        _dt.GVRD.Add(gv.TenGv);
+            //    }
+
+            //    foreach (var hd in dt.gvhds)
+            //    {
+            //        var gv = await _context.Giangviens.FindAsync(hd.MaGv);
+            //        _dt.GVHD.Add(gv.TenGv);
+            //    }
+
+            //    foreach (var pb in dt.gvpbs)
+            //    {
+            //        var gv = await _context.Giangviens.FindAsync(pb.MaGv);
+            //        _dt.GVPB.Add(gv.TenGv);
+            //    }
+            //    results.Add(_dt);
+            //}
+
+
+            return result;
         }
     }
 }

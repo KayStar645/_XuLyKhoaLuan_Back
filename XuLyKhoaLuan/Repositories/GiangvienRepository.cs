@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
@@ -78,6 +78,57 @@ namespace XuLyKhoaLuan.Repositories
                 _context.Giangviens.Update(updateGiangvien);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<List<int>> GetSoLuongNhiemVuAsync(string maGv, string namHoc, int dot)
+        {
+            List<int> list = new List<int>();
+            var dotDk = await _context.Dotdks.FindAsync(namHoc, dot);
+            if (dotDk == null)
+            {
+                for(int i = 0; i < 5; i++)
+                {
+                    list.Add(0);
+                }
+                return list;
+            }
+            // 0. Số lượng đề tài được giao - Nhiệm vụ
+            var cDTgiao = await _context.Nhiemvus
+                        .Where(n => dotDk.NgayBd <= n.ThoiGianBd && n.ThoiGianBd <= dotDk.NgayKt && n.MaGv == maGv)
+                        .SumAsync(n => n.SoLuongDt);
+            list.Add(cDTgiao);
+
+            // 1. Số lượng đề tài đạt - Ra đề đạt
+            var cDTDat = await _context.Rades
+                    .Join(_context.Detais, rd => rd.MaDt, dt => dt.MaDt, (rd, dt) => new { rd = rd, dt = dt })
+                    .Where(re => dotDk.NgayBd <= re.rd.ThoiGian && re.rd.ThoiGian <= dotDk.NgayKt &&
+                    re.dt.TrangThai == true && re.rd.MaGv == maGv)
+                    .CountAsync();
+            list.Add(cDTDat);
+
+            // 2. Số lượng đề tài ra - Ra đề
+            var cDTRa = await _context.Rades
+                    .Where(rd => dotDk.NgayBd <= rd.ThoiGian && rd.ThoiGian <= dotDk.NgayKt && rd.MaGv == maGv)
+                    .CountAsync();
+            list.Add(cDTRa);
+
+            // Hướng dẫn hoặc phản biện đề tài của đợt hiện tại
+
+            // 3. Số lượng đề tài hướng dẫn - Hướng dẫn
+            var cDTHD = await _context.Huongdans
+                    .Join(_context.Detais, hd => hd.MaDt, dt => dt.MaDt, (hd, dt) => new { hd = hd, dt = dt })
+                    .Where(re => re.dt.NamHoc == namHoc && re.dt.Dot == dot && re.hd.MaGv == maGv )
+                    .CountAsync();
+            list.Add(cDTHD);
+
+            // 4. Số lượng đề tài phản biện - Phản biện
+            var cDTPB = await _context.Phanbiens
+                    .Join(_context.Detais, pb => pb.MaDt, dt => dt.MaDt, (pb, dt) => new { pb = pb, dt = dt })
+                    .Where(re => re.dt.NamHoc == namHoc && re.dt.Dot == dot && re.pb.MaGv == maGv )
+                    .CountAsync();
+            list.Add(cDTPB);
+
+            return list;
         }
     }
 }

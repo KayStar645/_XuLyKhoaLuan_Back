@@ -13,5 +13,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<string> AddGiangviensAsync(GiangvienModel model);
         public Task UpdateGiangviensAsync(string ma, GiangvienModel model);
         public Task DeleteGiangviensAsync(string ma);
+        public Task<List<int>> GetSoLuongNhiemVuAsync(string maGv, string namHoc, int dot);
     }
 }

@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Models.VirtualModel;
 
 namespace XuLyKhoaLuan.Interface
 {
@@ -26,5 +28,8 @@ namespace XuLyKhoaLuan.Interface
         public Task<List<DetaiModel>> GetDetaiByHuongdanOfGiangvienDotdkAsync(string maGv, string namHoc, int dot);
         public Task<List<DetaiModel>> GetDetaiByPhanbienOfGiangvienDotdkAsync(string maGv, string namHoc, int dot);
         public Task<List<DetaiModel>> GetDetaiByChuyenNganhBomonAsync(string maCN, string maBM);
+
+        public Task<List<DetaiVTModel>> GetDetaiByRequestAsync(string maDt, string tenDt, string maCn, string maBm,
+            string gvrd, string gvhd, string gvpb, bool trangThai, string namHoc, int dot, string maNhom, bool isThamkhao);
     }
 }

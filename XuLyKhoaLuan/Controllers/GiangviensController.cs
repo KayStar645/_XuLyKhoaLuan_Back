@@ -104,5 +104,18 @@ namespace XuLyKhoaLuan.Controllers
             await accountRepo.DeleteAsync(MaGV);
             return Ok();
         }
+
+        [HttpGet("maGv, namHoc, dot")]
+        public async Task<IActionResult> GetSoLuongNhiemVuAsync(string maGv, string namHoc, int dot)
+        {
+            try
+            {
+                return Ok(await _GiangvienRepo.GetSoLuongNhiemVuAsync(maGv, namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

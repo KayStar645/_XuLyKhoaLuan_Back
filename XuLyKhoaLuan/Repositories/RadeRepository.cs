@@ -34,6 +34,7 @@ namespace XuLyKhoaLuan.Repositories
             {
                 throw new errorMessage("Đã tồn tại!");
             }
+            newRade.ThoiGian = DateTime.Now;
             _context.Rades.Add(newRade);
             await _context.SaveChangesAsync();
             return newRade.MaGv + " - " + newRade.MaDt;
