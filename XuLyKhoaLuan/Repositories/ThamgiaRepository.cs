@@ -132,6 +132,8 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task<List<ThamgiaModel>> Search(string? tenSv, string? maCn, string? namHoc, int? dot)
         {
+            if (dot == 0)
+                dot = null;
             var Thamgias = await _context.Thamgia
                         .Join(_context.Sinhviens, tg => tg.MaSv, sv => sv.MaSv, (tg, sv) => new { tg = tg, sv = sv })
                         .Where(re => (string.IsNullOrEmpty(namHoc) || re.tg.NamHoc == namHoc) &&
