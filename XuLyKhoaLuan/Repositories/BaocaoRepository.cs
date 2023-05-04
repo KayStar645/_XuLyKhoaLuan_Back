@@ -84,5 +84,11 @@ namespace XuLyKhoaLuan.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<BaocaoModel>> GetBaocaoByMacv(string maCv)
+        {
+            var baoCaos = await _context.Baocaos.Where(b => b.MaCv == maCv).ToListAsync();
+            return _mapper.Map<List<BaocaoModel>>(baoCaos);
+        }
     }
 }

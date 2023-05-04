@@ -110,5 +110,18 @@ namespace XuLyKhoaLuan.Controllers
             await _BaocaoRepo.DeleteBaoCaosAsync(model);
             return Ok();
         }
+
+        [HttpGet("maCv")]
+        public async Task<IActionResult> GetBaocaoByMacv(string maCv)
+        {
+            try
+            {
+                return Ok(await _BaocaoRepo.GetBaocaoByMacv(maCv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
