@@ -182,5 +182,18 @@ namespace XuLyKhoaLuan.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("tenSv, maCn, namHoc, dot")]
+        public async Task<IActionResult> Search(string? tenSv, string? maCn, string? namHoc, int? dot)
+        {
+            try
+            {
+                return Ok(await _ThamgiaRepo.Search(tenSv, maCn, namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
@@ -128,5 +129,20 @@ namespace XuLyKhoaLuan.Repositories
                         .ToListAsync();
             return _mapper.Map<List<ThamgiaModel>>(Thamgias);
         }
+
+        public async Task<List<ThamgiaModel>> Search(string? tenSv, string? maCn, string? namHoc, int? dot)
+        {
+            var Thamgias = await _context.Thamgia
+                        .Join(_context.Sinhviens, tg => tg.MaSv, sv => sv.MaSv, (tg, sv) => new { tg = tg, sv = sv })
+                        .Where(re => (string.IsNullOrEmpty(namHoc) || re.tg.NamHoc == namHoc) &&
+                                     (!dot.HasValue || re.tg.Dot == dot.Value) &&
+                                     (string.IsNullOrEmpty(maCn) || re.sv.MaCn == maCn) &&
+                                     (string.IsNullOrEmpty(tenSv) || re.sv.TenSv.Contains(tenSv)))
+                        .Select(re => re.tg)
+                        .ToListAsync();
+
+            return _mapper.Map<List<ThamgiaModel>>(Thamgias);
+        }
+
     }
 }
