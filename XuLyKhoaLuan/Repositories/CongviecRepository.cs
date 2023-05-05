@@ -27,7 +27,7 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task<string> createMaCongviecAsync()
         {
-            string maxMaCv = await _context.Detais.MaxAsync(d => d.MaDt.Substring(d.MaDt.Length - 3));
+            string maxMaCv = await _context.Congviecs.MaxAsync(c => c.MaCv.Substring(c.MaCv.Length - 3));
             int maxMaCvNumber = (maxMaCv == null) ? 0 : Convert.ToInt32(maxMaCv) + 1;
             string maCv = maxMaCvNumber.ToString();
             while (maCv.Length < 14)
