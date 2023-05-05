@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
@@ -112,5 +113,25 @@ namespace XuLyKhoaLuan.Repositories
                             .ToListAsync();
             return _mapper.Map<List<SinhvienModel>>(sinhViens);
         }
+
+        public async Task<List<string>> GetAllClassAsync(string? namHoc, int? dot)
+        {
+            var sinhViens = await _context.Sinhviens
+                        .Join(_context.Thamgia, sv => sv.MaSv, tg => tg.MaSv, (sv, tg) => new { sv = sv, tg = tg })
+                        .Where(re => (string.IsNullOrEmpty(namHoc) || re.tg.NamHoc == namHoc))
+                        .Select(re => re.sv.Lop.Substring(0, 6))
+                        .Distinct().ToListAsync();
+            return _mapper.Map<List<string>>(sinhViens);
+        }
+
+        public async Task<List<SinhvienModel>> Search(string? maCn, string? lop, string? tenSv)
+        {
+            var sinhViens = await _context.Sinhviens
+                           .Where(sv => (string.IsNullOrEmpty(maCn) || sv.MaCn == maCn) &&
+                           (string.IsNullOrEmpty(lop) || sv.Lop.Contains(lop)) &&
+                           (string.IsNullOrEmpty(tenSv) || sv.TenSv.Contains(tenSv)))
+                           .ToListAsync();
+            return _mapper.Map<List<SinhvienModel>>(sinhViens);
+        }    
     }
 }

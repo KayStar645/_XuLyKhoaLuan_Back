@@ -14,5 +14,7 @@ namespace XuLyKhoaLuan.Interface
         public Task UpdateSinhViensAsync(string ma, SinhvienModel model);
         public Task DeleteSinhViensAsync(string ma);
         public Task<List<SinhvienModel>> GetSinhvienByDetaiAsync(string maDT);
+        public Task<List<string>> GetAllClassAsync(string? namHoc, int? dot);
+        public Task<List<SinhvienModel>> Search(string? maCn, string? lop, string? tenSv);
     }
 }

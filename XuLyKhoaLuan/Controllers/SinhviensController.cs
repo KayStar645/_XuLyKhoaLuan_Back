@@ -31,6 +31,19 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("namHoc, dot")]
+        public async Task<IActionResult> GetAllClassAsync(string? namHoc, int? dot)
+        {
+            try
+            {
+                return Ok(await _sinhvienRepo.GetAllClassAsync(namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("maSV")]
         public async Task<IActionResult> GetSinhvienByMaSV(string maSV)
         {
@@ -116,6 +129,19 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 return Ok(await _sinhvienRepo.GetSinhvienByDetaiAsync(maDT));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maCn, lop, tenSv")]
+        public async Task<IActionResult> Search(string? maCn, string? lop, string? tenSv)
+        {
+            try
+            {
+                return Ok(await _sinhvienRepo.Search(maCn, lop, tenSv));
             }
             catch
             {
