@@ -35,6 +35,19 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("maCn, tenDt, namHoc, dot, key, maGv, chucVu")]
+        public async Task<IActionResult> search(string? maCn, string? tenDt, string? namHoc, int? dot, string? key, string? maGv, int? chucVu)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.search(maCn, tenDt, namHoc, dot, key, maGv, chucVu));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         //[HttpGet("maDt, tenDt, maCn, maBm, gvrd, gvhd, gvpb, trangThai, namHoc, dot, maNhom, isThamKhao")]
         //public async Task<IActionResult> GetDetaiByRequestAsync(string maDt, string tenDt, string maCn, string maBm,
         //    string gvrd, string gvhd, string gvpb, bool trangThai, string namHoc, int dot, string maNhom, bool isThamkhao)

@@ -265,6 +265,59 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<DetaiModel>>(deTaiPbs);
         }
 
+        public async Task<List<DetaiModel>> search(string? maCn, string? tenDt, string? namHoc, int? dot, string? key, string? maGv, int? chucVu = 0)
+        {
+            if (dot == 0)
+                dot = null;
+
+            var deTais = _context.Detais
+                        .Join(_context.DetaiChuyennganhs, dt => dt.MaDt, dc => dc.MaDt, (dt, dc) => new { dt = dt, dc = dc })
+                        .Where(re => (string.IsNullOrEmpty(maCn) || re.dc.MaCn == maCn) &&
+                        (string.IsNullOrEmpty(tenDt) || re.dt.TenDt.Contains(tenDt)) &&
+                        (string.IsNullOrEmpty(namHoc) || re.dt.NamHoc == namHoc) &&
+                        (dot == null || re.dt.Dot == dot))
+                        .Select(re => re.dt).Distinct();
+            if (chucVu == 3) // Trưởng khoa + Trưởng bộ môn
+            {
+                deTais = deTais
+                        .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
+                        .Join(_context.Giangviens, gr => gr.rd.MaGv, gv => gv.MaGv, (gr, gv) => new { gr = gr, gv = gv })
+                        .Where(re => re.gv.MaBm == key || re.gr.rd.MaGv == maGv || re.gr.dt.TrangThai == true)
+                        .Select(re => re.gr.dt).Distinct();
+            }
+            else if(chucVu == 2) // Trưởng khoa
+            {
+                deTais = deTais
+                        .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
+                        .Where(re => re.dt.TrangThai == true || re.rd.MaGv == maGv)
+                        .Select(re => re.dt).Distinct();
+            }
+            else if( chucVu == 1) // Trưởng bộ môn
+            {
+                deTais = deTais
+                        .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
+                        .Join(_context.Giangviens, gr => gr.rd.MaGv, gv => gv.MaGv, (gr, gv) => new { gr = gr, gv = gv })
+                        .Where(re => re.gv.MaBm == key || re.gr.rd.MaGv == maGv)
+                        .Select(re => re.gr.dt).Distinct();
+            }
+            else if (chucVu == 0) // Giảng viên không có chức vụ
+            {
+                deTais = deTais
+                        .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
+                        .Where(re => re.rd.MaGv == maGv)
+                        .Select(re => re.dt).Distinct();
+            }
+            else // Giáo vụ
+            {
+                deTais = deTais
+                        .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
+                        .Where(re => re.dt.TrangThai == true)
+                        .Select(re => re.dt).Distinct();
+            }
+            var result = await deTais.ToListAsync();
+            return _mapper.Map<List<DetaiModel>>(result);
+        }
+
         public async Task<List<DetaiVTModel>> GetDetaiByRequestAsync(string maDt, string tenDt, string maCn, string maBm,
             string gvrd, string gvhd, string gvpb, bool trangThai, string namHoc, int dot, string maNhom, bool isThamkhao)
         {

@@ -80,6 +80,15 @@ namespace XuLyKhoaLuan.Repositories
             }
         }
 
+        public async Task<List<GiangvienModel>> search(string? maBm, string? tenGv)
+        {
+            var giangViens = await _context.Giangviens
+                                .Where(gv => (string.IsNullOrEmpty(maBm) || gv.MaBm == maBm) &&
+                                (string.IsNullOrEmpty(tenGv) || gv.TenGv.Contains(tenGv)))
+                                .ToListAsync();
+            return _mapper.Map<List<GiangvienModel>>(giangViens);
+        }
+
         public async Task<List<int>> GetSoLuongNhiemVuAsync(string maGv, string namHoc, int dot)
         {
             List<int> list = new List<int>();

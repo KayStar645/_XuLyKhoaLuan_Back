@@ -32,6 +32,19 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpGet("maBm, tenGv")]
+        public async Task<IActionResult> search(string? maBm, string? tenGv)
+        {
+            try
+            {
+                return Ok(await _GiangvienRepo.search(maBm, tenGv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("MaGV")]
         public async Task<IActionResult> GetGiangvienByID(string MaGV)
         {
