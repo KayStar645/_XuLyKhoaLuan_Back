@@ -130,6 +130,7 @@ builder.Services.AddTransient<IDetaichuyennganhRepository, DetaichuyennganhRepos
 
 builder.Services.AddTransient<ITraodoiRepo, TraodoiRepo>();
 builder.Services.AddTransient<ILichPhanBienRepo, LichPhanBienRepo>();
+builder.Services.AddTransient<IDeTaiDiemRepo, DeTaiDiemRepo>();
 
 //
 builder.Services.AddSignalR();
