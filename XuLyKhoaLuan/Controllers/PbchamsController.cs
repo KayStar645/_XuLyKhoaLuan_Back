@@ -75,13 +75,16 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpDelete("MaGV, MaDT")]
-        public async Task<IActionResult> DeletePbcham(string MaGV, string MaDT)
+        [HttpDelete("MaGV, MaDT, maSv, namHoc, dot")]
+        public async Task<IActionResult> DeletePbcham(string MaGV, string MaDT, string maSv, string namHoc, int dot)
         {
             PbchamModel pbCham = new()
             {
                 MaGv = MaGV,
-                MaDt = MaDT
+                MaDt = MaDT,
+                MaSv = maSv,
+                NamHoc = namHoc,
+                Dot = dot
             };
             await _PbchamRepo.DeletePbchamsAsync(pbCham);
             return Ok();

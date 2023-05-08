@@ -86,13 +86,16 @@ namespace XuLyKhoaLuan.Controllers
         }
 
         // DELETE api/<HdchamsController>/5
-        [HttpDelete("MaGV, MaDT")]
-        public async Task<IActionResult> Delete(string MaGV, string MaDT)
+        [HttpDelete("MaGV, MaDT, maSv, namHoc, dot")]
+        public async Task<IActionResult> Delete(string MaGV, string MaDT, string maSv, string namHoc, int dot)
         {
             HdchamModel model = new()
             {
                 MaGv = MaGV,
-                MaDt = MaDT
+                MaDt = MaDT,
+                MaSv = maSv,
+                NamHoc = namHoc,
+                Dot = dot
             };
             await _HdchamRepo.DeleteHdchamsAsync(model);
             return Ok();

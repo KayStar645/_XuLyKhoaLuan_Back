@@ -8,6 +8,7 @@ namespace XuLyKhoaLuan.Data
         public Huongdan()
         {
             Congviecs = new HashSet<Congviec>();
+            Hdchams = new HashSet<Hdcham>();
             Hdgopies = new HashSet<Hdgopy>();
         }
 
@@ -20,8 +21,8 @@ namespace XuLyKhoaLuan.Data
 
         public virtual Detai MaDtNavigation { get; set; } = null!;
         public virtual Giangvien MaGvNavigation { get; set; } = null!;
-        public virtual Hdcham? Hdcham { get; set; }
         public virtual ICollection<Congviec> Congviecs { get; set; }
+        public virtual ICollection<Hdcham> Hdchams { get; set; }
         public virtual ICollection<Hdgopy> Hdgopies { get; set; }
     }
 }

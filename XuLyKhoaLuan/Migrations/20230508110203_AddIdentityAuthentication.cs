@@ -580,7 +580,7 @@ namespace XuLyKhoaLuan.Migrations
                 {
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    ThoiGian = table.Column<DateTime>(type: "datetime", nullable: true),
+                    ThoiGian = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -814,7 +814,7 @@ namespace XuLyKhoaLuan.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HDCHAM", x => new { x.MaGV, x.MaDT });
+                    table.PrimaryKey("PK_HDCHAM", x => new { x.MaGV, x.MaDT, x.MaSV, x.NamHoc, x.Dot });
                     table.ForeignKey(
                         name: "FK_HDCHAM_HUONGDAN",
                         columns: x => new { x.MaGV, x.MaDT },
@@ -867,7 +867,7 @@ namespace XuLyKhoaLuan.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PBCHAM", x => new { x.MaGV, x.MaDT });
+                    table.PrimaryKey("PK_PBCHAM", x => new { x.MaGV, x.MaDT, x.MaSV, x.NamHoc, x.Dot });
                     table.ForeignKey(
                         name: "FK_PBCHAM_PHANBIEN",
                         columns: x => new { x.MaGV, x.MaDT },

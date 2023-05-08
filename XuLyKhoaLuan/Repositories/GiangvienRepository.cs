@@ -89,6 +89,27 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<GiangvienModel>>(giangViens);
         }
 
+        public async Task<List<GiangvienModel>> GetGiangVienByNhiemVuAsync(string maBm, string maDt, int loaiNV)
+        {
+            if (loaiNV == 1) // Hướng dẫn
+            {
+                // Lấy danh sách giảng viên thuộc bộ môn này và chưa phản biện đề tài này
+                var giangViens = await _context.Giangviens
+                    .Where(gv => gv.MaBm == maBm &&
+                           !_context.Phanbiens.Any(pb => pb.MaGv == gv.MaGv && pb.MaDt == maDt))
+                    .ToListAsync();
+                return _mapper.Map<List<GiangvienModel>>(giangViens);
+            }
+            else // Phản biện
+            {
+                var giangViens = await _context.Giangviens
+                    .Where(gv => gv.MaBm == maBm &&
+                           !_context.Huongdans.Any(pb => pb.MaGv == gv.MaGv && pb.MaDt == maDt))
+                    .ToListAsync();
+                return _mapper.Map<List<GiangvienModel>>(giangViens);
+            }
+        }
+
         public async Task<List<int>> GetSoLuongNhiemVuAsync(string maGv, string namHoc, int dot)
         {
             List<int> list = new List<int>();

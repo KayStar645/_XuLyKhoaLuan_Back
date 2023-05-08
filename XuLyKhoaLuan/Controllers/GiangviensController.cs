@@ -130,5 +130,18 @@ namespace XuLyKhoaLuan.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("maBm, maDt, loaiNV")]
+        public async Task<IActionResult> GetGiangVienByNhiemVuAsync(string maBm, string maDt, int loaiNV)
+        {
+            try
+            {
+                return Ok(await _GiangvienRepo.GetGiangVienByNhiemVuAsync(maBm, maDt, loaiNV));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace XuLyKhoaLuan.Data
     {
         public Phanbien()
         {
+            Pbchams = new HashSet<Pbcham>();
             Pbnhanxets = new HashSet<Pbnhanxet>();
         }
 
@@ -19,7 +20,7 @@ namespace XuLyKhoaLuan.Data
 
         public virtual Detai MaDtNavigation { get; set; } = null!;
         public virtual Giangvien MaGvNavigation { get; set; } = null!;
-        public virtual Pbcham? Pbcham { get; set; }
+        public virtual ICollection<Pbcham> Pbchams { get; set; }
         public virtual ICollection<Pbnhanxet> Pbnhanxets { get; set; }
     }
 }
