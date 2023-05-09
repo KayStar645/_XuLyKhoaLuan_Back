@@ -9,5 +9,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<string> AddHdchamsAsync(HdchamModel model);
         public Task UpdateHdchamsAsync(HdchamModel hdCham, HdchamModel model);
         public Task DeleteHdchamsAsync(HdchamModel hdCham);
+        public Task<bool> DeleteHdchamsByGvDtAsync(string maGv, string maDt, string namHoc, int dot);
     }
 }

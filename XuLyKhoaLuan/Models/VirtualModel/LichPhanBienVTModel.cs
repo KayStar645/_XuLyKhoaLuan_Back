@@ -3,6 +3,7 @@
     public class LichPhanBienVTModel
     {
         public string MaDt { get; set; } = null!;
+        public List<GiangVienVTModel> giangViens { get; set; }
         public string TenDeTai { get; set; } = null!;
         public DateTime ThoiGianBD { get; set; }
         public DateTime ThoiGianKT { get; set; }

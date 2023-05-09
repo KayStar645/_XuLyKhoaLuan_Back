@@ -30,5 +30,18 @@ namespace XuLyKhoaLuan.Controllers.NghiepVu
                 return BadRequest();
             }
         }
+
+        [HttpGet("maSv")]
+        public async Task<IActionResult> GetLichPhanBienBySvAsync(string maSv)
+        {
+            try
+            {
+                return Ok(await _LichphanbienRepo.GetLichPhanBienBySvAsync(maSv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

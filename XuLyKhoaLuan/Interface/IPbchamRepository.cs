@@ -9,5 +9,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<string> AddPbchamsAsync(PbchamModel model);
         public Task UpdatePbchamsAsync(PbchamModel pbCham, PbchamModel model);
         public Task DeletePbchamsAsync(PbchamModel pbCham);
+        public Task<bool> DeletePbchamsByGvDtAsync(string maGv, string maDt, string namHoc, int dot);
     }
 }

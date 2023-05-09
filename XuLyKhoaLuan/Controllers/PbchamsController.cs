@@ -89,5 +89,18 @@ namespace XuLyKhoaLuan.Controllers
             await _PbchamRepo.DeletePbchamsAsync(pbCham);
             return Ok();
         }
+
+        [HttpDelete("MaGV, MaDT, namHoc, dot")]
+        public async Task<IActionResult> DeletePbchamsByGvDtAsync(string maGv, string maDt, string namHoc, int dot)
+        {
+            try
+            {
+                return Ok(await _PbchamRepo.DeletePbchamsByGvDtAsync(maGv, maDt, namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

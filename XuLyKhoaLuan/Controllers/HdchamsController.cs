@@ -100,5 +100,18 @@ namespace XuLyKhoaLuan.Controllers
             await _HdchamRepo.DeleteHdchamsAsync(model);
             return Ok();
         }
+
+        [HttpDelete("MaGV, MaDT, namHoc, dot")]
+        public async Task<IActionResult> DeleteHdchamsByGvDtAsync(string maGv, string maDt, string namHoc, int dot)
+        {
+            try
+            {
+                return Ok(await _HdchamRepo.DeleteHdchamsByGvDtAsync(maGv, maDt, namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

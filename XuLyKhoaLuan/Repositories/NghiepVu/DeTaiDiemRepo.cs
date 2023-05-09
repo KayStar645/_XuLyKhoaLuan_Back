@@ -100,23 +100,55 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                             .Select(re => new DiemSoVTModel
                             {
                                 MaGV = re.MaGv,
+                                nguoiCham = 1,
                                 Diem = re.Diem
                             }).ToListAsync();
+                    if(diemHDs.Count == 0)
+                    {
+                        diemHDs.Add(new DiemSoVTModel
+                        {
+                            MaGV = "",
+                            nguoiCham = 1,
+                            Diem = -1
+                        });
+                    }    
+
                     var diemPBs = await _context.Pbchams
                             .Where(pb => pb.MaSv == sv.MaSV && pb.NamHoc == sv.NamHoc && pb.Dot == sv.Dot)
                             .Select(re => new DiemSoVTModel
                             {
                                 MaGV = re.MaGv,
+                                nguoiCham = 2,
                                 Diem = re.Diem
                             }).ToListAsync();
+                    if (diemPBs.Count == 0)
+                    {
+                        diemPBs.Add(new DiemSoVTModel
+                        {
+                            MaGV = "",
+                            nguoiCham = 2,
+                            Diem = -1
+                        });
+                    }
 
                     var diemHDPBs = await _context.Hdpbchams
                             .Where(hdpb => hdpb.MaSv == sv.MaSV && hdpb.NamHoc == sv.NamHoc && hdpb.Dot == sv.Dot)
                             .Select(re => new DiemSoVTModel
                             {
                                 MaGV = re.MaGv,
+                                nguoiCham = 3,
                                 Diem = re.Diem
                             }).ToListAsync();
+                    if (diemHDPBs.Count == 0)
+                    {
+                        diemHDPBs.Add(new DiemSoVTModel
+                        {
+                            MaGV = "",
+                            nguoiCham = 3,
+                            Diem = -1
+                        });
+                    }
+
                     sv.Diems = diemHDs.Concat(diemPBs).Concat(diemHDPBs).ToList();
                 }
             }
