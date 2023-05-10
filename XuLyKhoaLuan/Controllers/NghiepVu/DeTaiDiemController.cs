@@ -30,5 +30,18 @@ namespace XuLyKhoaLuan.Controllers.NghiepVu
                 return BadRequest();
             }
         }
+
+        [HttpPut("maGv,maDt,maSv,namHoc,dot,vaiTro,diem")]
+        public async Task<IActionResult> ChamDiemSvAsync(string maGv, string maDt, string maSv, string namHoc, int dot, int vaiTro, double diem)
+        {
+            try
+            {
+                return Ok(await _DetaidiemRepo.ChamDiemSvAsync(maGv, maDt, maSv, namHoc, dot, vaiTro, diem));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

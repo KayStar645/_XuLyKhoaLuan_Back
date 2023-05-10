@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface.NghiepVu;
+using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Models.VirtualModel;
 
 namespace XuLyKhoaLuan.Repositories.NghiepVu
@@ -10,10 +11,12 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
     public class DeTaiDiemRepo : IDeTaiDiemRepo
     {
         private readonly XuLyKhoaLuanContext _context;
+        private readonly IMapper _mapper;
 
-        public DeTaiDiemRepo(XuLyKhoaLuanContext context)
+        public DeTaiDiemRepo(XuLyKhoaLuanContext context, IMapper mapper)
         {
             this._context = context;
+            this._mapper = mapper;
         }
 
         public async Task<List<DeTaiDiemVTModel>> GetDanhSachDiemByGv(string maGv)
@@ -155,20 +158,53 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
             return deTais;
         }
 
+        public async Task<bool> ChamDiemSvAsync(string maGv, string maDt, string maSv, string namHoc, int dot, int vaiTro, double diem)
+        {
+            if (vaiTro == 1)
+            {
+                var chamDiem = await _context.Hdchams
+                    .Where(c => c.MaGv == maGv && c.MaDt == maDt &&
+                    c.MaSv == maSv && c.NamHoc == namHoc && c.Dot == dot)
+                    .SingleOrDefaultAsync();
+                if(chamDiem != null)
+                {
+                    chamDiem.Diem = diem;
+                    _context.Hdchams.Update(chamDiem);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+            }
+            else if (vaiTro == 2)
+            {
+                var chamDiem = await _context.Pbchams
+                    .Where(c => c.MaGv == maGv && c.MaDt == maDt &&
+                    c.MaSv == maSv && c.NamHoc == namHoc && c.Dot == dot)
+                    .SingleOrDefaultAsync();
+                if (chamDiem != null)
+                {
+
+                    chamDiem.Diem = diem;
+                    _context.Pbchams.Update(chamDiem);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+            }
+            else if (vaiTro == 3)
+            {
+                var chamDiem = await _context.Hdpbchams
+                    .Where(c => c.MaGv == maGv && c.MaDt == maDt &&
+                    c.MaSv == maSv && c.NamHoc == namHoc && c.Dot == dot)
+                    .SingleOrDefaultAsync();
+                if (chamDiem != null)
+                {
+                    chamDiem.Diem = diem;
+                    _context.Hdpbchams.Update(chamDiem);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }
-
-/*
-  List<DiemSoVTModel> diemSos = await _context.Sinhviens
-                    .SelectMany(sv => giangViens, (sv, gv) => new { SinhVien = sv, GiangVien = gv })
-                    .SelectAsync(s => new DiemSoVTModel
-                    {
-                        MaGV = s.GiangVien.MaGV,
-                        MaSV = s.SinhVien.MaSV,
-                        Diem = _context.Hdchams
-                            .Where(hd => hd.MaSv == s.SinhVien.MaSV && hd.NamHoc == s.SinhVien.NamHoc && hd.Dot == s.SinhVien.Dot && hd.MaGv == s.GiangVien.MaGV)
-                            .Select(hd => hd.Diem)
-                            .FirstOrDefaultAsync()
-                            .Result // sử dụng .Result để lấy giá trị của Task
-                    }).ToListAsync();
- */
