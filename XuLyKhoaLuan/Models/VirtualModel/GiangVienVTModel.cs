@@ -13,5 +13,6 @@
         public int VaiTro { get; set; }
 
         public string? ChucVu { get; set; }
+        public int duaRaHoiDong { get; set; }
     }
 }

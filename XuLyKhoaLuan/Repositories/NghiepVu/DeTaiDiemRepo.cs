@@ -64,7 +64,8 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                                 MaGV = re.gv.MaGv,
                                 TenGV = re.gv.TenGv,
                                 VaiTro = 1,
-                                ChucVu = ""
+                                ChucVu = "",
+                                duaRaHoiDong = re.hd.DuaRaHd == true ? 1 : 0,
                             }).Distinct().ToListAsync();
 
                 // Lấy danh sách giảng viên phản biện
@@ -76,7 +77,8 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                                 MaGV = re.gv.MaGv,
                                 TenGV = re.gv.TenGv,
                                 VaiTro = 2,
-                                ChucVu = ""
+                                ChucVu = "",
+                                duaRaHoiDong = re.pb.DuaRaHd == true ? 2 : 0,
                             }).Distinct().ToListAsync();
 
                 // Lấy danh sách giảng viên hội đồng
@@ -90,7 +92,8 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                                 MaGV = re.ght.gh.gv.MaGv,
                                 TenGV = re.ght.gh.gv.TenGv,
                                 VaiTro = 3,
-                                ChucVu = re.vt.TenVaiTro
+                                ChucVu = re.vt.TenVaiTro,
+                                duaRaHoiDong = 0
                             }).Distinct().ToListAsync();
 
                 // Lấy danh sách điểm của từng sinh viên

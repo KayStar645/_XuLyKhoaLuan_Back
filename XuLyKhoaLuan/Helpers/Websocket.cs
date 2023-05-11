@@ -219,5 +219,13 @@ namespace XuLyKhoaLuan.Helpers
         {
             await Clients.All.SendAsync("ReceiveFromXacNhan", dataChange);
         }
+
+        // ---  THÊM  ---
+
+        // 37. Đề tài điểm
+        public async Task SendForDeTaiDiem(bool dataChange)
+        {
+            await Clients.All.SendAsync("ReceiveFromDeTaiDiem", dataChange);
+        }
     }
 }
