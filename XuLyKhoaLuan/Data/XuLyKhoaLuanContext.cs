@@ -598,7 +598,7 @@ namespace XuLyKhoaLuan.Data
                     .HasColumnName("MaGV");
 
                 entity.Property(e => e.MaHd)
-                    .HasMaxLength(15)
+                    .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("MaHD");
 
@@ -648,7 +648,7 @@ namespace XuLyKhoaLuan.Data
                     .HasColumnName("MaGV");
 
                 entity.Property(e => e.MaHd)
-                    .HasMaxLength(15)
+                    .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("MaHD");
 
@@ -677,7 +677,7 @@ namespace XuLyKhoaLuan.Data
                     .HasColumnName("MaGV");
 
                 entity.Property(e => e.MaHd)
-                    .HasMaxLength(15)
+                    .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("MaHD");
 
@@ -708,7 +708,7 @@ namespace XuLyKhoaLuan.Data
                 entity.HasIndex(e => e.MaBm, "IX_HOIDONG_MaBM");
 
                 entity.Property(e => e.MaHd)
-                    .HasMaxLength(15)
+                    .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("MaHD");
 
@@ -1142,7 +1142,7 @@ namespace XuLyKhoaLuan.Data
                 entity.HasIndex(e => e.MaVt, "IX_THAMGIAHD_MaVT");
 
                 entity.Property(e => e.MaHd)
-                    .HasMaxLength(15)
+                    .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("MaHD");
 

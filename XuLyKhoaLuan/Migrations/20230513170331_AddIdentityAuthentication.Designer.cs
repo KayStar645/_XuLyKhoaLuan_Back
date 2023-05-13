@@ -12,7 +12,7 @@ using XuLyKhoaLuan.Data;
 namespace XuLyKhoaLuan.Migrations
 {
     [DbContext(typeof(XuLyKhoaLuanContext))]
-    [Migration("20230508110203_AddIdentityAuthentication")]
+    [Migration("20230513170331_AddIdentityAuthentication")]
     partial class AddIdentityAuthentication
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -782,9 +782,9 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnName("MaGV");
 
                     b.Property<string>("MaHd")
-                        .HasMaxLength(15)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("MaHD");
 
                     b.Property<string>("MaDt")
@@ -842,9 +842,9 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnName("MaGV");
 
                     b.Property<string>("MaHd")
-                        .HasMaxLength(15)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("MaHD");
 
                     b.Property<string>("NoiDung")
@@ -869,9 +869,9 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnName("MaGV");
 
                     b.Property<string>("MaHd")
-                        .HasMaxLength(15)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("MaHD");
 
                     b.Property<string>("MaDt")
@@ -896,9 +896,9 @@ namespace XuLyKhoaLuan.Migrations
             modelBuilder.Entity("XuLyKhoaLuan.Data.Hoidong", b =>
                 {
                     b.Property<string>("MaHd")
-                        .HasMaxLength(15)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("MaHD");
 
                     b.Property<string>("DiaDiem")
@@ -1349,9 +1349,9 @@ namespace XuLyKhoaLuan.Migrations
             modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgiahd", b =>
                 {
                     b.Property<string>("MaHd")
-                        .HasMaxLength(15)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("MaHD");
 
                     b.Property<string>("MaGv")

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface.NghiepVu;
+using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Models.VirtualModel;
 
 namespace XuLyKhoaLuan.Repositories.NghiepVu
@@ -9,10 +10,12 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
     public class LichPhanBienRepo : ILichPhanBienRepo
     {
         private readonly XuLyKhoaLuanContext _context;
+        private readonly IMapper _mapper;
 
-        public LichPhanBienRepo(XuLyKhoaLuanContext context)
+        public LichPhanBienRepo(XuLyKhoaLuanContext context, IMapper mapper)
         {
             this._context = context;
+            _mapper = mapper;
         }
 
 
@@ -114,5 +117,41 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                         .ToListAsync();
             return lichHDs.Concat(lichPBs).Concat(lichHDongs).OrderBy(l => l.ThoiGianBD).OrderByDescending(l => l.ThoiGianKT).ToList();
         }
+
+        public async Task<List<DetaiModel>> GetSelectDetaiByGiangVienAsync(string maGv, string namHoc, int dot, int loaiLich)
+        {
+            if(loaiLich == 1)
+            {
+                var deTais = await _context.Detais
+                            .Join(_context.Huongdans, dt => dt.MaDt, hd => hd.MaDt, (dt, hd) => new { dt = dt, hd = hd })
+                            .Where(re => re.hd.MaGv == maGv && re.dt.NamHoc == namHoc && re.dt.Dot == dot &&
+                            re.hd.ThoiGianBd == null && re.hd.ThoiGianKt == null && re.hd.DiaDiem == null)
+                            .Select(re => re.dt)
+                            .ToListAsync();
+                return _mapper.Map<List<DetaiModel>>(deTais);
+            }   
+            else if(loaiLich == 2)
+            {
+
+                var deTais = await _context.Detais
+                            .Join(_context.Phanbiens, dt => dt.MaDt, hd => hd.MaDt, (dt, hd) => new { dt = dt, hd = hd })
+                            .Where(re => re.hd.MaGv == maGv && re.dt.NamHoc == namHoc && re.dt.Dot == dot &&
+                            re.hd.ThoiGianBd == null && re.hd.ThoiGianKt == null && re.hd.DiaDiem == null)
+                            .Select(re => re.dt)
+                            .ToListAsync();
+                return _mapper.Map<List<DetaiModel>>(deTais);
+            }
+            else if(loaiLich == 3)
+            {
+
+                return null;
+            }
+            else
+            {
+
+                return null;
+            }
+                        
+        }    
     }
 }

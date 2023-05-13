@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using XuLyKhoaLuan.Interface.NghiepVu;
 using XuLyKhoaLuan.Interface.TraoDoi;
+using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Models.VirtualModel;
 using XuLyKhoaLuan.Repositories.BinhLuan;
 
@@ -37,6 +38,19 @@ namespace XuLyKhoaLuan.Controllers.NghiepVu
             try
             {
                 return Ok(await _LichphanbienRepo.GetLichPhanBienBySvAsync(maSv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maGv,namHoc,dot,loaiLich")]
+        public async Task<IActionResult> GetSelectDetaiByGiangVienAsync(string maGv, string namHoc, int dot, int loaiLich)
+        {
+            try
+            {
+                return Ok(await _LichphanbienRepo.GetSelectDetaiByGiangVienAsync(maGv, namHoc, dot, loaiLich));
             }
             catch
             {

@@ -373,7 +373,7 @@ namespace XuLyKhoaLuan.Migrations
                 name: "HOIDONG",
                 columns: table => new
                 {
-                    MaHD = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    MaHD = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
                     TenHD = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NgayLap = table.Column<DateTime>(type: "date", nullable: true),
                     ThoiGianBd = table.Column<DateTime>(type: "datetime", nullable: true),
@@ -676,7 +676,7 @@ namespace XuLyKhoaLuan.Migrations
                 name: "THAMGIAHD",
                 columns: table => new
                 {
-                    MaHD = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    MaHD = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     MaVT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false)
                 },
@@ -781,7 +781,7 @@ namespace XuLyKhoaLuan.Migrations
                 columns: table => new
                 {
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    MaHD = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    MaHD = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
                     MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     Diem = table.Column<double>(type: "float", nullable: true)
                 },
@@ -967,7 +967,7 @@ namespace XuLyKhoaLuan.Migrations
                 columns: table => new
                 {
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    MaHD = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
+                    MaHD = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
                     MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     MaSV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
                     NamHoc = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
@@ -999,7 +999,7 @@ namespace XuLyKhoaLuan.Migrations
                     ThoiGian = table.Column<DateTime>(type: "datetime", nullable: true),
                     NoiDung = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MaGV = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
-                    MaHD = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
+                    MaHD = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     MaDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true)
                 },
                 constraints: table =>

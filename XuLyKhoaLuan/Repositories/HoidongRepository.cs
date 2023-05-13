@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Models.VirtualModel;
 
 namespace XuLyKhoaLuan.Repositories
 {
@@ -56,6 +57,128 @@ namespace XuLyKhoaLuan.Repositories
                 _context.Hoidongs.Update(updateHoidong);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<List<HoiDongVTModel>> GetHoidongsByBomonAsync(string maBm)
+        {
+            var hoiDongs = await _context.Hoidongs
+                        .Join(_context.Thamgiahds, hd => hd.MaHd, tg => tg.MaHd, (hd, tg) => new { hd = hd, tg = tg })
+                        .Where(re => re.hd.MaBm == maBm)
+                        .Select(re => new HoiDongVTModel
+                        {
+                            MaHD = re.hd.MaHd,
+                            TenHD = re.hd.TenHd,
+                            NgayLap = re.hd.NgayLap,
+                            ThoiGianBD = re.hd.ThoiGianBd,
+                            ThoiGianKT = re.hd.ThoiGianKt,
+                            DiaDiem = re.hd.DiaDiem,
+                            ChuTich = new GiangVienVTModel(),
+                            ThuKy = new GiangVienVTModel(),
+                            UyViens = new List<GiangVienVTModel>()
+                        })
+                        .Distinct().ToListAsync();
+            foreach(var hd in hoiDongs)
+            {
+                var giangViens = await _context.Thamgiahds
+                                .Join(_context.Giangviens, tg => tg.MaGv, gv => gv.MaGv, (tg, gv) => new { tg = tg, gv = gv })
+                                .Where(re => re.tg.MaHd == hd.MaHD)
+                                .ToListAsync();
+                foreach(var gv in giangViens)
+                {
+                    if(gv.tg.MaVt == "VT01")
+                    {
+                        hd.ChuTich = new GiangVienVTModel 
+                        {
+                            MaGV = gv.gv.MaGv,
+                            TenGV = gv.gv.TenGv,
+                            VaiTro = 3,
+                            ChucVu = "Chủ tịch"
+                        };
+                    }   
+                    else if (gv.tg.MaVt == "VT02")
+                    {
+                        hd.ThuKy = new GiangVienVTModel
+                        {
+                            MaGV = gv.gv.MaGv,
+                            TenGV = gv.gv.TenGv,
+                            VaiTro = 3,
+                            ChucVu = "Thư ký"
+                        };
+                    }
+                    else
+                    {
+                        hd.UyViens.Add(new GiangVienVTModel
+                        {
+                            MaGV = gv.gv.MaGv,
+                            TenGV = gv.gv.TenGv,
+                            VaiTro = 3,
+                            ChucVu = "Ủy viên"
+                        });
+                    }
+                }    
+            }
+            return hoiDongs;
+        }
+
+        public async Task<List<HoiDongVTModel>> GetHoidongsByGiangvienAsync(string maGv)
+        {
+            var hoiDongs = await _context.Hoidongs
+                        .Join(_context.Thamgiahds, hd => hd.MaHd, tg => tg.MaHd, (hd, tg) => new { hd = hd, tg = tg })
+                        .Where(re => re.tg.MaGv == maGv)
+                        .Select(re => new HoiDongVTModel
+                        {
+                            MaHD = re.hd.MaHd,
+                            TenHD = re.hd.TenHd,
+                            NgayLap = re.hd.NgayLap,
+                            ThoiGianBD = re.hd.ThoiGianBd,
+                            ThoiGianKT = re.hd.ThoiGianKt,
+                            DiaDiem = re.hd.DiaDiem,
+                            ChuTich = new GiangVienVTModel(),
+                            ThuKy = new GiangVienVTModel(),
+                            UyViens = new List<GiangVienVTModel>()
+                        })
+                        .Distinct().ToListAsync();
+            foreach (var hd in hoiDongs)
+            {
+                var giangViens = await _context.Thamgiahds
+                                .Join(_context.Giangviens, tg => tg.MaGv, gv => gv.MaGv, (tg, gv) => new { tg = tg, gv = gv })
+                                .Where(re => re.tg.MaHd == hd.MaHD)
+                                .ToListAsync();
+                foreach (var gv in giangViens)
+                {
+                    if (gv.tg.MaVt == "VT01")
+                    {
+                        hd.ChuTich = new GiangVienVTModel
+                        {
+                            MaGV = gv.gv.MaGv,
+                            TenGV = gv.gv.TenGv,
+                            VaiTro = 3,
+                            ChucVu = "Chủ tịch"
+                        };
+                    }
+                    else if (gv.tg.MaVt == "VT02")
+                    {
+                        hd.ThuKy = new GiangVienVTModel
+                        {
+                            MaGV = gv.gv.MaGv,
+                            TenGV = gv.gv.TenGv,
+                            VaiTro = 3,
+                            ChucVu = "Thư ký"
+                        };
+                    }
+                    else
+                    {
+                        hd.UyViens.Add(new GiangVienVTModel
+                        {
+                            MaGV = gv.gv.MaGv,
+                            TenGV = gv.gv.TenGv,
+                            VaiTro = 3,
+                            ChucVu = "Ủy viên"
+                        });
+                    }
+                }
+            }
+            return hoiDongs;
         }
     }
 }

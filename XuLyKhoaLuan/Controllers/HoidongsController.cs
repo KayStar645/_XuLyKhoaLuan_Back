@@ -39,15 +39,8 @@ namespace XuLyKhoaLuan.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewHoidong(HoidongModel model)
         {
-            try
-            {
-                var newHoidong = await _HoidongRepo.AddHoidongsAsync(model);
-                return Ok(model);
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            var newHoidong = await _HoidongRepo.AddHoidongsAsync(model);
+            return Ok(model);
         }
 
         [HttpPut("MaHD")]
@@ -70,6 +63,32 @@ namespace XuLyKhoaLuan.Controllers
         {
             await _HoidongRepo.DeleteHoidongsAsync(MaHD);
             return Ok();
+        }
+
+        [HttpGet("maBm")]
+        public async Task<IActionResult> GetHoidongsByBomonAsync(string maBm)
+        {
+            try
+            {
+                return Ok(await _HoidongRepo.GetHoidongsByBomonAsync(maBm));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maGv")]
+        public async Task<IActionResult> GetHoidongsByGiangvienAsync(string maGv)
+        {
+            try
+            {
+                return Ok(await _HoidongRepo.GetHoidongsByGiangvienAsync(maGv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }

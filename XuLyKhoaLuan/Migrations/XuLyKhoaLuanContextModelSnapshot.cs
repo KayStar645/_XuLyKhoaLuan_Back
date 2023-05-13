@@ -780,9 +780,9 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnName("MaGV");
 
                     b.Property<string>("MaHd")
-                        .HasMaxLength(15)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("MaHD");
 
                     b.Property<string>("MaDt")
@@ -840,9 +840,9 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnName("MaGV");
 
                     b.Property<string>("MaHd")
-                        .HasMaxLength(15)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("MaHD");
 
                     b.Property<string>("NoiDung")
@@ -867,9 +867,9 @@ namespace XuLyKhoaLuan.Migrations
                         .HasColumnName("MaGV");
 
                     b.Property<string>("MaHd")
-                        .HasMaxLength(15)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("MaHD");
 
                     b.Property<string>("MaDt")
@@ -894,9 +894,9 @@ namespace XuLyKhoaLuan.Migrations
             modelBuilder.Entity("XuLyKhoaLuan.Data.Hoidong", b =>
                 {
                     b.Property<string>("MaHd")
-                        .HasMaxLength(15)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("MaHD");
 
                     b.Property<string>("DiaDiem")
@@ -1347,9 +1347,9 @@ namespace XuLyKhoaLuan.Migrations
             modelBuilder.Entity("XuLyKhoaLuan.Data.Thamgiahd", b =>
                 {
                     b.Property<string>("MaHd")
-                        .HasMaxLength(15)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("MaHD");
 
                     b.Property<string>("MaGv")
