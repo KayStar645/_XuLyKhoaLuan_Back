@@ -32,12 +32,12 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
-        [HttpGet("maBm, tenGv")]
-        public async Task<IActionResult> search(string? maBm, string? tenGv)
+        [HttpGet("maBm,tenGv,namHoc,dot,flag")]
+        public async Task<IActionResult> search(string? maBm, string? tenGv, string namHoc, int dot, bool flag)
         {
             try
             {
-                return Ok(await _GiangvienRepo.search(maBm, tenGv));
+                return Ok(await _GiangvienRepo.search(maBm, tenGv, namHoc, dot, flag));
             }
             catch
             {

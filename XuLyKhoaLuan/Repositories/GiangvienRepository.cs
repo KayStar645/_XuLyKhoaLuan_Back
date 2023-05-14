@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
@@ -80,12 +81,25 @@ namespace XuLyKhoaLuan.Repositories
             }
         }
 
-        public async Task<List<GiangvienModel>> search(string? maBm, string? tenGv)
+        public async Task<List<GiangvienModel>> search(string? maBm, string? tenGv, string namHoc, int dot, bool flag = false)
         {
             var giangViens = await _context.Giangviens
-                                .Where(gv => (string.IsNullOrEmpty(maBm) || gv.MaBm == maBm) &&
-                                (string.IsNullOrEmpty(tenGv) || gv.TenGv.Contains(tenGv)))
-                                .ToListAsync();
+                    .Where(gv => (string.IsNullOrEmpty(maBm) || gv.MaBm == maBm) &&
+                                 (string.IsNullOrEmpty(tenGv) ||
+                                    (gv.TenGv.Contains(tenGv) || gv.MaGv.Contains(tenGv) ||
+                                    gv.Email.Contains(tenGv) || gv.Sdt.Contains(tenGv))
+                                 ))
+                    .ToListAsync();
+            if (flag)
+            {
+                List<GiangvienModel> listGv = _mapper.Map<List<GiangvienModel>>(giangViens);
+                foreach (GiangvienModel gv in listGv)
+                {
+                    gv.slnv = await this.GetSoLuongNhiemVuAsync(gv.MaGv, namHoc, dot);
+                }
+                return listGv;
+            }  
+
             return _mapper.Map<List<GiangvienModel>>(giangViens);
         }
 

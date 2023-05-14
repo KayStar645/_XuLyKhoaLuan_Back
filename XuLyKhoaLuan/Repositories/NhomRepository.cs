@@ -84,7 +84,7 @@ namespace XuLyKhoaLuan.Repositories
         public async Task<bool> isTruongNhomByMasvAsync(string maSV, string namHoc, int dot, string maNhom)
         {
             var isTruongnhom = await _context.Thamgia
-                .AnyAsync(t => t.MaSv == maSV && t.NamHoc == namHoc && t.Dot == dot && t.MaNhom == maNhom);
+                .AnyAsync(t => t.MaSv == maSV && t.NamHoc == namHoc && t.Dot == dot && t.MaNhom == maNhom && t.TruongNhom == true);
             return isTruongnhom;
         }
     }

@@ -13,6 +13,7 @@
         public DateTime? NgayNhanViec { get; set; }
         public DateTime? NgayNghi { get; set; }
         public string? MaBm { get; set; }
+        public List<int> slnv { get; set; }
 
     }
 }

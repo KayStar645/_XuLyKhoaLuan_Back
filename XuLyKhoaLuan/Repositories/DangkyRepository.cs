@@ -70,7 +70,7 @@ namespace XuLyKhoaLuan.Repositories
         {
             var deTai = await _context.Detais
                     .Join(_context.Dangkies, dt => dt.MaDt, dk => dk.MaDt, (dt, dk) => new { dt = dt, dk = dk })
-                    .Where(re => re.dt.NamHoc == namHoc && re.dt.Dot == dot)
+                    .Where(re => re.dt.NamHoc == namHoc && re.dt.Dot == dot && re.dk.MaNhom == maNhom)
                     .Select(re => re.dt)
                     .SingleAsync();
             return _mapper.Map<DetaiModel>(deTai);

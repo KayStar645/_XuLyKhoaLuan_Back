@@ -129,7 +129,11 @@ namespace XuLyKhoaLuan.Repositories
             var sinhViens = await _context.Sinhviens
                            .Where(sv => (string.IsNullOrEmpty(maCn) || sv.MaCn == maCn) &&
                            (string.IsNullOrEmpty(lop) || sv.Lop.Contains(lop)) &&
-                           (string.IsNullOrEmpty(tenSv) || sv.TenSv.Contains(tenSv)))
+                           (
+                           string.IsNullOrEmpty(tenSv) || (sv.TenSv.Contains(tenSv) ||
+                           sv.MaSv.Contains(tenSv) || sv.Lop.Contains(tenSv) ||
+                           sv.Email.Contains(tenSv) || sv.Sdt.Contains(tenSv))
+                           ))
                            .ToListAsync();
             return _mapper.Map<List<SinhvienModel>>(sinhViens);
         }    
