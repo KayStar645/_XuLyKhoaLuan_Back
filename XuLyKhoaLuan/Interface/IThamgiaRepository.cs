@@ -1,4 +1,5 @@
 ﻿using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Models.VirtualModel;
 
 namespace XuLyKhoaLuan.Interface
 {
@@ -16,5 +17,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<List<ThamgiaModel>> GetThamgiaByDotdk(string namHoc, int dot);
         public Task<List<ThamgiaModel>> GetThamgiaByChuyennganhDotdk(string maCn, string namHoc, int dot);
         public Task<List<ThamgiaModel>> Search(string? tenSv, string? maCn, string? namHoc, int? dot);
+        public Task<List<ThamGiaVTModel>> GetAllThamgiaInfDotdkNotmesAsync(string maSv, string namHoc, int dot);
     }
 }

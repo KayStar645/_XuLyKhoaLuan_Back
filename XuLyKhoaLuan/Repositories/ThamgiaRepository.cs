@@ -4,6 +4,7 @@ using System.Linq;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Models.VirtualModel;
 
 namespace XuLyKhoaLuan.Repositories
 {
@@ -51,6 +52,23 @@ namespace XuLyKhoaLuan.Repositories
                 .Where(t => t.MaSv != maSV && t.NamHoc == namHoc && t.Dot == dot)
                 .ToListAsync();
             return _mapper.Map<List<ThamgiaModel>>(Thamgias);
+        }
+
+        public async Task<List<ThamGiaVTModel>> GetAllThamgiaInfDotdkNotmesAsync(string maSv, string namHoc, int dot)
+        {
+            var thamGias = await _context.Thamgia
+                            .Join(_context.Sinhviens, tg => tg.MaSv, sv => sv.MaSv, (tg, sv) => new { tg = tg, sv = sv })
+                            .Join(_context.Chuyennganhs, ts => ts.sv.MaCn, cn => cn.MaCn, (ts, cn) => new { ts = ts, cn = cn })
+                            .Where(re => re.ts.tg.MaSv != maSv && re.ts.tg.NamHoc == namHoc && re.ts.tg.Dot == dot)
+                            .Select(re => new ThamGiaVTModel
+                            {
+                                maSv = re.ts.tg.MaSv,
+                                tenSv = re.ts.sv.TenSv,
+                                gioiTinh = re.ts.sv.GioiTinh,
+                                lop = re.ts.sv.Lop,
+                                chuyenNganh = re.cn.TenCn,
+                            }).Distinct().ToListAsync();
+            return thamGias;
         }
 
         public async Task<ThamgiaModel> GetThamgiaByIDAsync(string maSV, string namHoc, int dot)

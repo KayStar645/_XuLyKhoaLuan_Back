@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Models.VirtualModel;
 using static Sieve.Extensions.MethodInfoExtended;
 
 namespace XuLyKhoaLuan.Controllers
@@ -176,6 +177,19 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 return Ok(await _ThamgiaRepo.GetThamgiaByChuyennganhDotdk(maCn, namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("maSv,namHoc,dot")]
+        public async Task<IActionResult> GetAllThamgiaInfDotdkNotmesAsync(string maSv, string namHoc, int dot)
+        {
+            try
+            {
+                return Ok(await _ThamgiaRepo.GetAllThamgiaInfDotdkNotmesAsync(maSv, namHoc, dot));
             }
             catch
             {
