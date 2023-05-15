@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Models.VirtualModel;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace XuLyKhoaLuan.Controllers
 {
@@ -69,6 +72,19 @@ namespace XuLyKhoaLuan.Controllers
         {
             var detai = await _detaiRepo.GetDeTaiByIDAsync(maDT);
             return detai == null ? BadRequest() : Ok(detai);
+        }
+
+        [HttpGet("deTai")]
+        public async Task<IActionResult> GetGiangvienByDetaiAsync(string maDt)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.GetGiangvienByDetaiAsync(maDt));
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("maK")]

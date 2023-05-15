@@ -47,10 +47,7 @@ namespace XuLyKhoaLuan.Repositories
                             .Where(re => re.dk.MaDt == maDt)
                             .Select(re => re.svtgndk.svtg.sv)
                             .ToListAsync();
-            if(sinhViens.Count == 0)
-            {
-                return false;
-            }    
+    
             foreach(var sv in sinhViens)
             {
                 // Nếu tồn tại 1 sinh viên đã chấm điểm (!= -1) thì không được xóa điểm nhóm này
