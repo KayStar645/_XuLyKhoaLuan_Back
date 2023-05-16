@@ -209,5 +209,92 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
             return false;
         }
 
+        public async Task<List<DiemSVVTModel>> GetDanhSachDiem(string? keyword, string? maCn, string? namHoc, int? dot = 0)
+        {
+           List<DiemSVVTModel> listDiem = await _context.Sinhviens
+                            .Join(_context.Thamgia, sv => sv.MaSv, tg => tg.MaSv, (sv, tg) => new { sv = sv, tg = tg })
+                            .Join(_context.Chuyennganhs, sg => sg.sv.MaCn, cn => cn.MaCn, (sg, cn) => new { sg = sg, cn = cn })
+                            .Where(re =>
+                                (string.IsNullOrEmpty(namHoc) || re.sg.tg.NamHoc == namHoc) &&
+                                (dot == 0 || re.sg.tg.Dot == dot) &&
+                                (string.IsNullOrEmpty(maCn) ||re.cn.MaCn == maCn) &&
+                                (string.IsNullOrEmpty(keyword) ||
+                                (re.sg.sv.TenSv.Contains(keyword) || re.sg.sv.MaSv.Contains(keyword) ||
+                                re.sg.sv.Lop.Contains(keyword) || re.cn.TenCn.Contains(keyword))
+                                ))
+                            .Select(re => new DiemSVVTModel
+                            {
+                                maSv = re.sg.sv.MaSv,
+                                tenSv = re.sg.sv.TenSv,
+                                namHoc = re.sg.tg.NamHoc,
+                                dot = re.sg.tg.Dot,
+                                lop = re.sg.sv.Lop,
+                                maCn = re.cn.MaCn,
+                                chuyenNganh = re.cn.TenCn,
+                                diemHd = 0,
+                                diemPb = 0,
+                                diemHdpb = -1,
+                                diemTb = 0
+                            })
+                            .ToListAsync();
+            foreach(var sv in listDiem)
+            {
+                // Điểm hướng dẫn
+                var diemHds = await _context.Hdchams
+                            .Where(hd => hd.MaSv == sv.maSv && hd.NamHoc == sv.namHoc && hd.Dot == sv.dot)
+                            .ToListAsync();
+                double diemHd = 0;
+                foreach (var diem in diemHds)
+                {
+                    diemHd += (diem.Diem != null && diem.Diem != -1) ? (double)diem.Diem : 0;
+                }
+                if(diemHds.Count != 0)
+                {
+                    sv.diemHd = (diemHd / diemHds.Count);
+                }
+
+                // Điểm phản biện
+                var diemPbs = await _context.Pbchams
+                            .Where(pb => pb.MaSv == sv.maSv &&pb.NamHoc == sv.namHoc && pb.Dot == sv.dot)
+                            .ToListAsync();
+                double diemPb = 0;
+                foreach (var diem in diemPbs)
+                {
+                    diemPb += (diem.Diem != null && diem.Diem != -1) ? (double)diem.Diem : 0;
+                }
+                if (diemPbs.Count != 0)
+                {
+                    sv.diemPb = (diemPb / diemPbs.Count);
+                }
+
+                // Điểm hội đồng
+                var diemHdpbs = await _context.Hdpbchams
+                            .Where(hdpb => hdpb.MaSv == sv.maSv && hdpb.NamHoc == sv.namHoc && hdpb.Dot == sv.dot)
+                            .ToListAsync();
+                double diemHdpb = 0;
+                foreach (var diem in diemHdpbs)
+                {
+                    diemHdpb += (diem.Diem != null && diem.Diem != -1) ? (double)diem.Diem : 0;
+                }
+                if (diemHdpbs.Count != 0)
+                {
+                    sv.diemHdpb = (diemHdpb / diemHdpbs.Count);
+                }
+                else
+                {
+                    sv.diemHdpb = -1;
+                }
+                if(-1 == sv.diemHdpb)
+                {
+                    sv.diemTb = (sv.diemHd + sv.diemPb) / 2;
+                }
+                else
+                {
+                    sv.diemTb = (sv.diemHd + sv.diemPb + sv.diemHdpb) / 3;
+                }
+            }
+            return listDiem;
+        }
+
     }
 }

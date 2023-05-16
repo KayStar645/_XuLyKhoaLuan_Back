@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface.NghiepVu;
 using XuLyKhoaLuan.Interface.TraoDoi;
 using XuLyKhoaLuan.Models.VirtualModel;
@@ -37,6 +38,19 @@ namespace XuLyKhoaLuan.Controllers.NghiepVu
             try
             {
                 return Ok(await _DetaidiemRepo.ChamDiemSvAsync(maGv, maDt, maSv, namHoc, dot, vaiTro, diem));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("keyword,maCn,namHoc,dot")]
+        public async Task<IActionResult> GetDanhSachDiem(string? keyword, string? maCn, string? namHoc, int? dot = 0)
+        {
+            try
+            {
+                return Ok(await _DetaidiemRepo.GetDanhSachDiem(keyword, maCn, namHoc, dot));
             }
             catch
             {
