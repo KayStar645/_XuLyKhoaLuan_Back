@@ -100,7 +100,7 @@ namespace XuLyKhoaLuan.Repositories
                     namHoc = re.bc.NamHoc,
                     dot = re.bc.Dot,
                     tgNop = re.bc.ThoiGianNop,
-                    file = re.bc.FileBc,
+                    fileBc = re.bc.FileBc,
 
                 }).ToListAsync();
             return baoCaos;            

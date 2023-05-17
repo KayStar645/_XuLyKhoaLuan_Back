@@ -8,6 +8,6 @@
         public string namHoc { get; set; } = null!;
         public int dot { get; set; }
         public DateTime? tgNop { get; set; }
-        public string file { get; set; } = null!;
+        public string fileBc { get; set; } = null!;
     }
 }
