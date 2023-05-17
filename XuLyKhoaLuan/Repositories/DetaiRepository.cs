@@ -341,5 +341,24 @@ namespace XuLyKhoaLuan.Repositories
             return list;
         }
 
+
+
+        //keyword: mã đề tài, tên đề tài, số lượng, chuyên ngành, giảng viên ra đề, giảng viên hướng dẫn,
+        //trạng thái (Chưa duyệt, Chưa đạt, Đạt)
+        //public async Task<List<DetaiVTModel>> Search(string? keyword, string? maBm, string? namHoc, int? dot = 0)
+        //{
+        //    List<DetaiVTModel> listDt = await _context.Detais
+        //        .Join(_context.DetaiChuyennganhs, dt => dt.MaDt, dc => dc.MaDt, (dt, dc) => new { dt = dt, dc = dc })
+        //        .Join(_context.Chuyennganhs, dtc => dtc.dc.MaCn, cn => cn.MaCn, (dtc, cn) => new { dtc = dtc, cn = cn })
+        //        .Join(_context.Rades, dc => dc.dtc.dt.MaDt, rd => rd.MaDt, (dc, rd) => new { dc = dc, rd = rd })
+        //        .Join(_context.Giangviens, dr => dr.rd.MaGv, gv => gv.MaGv, (dr, gv) => new { dr = dr, gv = gv })
+        //        .Join(_context.Hdchams)
+
+
+
+
+        //    return listDt;
+        //}
+
     }
 }

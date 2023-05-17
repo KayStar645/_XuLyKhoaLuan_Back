@@ -1,5 +1,6 @@
 ﻿using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Models.VirtualModel;
 
 namespace XuLyKhoaLuan.Interface
 {
@@ -11,6 +12,6 @@ namespace XuLyKhoaLuan.Interface
         public Task UpdateBaoCaosAsync(BaocaoModel bc, BaocaoModel model);
         public Task DeleteBaoCaosAsync(BaocaoModel bc);
         public Task<int> createLanNop(string maCv, string maSv, string namHoc, int dot);
-        public Task<List<BaocaoModel>> GetBaocaoByMacv(string maCv);
+        public Task<List<BaoCaoVTModel>> GetBaocaoByMacv(string maCv, string? maSv);
     }
 }

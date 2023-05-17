@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Any;
 using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Models.VirtualModel;
 
 namespace XuLyKhoaLuan.Repositories
 {
@@ -85,10 +87,23 @@ namespace XuLyKhoaLuan.Repositories
             }
         }
 
-        public async Task<List<BaocaoModel>> GetBaocaoByMacv(string maCv)
+        public async Task<List<BaoCaoVTModel>> GetBaocaoByMacv(string maCv, string? maSv)
         {
-            var baoCaos = await _context.Baocaos.Where(b => b.MaCv == maCv).ToListAsync();
-            return _mapper.Map<List<BaocaoModel>>(baoCaos);
+            var baoCaos = await _context.Baocaos
+                .Join(_context.Sinhviens, bc => bc.MaSv, sv => sv.MaSv, (bc, sv) => new { bc = bc, sv = sv })
+                .Where(re => re.bc.MaCv.Equals(maCv) && (string.IsNullOrEmpty(maSv) || re.bc.MaSv == maSv))
+                .Select(re => new BaoCaoVTModel
+                {
+                    maCv = re.bc.MaCv,
+                    maSv = re.sv.MaSv,
+                    tenSv = re.sv.TenSv,
+                    namHoc = re.bc.NamHoc,
+                    dot = re.bc.Dot,
+                    tgNop = re.bc.ThoiGianNop,
+                    file = re.bc.FileBc,
+
+                }).ToListAsync();
+            return baoCaos;            
         }
     }
 }

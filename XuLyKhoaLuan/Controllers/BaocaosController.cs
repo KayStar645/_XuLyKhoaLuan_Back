@@ -111,12 +111,12 @@ namespace XuLyKhoaLuan.Controllers
             return Ok();
         }
 
-        [HttpGet("maCv")]
-        public async Task<IActionResult> GetBaocaoByMacv(string maCv)
+        [HttpGet("maCv,maSv")]
+        public async Task<IActionResult> GetBaocaoByMacv(string maCv, string? maSv)
         {
             try
             {
-                return Ok(await _BaocaoRepo.GetBaocaoByMacv(maCv));
+                return Ok(await _BaocaoRepo.GetBaocaoByMacv(maCv, maSv));
             }
             catch
             {
