@@ -17,6 +17,7 @@ namespace XuLyKhoaLuan.Data
         {
         }
 
+        
         public virtual DbSet<Baocao> Baocaos { get; set; } = null!;
         public virtual DbSet<Binhluan> Binhluans { get; set; } = null!;
         public virtual DbSet<Bomon> Bomons { get; set; } = null!;
@@ -66,7 +67,6 @@ namespace XuLyKhoaLuan.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             modelBuilder.Entity<Baocao>(entity =>
             {
                 entity.HasKey(e => new { e.MaCv, e.MaSv, e.NamHoc, e.Dot, e.LanNop });
@@ -89,9 +89,7 @@ namespace XuLyKhoaLuan.Data
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FileBc)
-                    .HasMaxLength(100)
-                    .HasColumnName("File_BC");
+                entity.Property(e => e.FileBc).HasColumnName("File_BC");
 
                 entity.Property(e => e.ThoiGianNop).HasColumnType("datetime");
 
