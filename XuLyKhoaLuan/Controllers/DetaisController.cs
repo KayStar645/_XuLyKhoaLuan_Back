@@ -299,5 +299,19 @@ namespace XuLyKhoaLuan.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("keyword,maBm,maGv,namHoc,dot,flag,chucVu")]
+        public async Task<IActionResult> Search(string? keyword, string? maBm, string? maGv, string? namHoc,
+            int? dot = 0, bool? flag = false, int? chucVu = 0)
+        {
+            try
+            {
+                return Ok(await _detaiRepo.Search(keyword, maBm, maGv, namHoc, dot, flag, chucVu));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

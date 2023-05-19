@@ -6,6 +6,7 @@
         public string TenGV { get; set; }
 
         /*
+            0: Ra đề
             1: Hướng dẫn
             2: Phản biện
             3: Hội đồng

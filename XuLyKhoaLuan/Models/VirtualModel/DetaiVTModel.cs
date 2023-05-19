@@ -2,6 +2,7 @@
 {
     public class DetaiVTModel
     {
+        public string MaBm { get; set; } = null!;
         public string MaDT { get; set; } = null!;
 
         public string TenDT { get; set; } = null!;
@@ -19,9 +20,9 @@
         public DateTime? ngayDuyet { get; set; }
 
         // Thêm nè
-        public List<string> CnPhuHop { get; set; } = null!;
-        public List<string> GVRD { get; set; } = null!;
-        public List<string> GVHD { get; set; } = null!;
-        public List<string> GVPB { get; set; } = null!;
+        public List<ChuyennganhModel> CnPhuHop { get; set; } = null!;
+        public List<GiangVienVTModel> GVRD { get; set; } = null!;
+        public List<GiangVienVTModel> GVHD { get; set; } = null!;
+        public List<GiangVienVTModel> GVPB { get; set; } = null!;
     }
 }

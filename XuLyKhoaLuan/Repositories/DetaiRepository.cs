@@ -7,6 +7,7 @@ using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Models.VirtualModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace XuLyKhoaLuan.Repositories
 {
@@ -265,7 +266,31 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<DetaiModel>>(deTaiPbs);
         }
 
-        public async Task<List<DetaiModel>> search(string? maCn, string? tenDt, string? namHoc, int? dot, string? key, string? maGv, int? chucVu = 0)
+        public async Task<GiangVienDtVTModel> GetGiangvienByDetaiAsync(string maDt)
+        {
+            GiangVienDtVTModel list = new GiangVienDtVTModel();
+            list.maDt = maDt;
+            list.gvhds = await _context.Giangviens
+                    .Join(_context.Huongdans, gv => gv.MaGv, hd => hd.MaGv, (gv, hd) => new { gv = gv, hd = hd })
+                    .Where(re => re.hd.MaDt == maDt)
+                    .Select(re => new GiangVienVTModel
+                    {
+                        MaGV = re.gv.MaGv,
+                        TenGV = re.gv.TenGv
+                    }).ToListAsync();
+            list.gvpbs = await _context.Giangviens
+                    .Join(_context.Phanbiens, gv => gv.MaGv, hd => hd.MaGv, (gv, hd) => new { gv = gv, hd = hd })
+                    .Where(re => re.hd.MaDt == maDt)
+                    .Select(re => new GiangVienVTModel
+                    {
+                        MaGV = re.gv.MaGv,
+                        TenGV = re.gv.TenGv
+                    }).ToListAsync();
+            return list;
+        }
+
+        public async Task<List<DetaiModel>> search(string? maCn, string? tenDt,
+            string? namHoc, int? dot, string? key, string? maGv, int? chucVu = 0)
         {
             if (dot == 0)
                 dot = null;
@@ -285,14 +310,14 @@ namespace XuLyKhoaLuan.Repositories
                         .Where(re => re.gv.MaBm == key || re.gr.rd.MaGv == maGv || re.gr.dt.TrangThai == true)
                         .Select(re => re.gr.dt).Distinct();
             }
-            else if(chucVu == 2) // Trưởng khoa
+            else if (chucVu == 2) // Trưởng khoa
             {
                 deTais = deTais
                         .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
                         .Where(re => re.dt.TrangThai == true || re.rd.MaGv == maGv)
                         .Select(re => re.dt).Distinct();
             }
-            else if( chucVu == 1) // Trưởng bộ môn
+            else if (chucVu == 1) // Trưởng bộ môn
             {
                 deTais = deTais
                         .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
@@ -318,47 +343,309 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map<List<DetaiModel>>(result);
         }
 
-        public async Task<GiangVienDtVTModel> GetGiangvienByDetaiAsync(string maDt)
+        //keyword: +mã đề tài, +tên đề tài, chuyên ngành, giảng viên ra đề, giảng viên hướng dẫn,
+        //trạng thái(Chưa duyệt, Chưa đạt, Đạt)
+        public async Task<List<DetaiVTModel>> Search(string? keyword, string? maBm, string? maGv, string? namHoc,
+            int? dot = 0, bool? flag = false, int? chucVu = 0)
         {
-            GiangVienDtVTModel list = new GiangVienDtVTModel();
-            list.maDt = maDt;
-            list.gvhds = await _context.Giangviens
-                    .Join(_context.Huongdans, gv => gv.MaGv, hd => hd.MaGv, (gv, hd) => new { gv = gv, hd = hd })
-                    .Where(re => re.hd.MaDt == maDt)
-                    .Select(re => new GiangVienVTModel
+            if (dot == 0)
+                dot = null;
+            List<DetaiVTModel> listDt = await _context.Detais
+                        .Where(re => 
+                        string.IsNullOrEmpty(keyword) || 
+                        (re.TenDt.Contains(keyword) || re.MaDt.Contains(keyword)) &&
+                        (string.IsNullOrEmpty(namHoc) ||
+                        re.NamHoc == namHoc) && (dot == null || re.Dot == dot) &&
+                        (flag == false || re.TrangThai == true))
+                        .Select(re => new DetaiVTModel
+                        {
+                            MaDT = re.MaDt,
+                            TenDT = re.TenDt,
+                            TomTat = re.TomTat,
+                            SLMin = re.Slmin,
+                            SLMax = re.Slmax,
+                            TrangThai = re.TrangThai,
+                            NamHoc = re.NamHoc,
+                            Dot = re.Dot,
+                            duyetDT = -1,
+                            ngayDuyet = null,
+                            CnPhuHop = new List<ChuyennganhModel>(),
+                            GVRD = new List<GiangVienVTModel>(),
+                            GVHD = new List<GiangVienVTModel>(),
+                            GVPB = new List<GiangVienVTModel>()
+                        }).Distinct().ToListAsync();
+
+            // Trưởng khoa + Trưởng bộ môn
+            if (chucVu == 3)
+            {
+                listDt = listDt
+                        .Join(_context.Rades, dt => dt.MaDT, rd => rd.MaDt, (dt, rd) => new { dt, rd })
+                        .Join(_context.Giangviens, gr => gr.rd.MaGv, gv => gv.MaGv, (gr, gv) => new { gr = gr, gv = gv })
+                        .Where(re => re.gv.MaBm == maBm || re.gr.rd.MaGv == maGv || re.gr.dt.TrangThai == true)
+                        .Select(re => new DetaiVTModel
+                        {
+                            MaDT = re.gr.dt.MaDT,
+                            TenDT = re.gr.dt.TenDT,
+                            TomTat = re.gr.dt.TomTat,
+                            SLMin = re.gr.dt.SLMin,
+                            SLMax = re.gr.dt.SLMax,
+                            TrangThai = re.gr.dt.TrangThai,
+                            NamHoc = re.gr.dt.NamHoc,
+                            Dot = re.gr.dt.Dot,
+                            duyetDT = -1,
+                            ngayDuyet = null,
+                            CnPhuHop = new List<ChuyennganhModel>(),
+                            GVRD = new List<GiangVienVTModel>(),
+                            GVHD = new List<GiangVienVTModel>(),
+                            GVPB = new List<GiangVienVTModel>()
+                        }).Distinct().ToList();
+            }
+            // Trưởng khoa
+            else if (chucVu == 2)
+            {
+                listDt = listDt
+                        .Join(_context.Rades, dt => dt.MaDT, rd => rd.MaDt, (dt, rd) => new { dt, rd })
+                        .Where(re => re.dt.TrangThai == true || re.rd.MaGv == maGv)
+                        .Select(re => new DetaiVTModel
+                        {
+                            MaDT = re.dt.MaDT,
+                            TenDT = re.dt.TenDT,
+                            TomTat = re.dt.TomTat,
+                            SLMin = re.dt.SLMin,
+                            SLMax = re.dt.SLMax,
+                            TrangThai = re.dt.TrangThai,
+                            NamHoc = re.dt.NamHoc,
+                            Dot = re.dt.Dot,
+                            duyetDT = -1,
+                            ngayDuyet = null,
+                            CnPhuHop = new List<ChuyennganhModel>(),
+                            GVRD = new List<GiangVienVTModel>(),
+                            GVHD = new List<GiangVienVTModel>(),
+                            GVPB = new List<GiangVienVTModel>()
+                        }).Distinct().ToList();
+            }
+            // Trưởng bộ môn
+            else if (chucVu == 1)
+            {
+                listDt = listDt
+                        .Join(_context.Rades, dt => dt.MaDT, rd => rd.MaDt, (dt, rd) => new { dt, rd })
+                        .Join(_context.Giangviens, gr => gr.rd.MaGv, gv => gv.MaGv, (gr, gv) => new { gr = gr, gv = gv })
+                        .Where(re => re.gv.MaBm == maBm || re.gr.rd.MaGv == maGv)
+                        .Select(re => new DetaiVTModel
+                        {
+                            MaDT = re.gr.dt.MaDT,
+                            TenDT = re.gr.dt.TenDT,
+                            TomTat = re.gr.dt.TomTat,
+                            SLMin = re.gr.dt.SLMin,
+                            SLMax = re.gr.dt.SLMax,
+                            TrangThai = re.gr.dt.TrangThai,
+                            NamHoc = re.gr.dt.NamHoc,
+                            Dot = re.gr.dt.Dot,
+                            duyetDT = -1,
+                            ngayDuyet = null,
+                            CnPhuHop = new List<ChuyennganhModel>(),
+                            GVRD = new List<GiangVienVTModel>(),
+                            GVHD = new List<GiangVienVTModel>(),
+                            GVPB = new List<GiangVienVTModel>()
+                        }).Distinct().ToList();
+            }
+            // Giảng viên không có chức vụ
+            else if (chucVu == 0) 
+            {
+                listDt = listDt
+                       .Join(_context.Rades, dt => dt.MaDT, rd => rd.MaDt, (dt, rd) => new { dt, rd })
+                       .Where(re => re.rd.MaGv == maGv)
+                       .Select(re => new DetaiVTModel
+                       {
+                           MaDT = re.dt.MaDT,
+                           TenDT = re.dt.TenDT,
+                           TomTat = re.dt.TomTat,
+                           SLMin = re.dt.SLMin,
+                           SLMax = re.dt.SLMax,
+                           TrangThai = re.dt.TrangThai,
+                           NamHoc = re.dt.NamHoc,
+                           Dot = re.dt.Dot,
+                           duyetDT = -1,
+                           ngayDuyet = null,
+                           CnPhuHop = new List<ChuyennganhModel>(),
+                           GVRD = new List<GiangVienVTModel>(),
+                           GVHD = new List<GiangVienVTModel>(),
+                           GVPB = new List<GiangVienVTModel>()
+                       }).Distinct().ToList();
+            }
+            // Giáo vụ
+            else
+            {
+                listDt = listDt
+                       .Join(_context.Rades, dt => dt.MaDT, rd => rd.MaDt, (dt, rd) => new { dt, rd })
+                       .Where(re => re.dt.TrangThai == true)
+                       .Select(re => new DetaiVTModel
+                       {
+                           MaDT = re.dt.MaDT,
+                           TenDT = re.dt.TenDT,
+                           TomTat = re.dt.TomTat,
+                           SLMin = re.dt.SLMin,
+                           SLMax = re.dt.SLMax,
+                           TrangThai = re.dt.TrangThai,
+                           NamHoc = re.dt.NamHoc,
+                           Dot = re.dt.Dot,
+                           duyetDT = -1,
+                           ngayDuyet = null,
+                           CnPhuHop = new List<ChuyennganhModel>(),
+                           GVRD = new List<GiangVienVTModel>(),
+                           GVHD = new List<GiangVienVTModel>(),
+                           GVPB = new List<GiangVienVTModel>()
+                       }).Distinct().ToList();
+
+            }
+
+            for (int i = 0; i < listDt.Count; i++)
+            {
+                DateTime? maxNgayDuyet = await _context.Duyetdts
+                        .Where(re => re.MaDt == listDt[i].MaDT)
+                        .OrderByDescending(re => re.NgayDuyet)
+                        .Select(re => (DateTime?)re.NgayDuyet)
+                        .FirstOrDefaultAsync();
+
+                if (maxNgayDuyet != null)
+                {
+                    var duyetDT = await _context.Duyetdts
+                    .Where(re => re.MaDt == listDt[i].MaDT && re.NgayDuyet == maxNgayDuyet)
+                    .FirstOrDefaultAsync();
+                    listDt[i].ngayDuyet = duyetDT?.NgayDuyet;
+                }
+
+                if (listDt[i].TrangThai == true)
+                {
+                    listDt[i].duyetDT = 1;
+                }
+                else if (maxNgayDuyet != null)
+                {
+                    listDt[i].duyetDT = 0;
+                }
+                else
+                {
+                    listDt[i].duyetDT = -1;
+                }
+
+                listDt[i].GVRD = await _context.Rades
+                        .Join(_context.Giangviens, rd => rd.MaGv, gv => gv.MaGv, (rd, gv) => new { rd = rd, gv = gv })
+                        .Where(re => re.rd.MaDt == listDt[i].MaDT)
+                        .Select(re => new GiangVienVTModel
+                        {
+                            MaGV = re.gv.MaGv,
+                            TenGV = re.gv.TenGv,
+                            VaiTro = 0,
+                            ChucVu = "",
+                            duaRaHoiDong = 0
+                        })
+                        .ToListAsync();
+
+                listDt[i].GVHD = await _context.Huongdans
+                        .Join(_context.Giangviens, hd => hd.MaGv, gv => gv.MaGv, (hd, gv) => new { hd = hd, gv = gv })
+                        .Where(re => re.hd.MaDt == listDt[i].MaDT)
+                        .Select(re => new GiangVienVTModel
+                        {
+                            MaGV = re.gv.MaGv,
+                            TenGV = re.gv.TenGv,
+                            VaiTro = 0,
+                            ChucVu = "",
+                            duaRaHoiDong = 1
+                        })
+                        .ToListAsync();
+
+                listDt[i].GVPB = await _context.Phanbiens
+                        .Join(_context.Giangviens, pb => pb.MaGv, gv => gv.MaGv, (pb, gv) => new { pb = pb, gv = gv })
+                        .Where(re => re.pb.MaDt == listDt[i].MaDT)
+                        .Select(re => new GiangVienVTModel
+                        {
+                            MaGV = re.gv.MaGv,
+                            TenGV = re.gv.TenGv,
+                            VaiTro = 0,
+                            ChucVu = "",
+                            duaRaHoiDong = 2
+                        })
+                        .ToListAsync();
+
+                listDt[i].CnPhuHop = await _context.DetaiChuyennganhs
+                            .Join(_context.Chuyennganhs, dc => dc.MaCn, cn => cn.MaCn, (dc, cn) => new { dc = dc, cn = cn })
+                            .Where(re => re.dc.MaDt == listDt[i].MaDT)
+                            .Select(re => new ChuyennganhModel
+                            {
+                                MaCn = re.cn.MaCn,
+                                TenCn = re.cn.TenCn,
+                                MaKhoa = re.cn.MaKhoa
+                            })
+                        .ToListAsync();
+
+                if (!string.IsNullOrEmpty(maBm) && !listDt[i].MaBm.Contains(maBm))
+                {
+                    listDt.RemoveAt(i);
+                    i--;
+                    continue;
+                }    
+
+                    if (!string.IsNullOrEmpty(keyword))
+                {   
+                    // Tìm kiếm theo chuyên ngành phù hợp
+                    bool isCnph = false;
+                    foreach (var c in listDt[i].CnPhuHop)
                     {
-                        MaGV = re.gv.MaGv,
-                        TenGV = re.gv.TenGv
-                    }).ToListAsync();
-            list.gvpbs = await _context.Giangviens
-                    .Join(_context.Phanbiens, gv => gv.MaGv, hd => hd.MaGv, (gv, hd) => new { gv = gv, hd = hd })
-                    .Where(re => re.hd.MaDt == maDt)
-                    .Select(re => new GiangVienVTModel
+                        if (c.TenCn.Contains(keyword))
+                        {
+                            isCnph = true;
+                            break;
+                        }
+                    }
+
+                    // Giảng viên ra đề
+                    bool isRd = false;
+                    foreach (var gv in listDt[i].GVRD)
                     {
-                        MaGV = re.gv.MaGv,
-                        TenGV = re.gv.TenGv
-                    }).ToListAsync();
-            return list;
+                        if (gv.TenGV.Contains(keyword))
+                        {
+                            isRd = true;
+                            break;
+                        }
+                    }
+
+                    // Giảng viên hướng dẫn
+                    bool isGvhd = false;
+                    foreach (var gv in listDt[i].GVHD)
+                    {
+                        if (gv.TenGV.Contains(keyword))
+                        {
+                            isGvhd = true;
+                            break;
+                        }
+                    }
+
+                    // Giảng viên phản biện
+                    bool isPb = false;
+                    foreach (var gv in listDt[i].GVPB)
+                    {
+                        if (gv.TenGV.Contains(keyword))
+                        {
+                            isPb = true;
+                            break;
+                        }
+                    }
+
+                    bool isDt = false;
+                    if (listDt[i].TenDT.Contains(keyword) || listDt[i].MaDT.Contains(keyword))
+                    {
+                        isDt = true;
+                    }
+
+                    if (!isDt && !isCnph && !isRd && !isGvhd && !isPb)
+                    {
+                        listDt.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+            return listDt;
         }
-
-
-
-        //keyword: mã đề tài, tên đề tài, số lượng, chuyên ngành, giảng viên ra đề, giảng viên hướng dẫn,
-        //trạng thái (Chưa duyệt, Chưa đạt, Đạt)
-        //public async Task<List<DetaiVTModel>> Search(string? keyword, string? maBm, string? namHoc, int? dot = 0)
-        //{
-        //    List<DetaiVTModel> listDt = await _context.Detais
-        //        .Join(_context.DetaiChuyennganhs, dt => dt.MaDt, dc => dc.MaDt, (dt, dc) => new { dt = dt, dc = dc })
-        //        .Join(_context.Chuyennganhs, dtc => dtc.dc.MaCn, cn => cn.MaCn, (dtc, cn) => new { dtc = dtc, cn = cn })
-        //        .Join(_context.Rades, dc => dc.dtc.dt.MaDt, rd => rd.MaDt, (dc, rd) => new { dc = dc, rd = rd })
-        //        .Join(_context.Giangviens, dr => dr.rd.MaGv, gv => gv.MaGv, (dr, gv) => new { dr = dr, gv = gv })
-        //        .Join(_context.Hdchams)
-
-
-
-
-        //    return listDt;
-        //}
 
     }
 }

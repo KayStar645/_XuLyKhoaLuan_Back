@@ -30,5 +30,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<List<DetaiModel>> GetDetaiByChuyenNganhBomonAsync(string maCN, string maBM);
         public Task<List<DetaiModel>> search(string? maCn, string? tenDt, string? namHoc, int? dot, string? key, string? maGv, int? chucVu = 0);
         public Task<GiangVienDtVTModel> GetGiangvienByDetaiAsync(string maDt);
+        public Task<List<DetaiVTModel>> Search(string? keyword, string? maBm, string? maGv, string? namHoc, int? dot = 0, bool? flag = false, int? chucVu = 0);
     }
 }
