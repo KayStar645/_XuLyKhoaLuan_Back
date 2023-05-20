@@ -12,7 +12,12 @@
             3: Hội đồng
          */
         public int VaiTro { get; set; }
-
+        /*
+            C: Chủ tịch
+            T: Thư ký
+            U: Ủy viên
+         */
+        public string MaChucVu { get; set; }
         public string? ChucVu { get; set; }
         public int duaRaHoiDong { get; set; }
     }

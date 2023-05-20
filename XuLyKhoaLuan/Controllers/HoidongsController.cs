@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
+using XuLyKhoaLuan.Models.VirtualModel;
 
 namespace XuLyKhoaLuan.Controllers
 {
@@ -36,11 +37,25 @@ namespace XuLyKhoaLuan.Controllers
             return Hoidong == null ? BadRequest() : Ok(Hoidong);
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> AddNewHoidong(HoidongModel model)
+        //{
+        //    var newHoidong = await _HoidongRepo.AddHoidongsAsync(model);
+        //    return Ok(model);
+        //}
+
         [HttpPost]
-        public async Task<IActionResult> AddNewHoidong(HoidongModel model)
+        public async Task<IActionResult> ThanhLapHoiDongAsync(HoiDongVT hoiDongVT)
         {
-            var newHoidong = await _HoidongRepo.AddHoidongsAsync(model);
-            return Ok(model);
+            try
+            {
+                await _HoidongRepo.ThanhLapHoiDongAsync(hoiDongVT);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut("MaHD")]

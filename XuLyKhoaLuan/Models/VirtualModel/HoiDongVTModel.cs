@@ -8,6 +8,7 @@
         public DateTime? ThoiGianBD { get; set; }
         public DateTime? ThoiGianKT { get; set; }
         public string? DiaDiem { get; set; }
+        public string? MaBm { get; set; }
         public GiangVienVTModel ChuTich { get; set; }
         public GiangVienVTModel ThuKy { get; set; }
         public List<GiangVienVTModel> UyViens { get; set; }

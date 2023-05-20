@@ -352,8 +352,8 @@ namespace XuLyKhoaLuan.Repositories
                 dot = null;
             List<DetaiVTModel> listDt = await _context.Detais
                         .Where(re => 
-                        string.IsNullOrEmpty(keyword) || 
-                        (re.TenDt.Contains(keyword) || re.MaDt.Contains(keyword)) &&
+                        (string.IsNullOrEmpty(keyword) || 
+                        (re.TenDt.Contains(keyword) || re.MaDt.Contains(keyword))) &&
                         (string.IsNullOrEmpty(namHoc) ||
                         re.NamHoc == namHoc) && (dot == null || re.Dot == dot) &&
                         (flag == false || re.TrangThai == true))
@@ -578,14 +578,7 @@ namespace XuLyKhoaLuan.Repositories
                             })
                         .ToListAsync();
 
-                if (!string.IsNullOrEmpty(maBm) && !listDt[i].MaBm.Contains(maBm))
-                {
-                    listDt.RemoveAt(i);
-                    i--;
-                    continue;
-                }    
-
-                    if (!string.IsNullOrEmpty(keyword))
+                if (!string.IsNullOrEmpty(keyword))
                 {   
                     // Tìm kiếm theo chuyên ngành phù hợp
                     bool isCnph = false;
