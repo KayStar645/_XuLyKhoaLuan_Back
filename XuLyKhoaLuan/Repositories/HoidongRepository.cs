@@ -40,7 +40,7 @@ namespace XuLyKhoaLuan.Repositories
             {
                 var thamGiaHd = new Thamgiahd
                 {
-                    MaGv = hoiDongVT.hoiDong.ChuTich.MaGV,
+                    MaGv = hoiDongVT.hoiDong.ChuTich.MaGv,
                     MaHd = hoiDongVT.hoiDong.MaHD,
                     MaVt = "VT01"
                 };
@@ -51,7 +51,7 @@ namespace XuLyKhoaLuan.Repositories
             {
                 var thamGiaHd = new Thamgiahd
                 {
-                    MaGv = hoiDongVT.hoiDong.ThuKy.MaGV,
+                    MaGv = hoiDongVT.hoiDong.ThuKy.MaGv,
                     MaHd = hoiDongVT.hoiDong.MaHD,
                     MaVt = "VT02"
                 };
@@ -62,7 +62,7 @@ namespace XuLyKhoaLuan.Repositories
             {
                 var thamGiaHd = new Thamgiahd
                 {
-                    MaGv = gv.MaGV,
+                    MaGv = gv.MaGv,
                     MaHd = hoiDongVT.hoiDong.MaHD,
                     MaVt = "VT03"
                 };
@@ -85,7 +85,7 @@ namespace XuLyKhoaLuan.Repositories
                     {
                         var hdpbCham = new Hdpbcham
                         {
-                            MaGv = hoiDongVT.hoiDong.ChuTich.MaGV,
+                            MaGv = hoiDongVT.hoiDong.ChuTich.MaGv,
                             MaHd = hoiDongVT.hoiDong.MaHD,
                             MaDt = dt.MaDT,
                             MaSv = tg.tg.MaSv,
@@ -100,7 +100,7 @@ namespace XuLyKhoaLuan.Repositories
                     {
                         var hdpbCham = new Hdpbcham
                         {
-                            MaGv = hoiDongVT.hoiDong.ThuKy.MaGV,
+                            MaGv = hoiDongVT.hoiDong.ThuKy.MaGv,
                             MaHd = hoiDongVT.hoiDong.MaHD,
                             MaDt = dt.MaDT,
                             MaSv = tg.tg.MaSv,
@@ -115,7 +115,7 @@ namespace XuLyKhoaLuan.Repositories
                     {
                         var hdpbCham = new Hdpbcham
                         {
-                            MaGv = gv.MaGV,
+                            MaGv = gv.MaGv,
                             MaHd = hoiDongVT.hoiDong.MaHD,
                             MaDt = dt.MaDT,
                             MaSv = tg.tg.MaSv,
@@ -133,9 +133,114 @@ namespace XuLyKhoaLuan.Repositories
 
         public async Task<string> CapNhatHoiDongAsync(HoiDongVT hoiDongVT)
         {
-           
+            // Thêm hội đồng
+            HoidongModel hd = new HoidongModel()
+            {
+                MaHd = hoiDongVT.hoiDong.MaHD,
+                TenHd = hoiDongVT.hoiDong.TenHD,
+                NgayLap = DateTime.Parse(hoiDongVT.hoiDong.NgayLap?.ToString()),
+                ThoiGianBd = DateTime.Parse(hoiDongVT.hoiDong.ThoiGianBD?.ToString()),
+                ThoiGianKt = DateTime.Parse(hoiDongVT.hoiDong.ThoiGianKT?.ToString()),
+                DiaDiem = hoiDongVT.hoiDong.DiaDiem,
+                MaBm = hoiDongVT.hoiDong.MaBm
+            };
+            var newHoidong = _mapper.Map<Hoidong>(hd);
+            _context.Hoidongs!.Update(newHoidong);
 
-            return "";
+            // Thêm chủ tịch
+            if (hoiDongVT.hoiDong.ChuTich != null)
+            {
+                var thamGiaHd = new Thamgiahd
+                {
+                    MaGv = hoiDongVT.hoiDong.ChuTich.MaGv,
+                    MaHd = hoiDongVT.hoiDong.MaHD,
+                    MaVt = "VT01"
+                };
+                _context.Thamgiahds!.Update(thamGiaHd);
+            }
+            // Thêm thư ký
+            if (hoiDongVT.hoiDong.ThuKy != null)
+            {
+                var thamGiaHd = new Thamgiahd
+                {
+                    MaGv = hoiDongVT.hoiDong.ThuKy.MaGv,
+                    MaHd = hoiDongVT.hoiDong.MaHD,
+                    MaVt = "VT02"
+                };
+                _context.Thamgiahds!.Update(thamGiaHd);
+            }
+            // Thêm giảng viên trong hội đồng
+            foreach (GiangVienVTModel gv in hoiDongVT.hoiDong.UyViens)
+            {
+                var thamGiaHd = new Thamgiahd
+                {
+                    MaGv = gv.MaGv,
+                    MaHd = hoiDongVT.hoiDong.MaHD,
+                    MaVt = "VT03"
+                };
+                _context.Thamgiahds!.Update(thamGiaHd);
+            }
+
+            // Chấm điểm cho từng sinh viên
+            foreach (DetaiModel dt in hoiDongVT.deTais)
+            {
+                // Tìm danh sách sinh viên
+                var thamGias = await _context.Dangkies
+                            .Join(_context.Thamgia, dk => dk.MaNhom, tg => tg.MaNhom, (dk, tg) => new { dk = dk, tg = tg })
+                            .Where(re => re.dk.MaDt.Equals(dt.MaDT))
+                            .ToListAsync();
+                // Thêm chấm điểm của từng giảng viên cho từng sinh viên trong đề tài đó
+                foreach (var tg in thamGias)
+                {
+                    // Chủ tịch chấm
+                    if (hoiDongVT.hoiDong.ChuTich != null)
+                    {
+                        var hdpbCham = new Hdpbcham
+                        {
+                            MaGv = hoiDongVT.hoiDong.ChuTich.MaGv,
+                            MaHd = hoiDongVT.hoiDong.MaHD,
+                            MaDt = dt.MaDT,
+                            MaSv = tg.tg.MaSv,
+                            NamHoc = tg.tg.NamHoc,
+                            Dot = tg.tg.Dot,
+                            Diem = -1
+                        };
+                        _context.Hdpbchams!.Update(hdpbCham);
+                    }
+                    // Thư ký chấm
+                    if (hoiDongVT.hoiDong.ThuKy != null)
+                    {
+                        var hdpbCham = new Hdpbcham
+                        {
+                            MaGv = hoiDongVT.hoiDong.ThuKy.MaGv,
+                            MaHd = hoiDongVT.hoiDong.MaHD,
+                            MaDt = dt.MaDT,
+                            MaSv = tg.tg.MaSv,
+                            NamHoc = tg.tg.NamHoc,
+                            Dot = tg.tg.Dot,
+                            Diem = -1
+                        };
+                        _context.Hdpbchams!.Update(hdpbCham);
+                    }
+                    // Ủy viên chấm
+                    foreach (GiangVienVTModel gv in hoiDongVT.hoiDong.UyViens)
+                    {
+                        var hdpbCham = new Hdpbcham
+                        {
+                            MaGv = gv.MaGv,
+                            MaHd = hoiDongVT.hoiDong.MaHD,
+                            MaDt = dt.MaDT,
+                            MaSv = tg.tg.MaSv,
+                            NamHoc = tg.tg.NamHoc,
+                            Dot = tg.tg.Dot,
+                            Diem = -1
+                        };
+                        _context.Hdpbchams!.Update(hdpbCham);
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
+            return newHoidong.MaHd;
         }
 
         public async Task<string> AddHoidongsAsync(HoidongModel model)
@@ -209,8 +314,8 @@ namespace XuLyKhoaLuan.Repositories
                     {
                         hd.ChuTich = new GiangVienVTModel 
                         {
-                            MaGV = gv.gv.MaGv,
-                            TenGV = gv.gv.TenGv,
+                            MaGv = gv.gv.MaGv,
+                            TenGv = gv.gv.TenGv,
                             VaiTro = 3,
                             ChucVu = "Chủ tịch"
                         };
@@ -219,8 +324,8 @@ namespace XuLyKhoaLuan.Repositories
                     {
                         hd.ThuKy = new GiangVienVTModel
                         {
-                            MaGV = gv.gv.MaGv,
-                            TenGV = gv.gv.TenGv,
+                            MaGv = gv.gv.MaGv,
+                            TenGv = gv.gv.TenGv,
                             VaiTro = 3,
                             ChucVu = "Thư ký"
                         };
@@ -229,8 +334,8 @@ namespace XuLyKhoaLuan.Repositories
                     {
                         hd.UyViens.Add(new GiangVienVTModel
                         {
-                            MaGV = gv.gv.MaGv,
-                            TenGV = gv.gv.TenGv,
+                            MaGv = gv.gv.MaGv,
+                            TenGv = gv.gv.TenGv,
                             VaiTro = 3,
                             ChucVu = "Ủy viên"
                         });
@@ -240,11 +345,11 @@ namespace XuLyKhoaLuan.Repositories
             return hoiDongs;
         }
 
-        public async Task<List<HoiDongVTModel>> GetHoidongsByGiangvienAsync(string maGv)
+        public async Task<List<HoiDongVTModel>> GetHoidongsByGiangvienAsync(string MaGv)
         {
             var hoiDongs = await _context.Hoidongs
                         .Join(_context.Thamgiahds, hd => hd.MaHd, tg => tg.MaHd, (hd, tg) => new { hd = hd, tg = tg })
-                        .Where(re => re.tg.MaGv == maGv)
+                        .Where(re => re.tg.MaGv == MaGv)
                         .Select(re => new HoiDongVTModel
                         {
                             MaHD = re.hd.MaHd,
@@ -270,8 +375,8 @@ namespace XuLyKhoaLuan.Repositories
                     {
                         hd.ChuTich = new GiangVienVTModel
                         {
-                            MaGV = gv.gv.MaGv,
-                            TenGV = gv.gv.TenGv,
+                            MaGv = gv.gv.MaGv,
+                            TenGv = gv.gv.TenGv,
                             VaiTro = 3,
                             ChucVu = "Chủ tịch"
                         };
@@ -280,8 +385,8 @@ namespace XuLyKhoaLuan.Repositories
                     {
                         hd.ThuKy = new GiangVienVTModel
                         {
-                            MaGV = gv.gv.MaGv,
-                            TenGV = gv.gv.TenGv,
+                            MaGv = gv.gv.MaGv,
+                            TenGv = gv.gv.TenGv,
                             VaiTro = 3,
                             ChucVu = "Thư ký"
                         };
@@ -290,8 +395,8 @@ namespace XuLyKhoaLuan.Repositories
                     {
                         hd.UyViens.Add(new GiangVienVTModel
                         {
-                            MaGV = gv.gv.MaGv,
-                            TenGV = gv.gv.TenGv,
+                            MaGv = gv.gv.MaGv,
+                            TenGv = gv.gv.TenGv,
                             VaiTro = 3,
                             ChucVu = "Ủy viên"
                         });

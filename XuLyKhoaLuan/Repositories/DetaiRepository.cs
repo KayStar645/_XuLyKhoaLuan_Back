@@ -128,24 +128,24 @@ namespace XuLyKhoaLuan.Repositories
             }
         }
 
-        public async Task<List<DetaiModel>> GetAllDeTaisByGiangvienAsync(string maGv)
+        public async Task<List<DetaiModel>> GetAllDeTaisByGiangvienAsync(string MaGv)
         {
             var deTais = await _context.Detais
             .Join(_context.Rades, d => d.MaDt, r => r.MaDt, (d, r) => new {d = d, r = r})
             .Join(_context.Giangviens, rd => rd.r.MaGv, g => g.MaGv, (rd, g) => new {rd = rd, g = g})
-            .Where(grd => grd.g.MaGv == maGv)
+            .Where(grd => grd.g.MaGv == MaGv)
             .Select(grd => grd.rd.d)
             .ToListAsync();
             return _mapper.Map<List<DetaiModel>>(deTais);
         }
 
-        public async Task<List<DetaiModel>> GetDeTaisByChuyennganhGiangvienAsync(string maCn, string maGv)
+        public async Task<List<DetaiModel>> GetDeTaisByChuyennganhGiangvienAsync(string maCn, string MaGv)
         {
             var deTais = await _context.Detais
             .Join(_context.Rades, d => d.MaDt, r => r.MaDt, (d, r) => new { d = d, r = r })
             .Join(_context.Giangviens, rd => rd.r.MaGv, g => g.MaGv, (rd, g) => new { rd = rd, g = g })
             .Join(_context.DetaiChuyennganhs, cn => cn.rd.d.MaDt, dtcn => dtcn.MaDt, (dtcn, cn) => new {dt = dtcn, cn = cn })
-            .Where(grd => grd.dt.g.MaGv == maGv && grd.cn.MaCn == maCn)
+            .Where(grd => grd.dt.g.MaGv == MaGv && grd.cn.MaCn == maCn)
             .Select(grd => grd.dt.rd.d)
             .ToListAsync();
             return _mapper.Map<List<DetaiModel>>(deTais);
@@ -204,9 +204,9 @@ namespace XuLyKhoaLuan.Repositories
             return _mapper.Map <List<DetaiModel>>(Detais);
         }
 
-        public async Task<bool> CheckisDetaiOfGiangvienAsync(string maDt, string maGv)
+        public async Task<bool> CheckisDetaiOfGiangvienAsync(string maDt, string MaGv)
         {
-            var isDtOfGv = await _context.Rades.AnyAsync(rd => rd.MaDt == maDt && rd.MaGv == maGv);
+            var isDtOfGv = await _context.Rades.AnyAsync(rd => rd.MaDt == maDt && rd.MaGv == MaGv);
             return isDtOfGv;
         }
 
@@ -246,21 +246,21 @@ namespace XuLyKhoaLuan.Repositories
             }
         }
 
-        public async Task<List<DetaiModel>> GetDetaiByHuongdanOfGiangvienDotdkAsync(string maGv, string namHoc, int dot)
+        public async Task<List<DetaiModel>> GetDetaiByHuongdanOfGiangvienDotdkAsync(string MaGv, string namHoc, int dot)
         {
             var deTaiHds = await _context.Detais
                         .Join(_context.Huongdans, dt => dt.MaDt, hd => hd.MaDt, (dt, hd) => new { hd = hd, dt = dt })
-                        .Where(re => re.hd.MaGv == maGv && re.dt.NamHoc == namHoc && re.dt.Dot == dot)
+                        .Where(re => re.hd.MaGv == MaGv && re.dt.NamHoc == namHoc && re.dt.Dot == dot)
                         .Select(re => re.dt)
                         .ToListAsync();
             return _mapper.Map<List<DetaiModel>>(deTaiHds);
         }
 
-        public async Task<List<DetaiModel>> GetDetaiByPhanbienOfGiangvienDotdkAsync(string maGv, string namHoc, int dot)
+        public async Task<List<DetaiModel>> GetDetaiByPhanbienOfGiangvienDotdkAsync(string MaGv, string namHoc, int dot)
         {
             var deTaiPbs = await _context.Detais
                         .Join(_context.Phanbiens, dt => dt.MaDt, pb => pb.MaDt, (dt, pb) => new { dt = dt, pb = pb })
-                        .Where(re => re.pb.MaGv == maGv && re.dt.NamHoc == namHoc && re.dt.Dot == dot)
+                        .Where(re => re.pb.MaGv == MaGv && re.dt.NamHoc == namHoc && re.dt.Dot == dot)
                         .Select(re => re.dt)
                         .ToListAsync();
             return _mapper.Map<List<DetaiModel>>(deTaiPbs);
@@ -275,22 +275,22 @@ namespace XuLyKhoaLuan.Repositories
                     .Where(re => re.hd.MaDt == maDt)
                     .Select(re => new GiangVienVTModel
                     {
-                        MaGV = re.gv.MaGv,
-                        TenGV = re.gv.TenGv
+                        MaGv = re.gv.MaGv,
+                        TenGv = re.gv.TenGv
                     }).ToListAsync();
             list.gvpbs = await _context.Giangviens
                     .Join(_context.Phanbiens, gv => gv.MaGv, hd => hd.MaGv, (gv, hd) => new { gv = gv, hd = hd })
                     .Where(re => re.hd.MaDt == maDt)
                     .Select(re => new GiangVienVTModel
                     {
-                        MaGV = re.gv.MaGv,
-                        TenGV = re.gv.TenGv
+                        MaGv = re.gv.MaGv,
+                        TenGv = re.gv.TenGv
                     }).ToListAsync();
             return list;
         }
 
         public async Task<List<DetaiModel>> search(string? maCn, string? tenDt,
-            string? namHoc, int? dot, string? key, string? maGv, int? chucVu = 0)
+            string? namHoc, int? dot, string? key, string? MaGv, int? chucVu = 0)
         {
             if (dot == 0)
                 dot = null;
@@ -307,14 +307,14 @@ namespace XuLyKhoaLuan.Repositories
                 deTais = deTais
                         .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
                         .Join(_context.Giangviens, gr => gr.rd.MaGv, gv => gv.MaGv, (gr, gv) => new { gr = gr, gv = gv })
-                        .Where(re => re.gv.MaBm == key || re.gr.rd.MaGv == maGv || re.gr.dt.TrangThai == true)
+                        .Where(re => re.gv.MaBm == key || re.gr.rd.MaGv == MaGv || re.gr.dt.TrangThai == true)
                         .Select(re => re.gr.dt).Distinct();
             }
             else if (chucVu == 2) // Trưởng khoa
             {
                 deTais = deTais
                         .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
-                        .Where(re => re.dt.TrangThai == true || re.rd.MaGv == maGv)
+                        .Where(re => re.dt.TrangThai == true || re.rd.MaGv == MaGv)
                         .Select(re => re.dt).Distinct();
             }
             else if (chucVu == 1) // Trưởng bộ môn
@@ -322,14 +322,14 @@ namespace XuLyKhoaLuan.Repositories
                 deTais = deTais
                         .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
                         .Join(_context.Giangviens, gr => gr.rd.MaGv, gv => gv.MaGv, (gr, gv) => new { gr = gr, gv = gv })
-                        .Where(re => re.gv.MaBm == key || re.gr.rd.MaGv == maGv)
+                        .Where(re => re.gv.MaBm == key || re.gr.rd.MaGv == MaGv)
                         .Select(re => re.gr.dt).Distinct();
             }
             else if (chucVu == 0) // Giảng viên không có chức vụ
             {
                 deTais = deTais
                         .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
-                        .Where(re => re.rd.MaGv == maGv)
+                        .Where(re => re.rd.MaGv == MaGv)
                         .Select(re => re.dt).Distinct();
             }
             else // Giáo vụ
@@ -345,7 +345,7 @@ namespace XuLyKhoaLuan.Repositories
 
         //keyword: +mã đề tài, +tên đề tài, chuyên ngành, giảng viên ra đề, giảng viên hướng dẫn,
         //trạng thái(Chưa duyệt, Chưa đạt, Đạt)
-        public async Task<List<DetaiVTModel>> Search(string? keyword, string? maBm, string? maGv, string? namHoc,
+        public async Task<List<DetaiVTModel>> Search(string? keyword, string? maBm, string? MaGv, string? namHoc,
             int? dot = 0, bool? flag = false, int? chucVu = 0)
         {
             if (dot == 0)
@@ -381,7 +381,7 @@ namespace XuLyKhoaLuan.Repositories
                 listDt = listDt
                         .Join(_context.Rades, dt => dt.MaDT, rd => rd.MaDt, (dt, rd) => new { dt, rd })
                         .Join(_context.Giangviens, gr => gr.rd.MaGv, gv => gv.MaGv, (gr, gv) => new { gr = gr, gv = gv })
-                        .Where(re => re.gv.MaBm == maBm || re.gr.rd.MaGv == maGv || re.gr.dt.TrangThai == true)
+                        .Where(re => re.gv.MaBm == maBm || re.gr.rd.MaGv == MaGv || re.gr.dt.TrangThai == true)
                         .Select(re => new DetaiVTModel
                         {
                             MaDT = re.gr.dt.MaDT,
@@ -405,7 +405,7 @@ namespace XuLyKhoaLuan.Repositories
             {
                 listDt = listDt
                         .Join(_context.Rades, dt => dt.MaDT, rd => rd.MaDt, (dt, rd) => new { dt, rd })
-                        .Where(re => re.dt.TrangThai == true || re.rd.MaGv == maGv)
+                        .Where(re => re.dt.TrangThai == true || re.rd.MaGv == MaGv)
                         .Select(re => new DetaiVTModel
                         {
                             MaDT = re.dt.MaDT,
@@ -430,7 +430,7 @@ namespace XuLyKhoaLuan.Repositories
                 listDt = listDt
                         .Join(_context.Rades, dt => dt.MaDT, rd => rd.MaDt, (dt, rd) => new { dt, rd })
                         .Join(_context.Giangviens, gr => gr.rd.MaGv, gv => gv.MaGv, (gr, gv) => new { gr = gr, gv = gv })
-                        .Where(re => re.gv.MaBm == maBm || re.gr.rd.MaGv == maGv)
+                        .Where(re => re.gv.MaBm == maBm || re.gr.rd.MaGv == MaGv)
                         .Select(re => new DetaiVTModel
                         {
                             MaDT = re.gr.dt.MaDT,
@@ -454,7 +454,7 @@ namespace XuLyKhoaLuan.Repositories
             {
                 listDt = listDt
                        .Join(_context.Rades, dt => dt.MaDT, rd => rd.MaDt, (dt, rd) => new { dt, rd })
-                       .Where(re => re.rd.MaGv == maGv)
+                       .Where(re => re.rd.MaGv == MaGv)
                        .Select(re => new DetaiVTModel
                        {
                            MaDT = re.dt.MaDT,
@@ -533,8 +533,8 @@ namespace XuLyKhoaLuan.Repositories
                         .Where(re => re.rd.MaDt == listDt[i].MaDT)
                         .Select(re => new GiangVienVTModel
                         {
-                            MaGV = re.gv.MaGv,
-                            TenGV = re.gv.TenGv,
+                            MaGv = re.gv.MaGv,
+                            TenGv = re.gv.TenGv,
                             VaiTro = 0,
                             ChucVu = "",
                             duaRaHoiDong = 0
@@ -546,8 +546,8 @@ namespace XuLyKhoaLuan.Repositories
                         .Where(re => re.hd.MaDt == listDt[i].MaDT)
                         .Select(re => new GiangVienVTModel
                         {
-                            MaGV = re.gv.MaGv,
-                            TenGV = re.gv.TenGv,
+                            MaGv = re.gv.MaGv,
+                            TenGv = re.gv.TenGv,
                             VaiTro = 0,
                             ChucVu = "",
                             duaRaHoiDong = 1
@@ -559,8 +559,8 @@ namespace XuLyKhoaLuan.Repositories
                         .Where(re => re.pb.MaDt == listDt[i].MaDT)
                         .Select(re => new GiangVienVTModel
                         {
-                            MaGV = re.gv.MaGv,
-                            TenGV = re.gv.TenGv,
+                            MaGv = re.gv.MaGv,
+                            TenGv = re.gv.TenGv,
                             VaiTro = 0,
                             ChucVu = "",
                             duaRaHoiDong = 2
@@ -595,7 +595,7 @@ namespace XuLyKhoaLuan.Repositories
                     bool isRd = false;
                     foreach (var gv in listDt[i].GVRD)
                     {
-                        if (gv.TenGV.Contains(keyword))
+                        if (gv.TenGv.Contains(keyword))
                         {
                             isRd = true;
                             break;
@@ -606,7 +606,7 @@ namespace XuLyKhoaLuan.Repositories
                     bool isGvhd = false;
                     foreach (var gv in listDt[i].GVHD)
                     {
-                        if (gv.TenGV.Contains(keyword))
+                        if (gv.TenGv.Contains(keyword))
                         {
                             isGvhd = true;
                             break;
@@ -617,7 +617,7 @@ namespace XuLyKhoaLuan.Repositories
                     bool isPb = false;
                     foreach (var gv in listDt[i].GVPB)
                     {
-                        if (gv.TenGV.Contains(keyword))
+                        if (gv.TenGv.Contains(keyword))
                         {
                             isPb = true;
                             break;

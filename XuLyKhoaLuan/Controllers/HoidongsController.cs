@@ -73,6 +73,20 @@ namespace XuLyKhoaLuan.Controllers
             }
         }
 
+        [HttpPut()]
+        public async Task<IActionResult> CapNhatHoiDongAsync(HoiDongVT hoiDongVT)
+        {
+            try
+            {
+                await _HoidongRepo.CapNhatHoiDongAsync(hoiDongVT);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpDelete("MaHD")]
         public async Task<IActionResult> DeleteHoidong(string MaHD)
         {

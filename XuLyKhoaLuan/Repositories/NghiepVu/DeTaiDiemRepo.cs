@@ -19,7 +19,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
             this._mapper = mapper;
         }
 
-        public async Task<List<DeTaiDiemVTModel>> GetDanhSachDiemByGv(string maGv)
+        public async Task<List<DeTaiDiemVTModel>> GetDanhSachDiemByGv(string MaGv)
         {
             // Lấy danh đề tài mà giảng viên này hướng dẫn/Phản biện/Hội đồng
             var deTais = await _context.Detais
@@ -29,7 +29,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                         .SelectMany(x => x.pb.DefaultIfEmpty(), (x, pb) => new { x.dt, x.hd, pb })
                         .GroupJoin(_context.Hdphanbiens, x => x.dt.MaDt, hdpb => hdpb.MaDt, (x, hdpb) => new { x.dt, x.hd, x.pb, hdpb })
                         .SelectMany(x => x.hdpb.DefaultIfEmpty(), (x, hdpb) => new { x.dt, x.hd, x.pb, hdpb })
-                        .Where(x => x.hd.MaGv == maGv || x.pb.MaGv == maGv || x.hdpb.MaGv == maGv)
+                        .Where(x => x.hd.MaGv == MaGv || x.pb.MaGv == MaGv || x.hdpb.MaGv == MaGv)
                         .Select(x => new DeTaiDiemVTModel
                         {
                             MaDT = x.dt.MaDt,
@@ -61,8 +61,8 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                             .Where(re => re.hd.MaDt == dt.MaDT)
                             .Select(re => new GiangVienVTModel
                             {
-                                MaGV = re.gv.MaGv,
-                                TenGV = re.gv.TenGv,
+                                MaGv = re.gv.MaGv,
+                                TenGv = re.gv.TenGv,
                                 VaiTro = 1,
                                 ChucVu = "",
                                 duaRaHoiDong = re.hd.DuaRaHd == true ? 1 : 0,
@@ -74,8 +74,8 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                             .Where(re => re.pb.MaDt == dt.MaDT)
                             .Select(re => new GiangVienVTModel
                             {
-                                MaGV = re.gv.MaGv,
-                                TenGV = re.gv.TenGv,
+                                MaGv = re.gv.MaGv,
+                                TenGv = re.gv.TenGv,
                                 VaiTro = 2,
                                 ChucVu = "",
                                 duaRaHoiDong = re.pb.DuaRaHd == true ? 2 : 0,
@@ -89,8 +89,8 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                             .Where(re => re.ght.gh.hdpb.MaDt == dt.MaDT)
                             .Select(re => new GiangVienVTModel
                             {
-                                MaGV = re.ght.gh.gv.MaGv,
-                                TenGV = re.ght.gh.gv.TenGv,
+                                MaGv = re.ght.gh.gv.MaGv,
+                                TenGv = re.ght.gh.gv.TenGv,
                                 VaiTro = 3,
                                 ChucVu = re.vt.TenVaiTro,
                                 duaRaHoiDong = 0
@@ -161,12 +161,12 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
             return deTais;
         }
 
-        public async Task<bool> ChamDiemSvAsync(string maGv, string maDt, string maSv, string namHoc, int dot, int vaiTro, double diem)
+        public async Task<bool> ChamDiemSvAsync(string MaGv, string maDt, string maSv, string namHoc, int dot, int vaiTro, double diem)
         {
             if (vaiTro == 1)
             {
                 var chamDiem = await _context.Hdchams
-                    .Where(c => c.MaGv == maGv && c.MaDt == maDt &&
+                    .Where(c => c.MaGv == MaGv && c.MaDt == maDt &&
                     c.MaSv == maSv && c.NamHoc == namHoc && c.Dot == dot)
                     .SingleOrDefaultAsync();
                 if(chamDiem != null)
@@ -180,7 +180,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
             else if (vaiTro == 2)
             {
                 var chamDiem = await _context.Pbchams
-                    .Where(c => c.MaGv == maGv && c.MaDt == maDt &&
+                    .Where(c => c.MaGv == MaGv && c.MaDt == maDt &&
                     c.MaSv == maSv && c.NamHoc == namHoc && c.Dot == dot)
                     .SingleOrDefaultAsync();
                 if (chamDiem != null)
@@ -195,7 +195,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
             else if (vaiTro == 3)
             {
                 var chamDiem = await _context.Hdpbchams
-                    .Where(c => c.MaGv == maGv && c.MaDt == maDt &&
+                    .Where(c => c.MaGv == MaGv && c.MaDt == maDt &&
                     c.MaSv == maSv && c.NamHoc == namHoc && c.Dot == dot)
                     .SingleOrDefaultAsync();
                 if (chamDiem != null)

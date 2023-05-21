@@ -2,8 +2,8 @@
 {
     public class GiangVienVTModel
     {
-        public string MaGV { get; set; }
-        public string TenGV { get; set; }
+        public string MaGv { get; set; }
+        public string TenGv { get; set; }
 
         /*
             0: Ra đề
