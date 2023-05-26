@@ -18,5 +18,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<List<ThamgiaModel>> GetThamgiaByChuyennganhDotdk(string maCn, string namHoc, int dot);
         public Task<List<ThamgiaModel>> Search(string? tenSv, string? maCn, string? namHoc, int? dot);
         public Task<List<ThamGiaVTModel>> GetAllThamgiaInfDotdkNotmesAsync(string maSv, string namHoc, int dot);
+        public Task<List<SinhVienVTModel>> SearchInfo(string? search, string? maCn, bool isAdd, string? namHoc, int? dot = 0);
     }
 }

@@ -5,6 +5,7 @@ using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Models.VirtualModel;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace XuLyKhoaLuan.Repositories
 {
@@ -44,6 +45,67 @@ namespace XuLyKhoaLuan.Repositories
         {
             var Thamgias = await _context.Thamgia.ToListAsync();
             return _mapper.Map<List<ThamgiaModel>>(Thamgias);
+        }
+
+        public async Task<List<SinhVienVTModel>> SearchInfo(string? search, string? maCn, bool isAdd, string? namHoc, int? dot = 0)
+        {
+            if (dot == 0)
+                dot = null;
+            if(isAdd)
+            {
+                var Thamgias = await _context.Thamgia
+                        .Join(_context.Sinhviens, tg => tg.MaSv, sv => sv.MaSv, (tg, sv) => new { tg = tg, sv = sv })
+                        .Join(_context.Chuyennganhs, ts => ts.sv.MaCn, cn => cn.MaCn, (ts, cn) => new { ts = ts, cn = cn })
+                        .Where(re => (string.IsNullOrEmpty(maCn) || re.cn.MaCn == maCn) &&
+                        (re.ts.tg.Dot != dot && re.ts.tg.NamHoc != namHoc) &&
+                        (string.IsNullOrEmpty(search) ||
+                        re.ts.tg.MaSv == search || re.ts.sv.TenSv == search || re.ts.sv.Email == search ||
+                        re.ts.sv.GioiTinh == search || re.ts.sv.Sdt == search || re.ts.sv.Lop == search ||
+                        re.cn.TenCn == search))
+                        .Select(re => new SinhVienVTModel
+                        {
+                            MaSV = re.ts.sv.MaSv,
+                            TenSV = re.ts.sv.TenSv,
+                            Email = re.ts.sv.Email,
+                            GioiTinh = re.ts.sv.GioiTinh,
+                            SDT = re.ts.sv.Sdt,
+                            Lop = re.ts.sv.Lop,
+                            MaCN = re.cn.MaCn,
+                            ChuyenNganh = re.cn.TenCn,
+                            NamHoc = re.ts.tg.NamHoc,
+                            Dot = re.ts.tg.Dot
+                        })
+                        .Distinct().ToListAsync();
+                return Thamgias;
+            }
+            else
+            {
+                var Thamgias = await _context.Thamgia
+                        .Join(_context.Sinhviens, tg => tg.MaSv, sv => sv.MaSv, (tg, sv) => new { tg = tg, sv = sv })
+                        .Join(_context.Chuyennganhs, ts => ts.sv.MaCn, cn => cn.MaCn, (ts, cn) => new { ts = ts, cn = cn })
+                        .Where(re => (string.IsNullOrEmpty(maCn) || re.cn.MaCn == maCn) &&
+                        (string.IsNullOrEmpty(namHoc) || re.ts.tg.NamHoc == namHoc) &&
+                        (dot == null || re.ts.tg.Dot == dot) &&
+                        (string.IsNullOrEmpty(search) ||
+                        re.ts.tg.MaSv == search || re.ts.sv.TenSv == search || re.ts.sv.Email == search ||
+                        re.ts.sv.GioiTinh == search || re.ts.sv.Sdt == search || re.ts.sv.Lop == search ||
+                        re.cn.TenCn == search))
+                        .Select(re => new SinhVienVTModel
+                        {
+                            MaSV = re.ts.sv.MaSv,
+                            TenSV = re.ts.sv.TenSv,
+                            Email = re.ts.sv.Email,
+                            GioiTinh = re.ts.sv.GioiTinh,
+                            SDT = re.ts.sv.Sdt,
+                            Lop = re.ts.sv.Lop,
+                            MaCN = re.cn.MaCn,
+                            ChuyenNganh = re.cn.TenCn,
+                            NamHoc = re.ts.tg.NamHoc,
+                            Dot = re.ts.tg.Dot
+                        })
+                        .Distinct().ToListAsync();
+                return Thamgias;
+            }
         }
 
         public async Task<List<ThamgiaModel>> GetAllThamgiaDotdkNotmesAsync(string maSV, string namHoc, int dot)

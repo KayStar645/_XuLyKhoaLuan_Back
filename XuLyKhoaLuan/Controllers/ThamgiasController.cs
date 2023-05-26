@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Models.VirtualModel;
@@ -203,6 +204,19 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 return Ok(await _ThamgiaRepo.Search(tenSv, maCn, namHoc, dot));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("search,maCn,isAdd,namHoc,dot")]
+        public async Task<IActionResult> SearchInfo(string? search, string? maCn, bool isAdd, string? namHoc, int? dot = 0)
+        {
+            try
+            {
+                return Ok(await _ThamgiaRepo.SearchInfo(search, maCn, isAdd, namHoc, dot));
             }
             catch
             {
