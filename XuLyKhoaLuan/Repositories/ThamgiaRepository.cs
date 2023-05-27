@@ -57,7 +57,7 @@ namespace XuLyKhoaLuan.Repositories
                         .Join(_context.Sinhviens, tg => tg.MaSv, sv => sv.MaSv, (tg, sv) => new { tg = tg, sv = sv })
                         .Join(_context.Chuyennganhs, ts => ts.sv.MaCn, cn => cn.MaCn, (ts, cn) => new { ts = ts, cn = cn })
                         .Where(re => (string.IsNullOrEmpty(maCn) || re.cn.MaCn == maCn) &&
-                        (re.ts.tg.Dot != dot && re.ts.tg.NamHoc != namHoc) &&
+                        !(re.ts.tg.Dot == dot && re.ts.tg.NamHoc == namHoc) &&
                         (string.IsNullOrEmpty(search) ||
                         re.ts.tg.MaSv == search || re.ts.sv.TenSv == search || re.ts.sv.Email == search ||
                         re.ts.sv.GioiTinh == search || re.ts.sv.Sdt == search || re.ts.sv.Lop == search ||
