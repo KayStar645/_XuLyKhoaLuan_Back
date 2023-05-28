@@ -12,5 +12,6 @@ namespace XuLyKhoaLuan.Interface
         public Task<List<GiangvienModel>> GetGiangvienByDetaiAsync(string maDT);
         public Task<List<DetaiModel>> GetDetaiByGVHDDotdkAsync(string maGV, string namHoc, int dot);
         public Task<int> CountDetaiHuongDanByGiangVienAsync(string maGv);
+        public Task<int> CheckThoiGianUpdateLich(string maGv, DateTime? start, DateTime? end);
     }
 }

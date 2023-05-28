@@ -84,5 +84,38 @@ namespace XuLyKhoaLuan.Repositories
                     .Where(hd => hd.MaGv == maGv)
                     .CountAsync();
         }
+
+        public async Task<int> CheckThoiGianUpdateLich(string maGv, DateTime? start, DateTime? end)
+        {
+            // Kiểm tra thời gian được chọn giảng viên và sinh viên có bị trùng lịch không
+            if (start != null)
+            {
+                // Kiểm tra hợp lệ thời gian
+                if(start >= end)
+                {
+                    return 0;
+                }    
+
+                // Kiểm tra trùng lặp thời gian với giảng viên
+                var isHasHD = await _context.Huongdans
+                    .AnyAsync(hd => hd.ThoiGianBd != null && hd.MaGv.Equals(maGv) &&
+                    (hd.ThoiGianBd > end || hd.ThoiGianKt < start));
+
+                var isHasPB = await _context.Phanbiens
+                    .AnyAsync(pb => pb.ThoiGianBd != null && pb.MaGv.Equals(maGv) &&
+                    (pb.ThoiGianBd > end || pb.ThoiGianKt < start));
+
+                var isHasHDPB = await _context.Thamgiahds
+                    .Join(_context.Hoidongs, tg => tg.MaHd, hd => hd.MaHd, (tg, hd) => new { tg = tg, hd = hd })
+                    .AnyAsync(re => re.tg.MaGv.Equals(maGv) && re.hd.ThoiGianBd != null &&
+                    (re.hd.ThoiGianBd > end || re.hd.ThoiGianKt < start));
+
+                if (isHasHD || isHasPB || isHasHDPB)
+                {
+                    return -1;
+                }
+            }
+            return 1;
+        }
     }
 }

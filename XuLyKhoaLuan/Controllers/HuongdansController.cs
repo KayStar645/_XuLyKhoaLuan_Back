@@ -133,5 +133,18 @@ namespace XuLyKhoaLuan.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("maGv,start,end")]
+        public async Task<IActionResult> CheckThoiGianUpdateLich(string maGv, DateTime? start, DateTime? end)
+        {
+            try
+            {
+                return Ok(await _HuongdanRepo.CheckThoiGianUpdateLich(maGv, start, end));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
