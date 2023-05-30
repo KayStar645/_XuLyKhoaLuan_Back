@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Execution;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using XuLyKhoaLuan.Data;
@@ -83,21 +84,20 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
 
                 // Lấy danh sách giảng viên hội đồng
                 dt.HoiDongs = await _context.Giangviens
-                            .Join(_context.Hdphanbiens, gv => gv.MaGv, hdpb => hdpb.MaGv, (gv, hdpb) => new { gv = gv, hdpb = hdpb })
-                            .Join(_context.Thamgiahds, gh => gh.hdpb.MaHd, tg => tg.MaHd, (gh, tg) => new { gh = gh, tg = tg })
-                            .Join(_context.Vaitros, ght => ght.tg.MaVt, vt => vt.MaVt, (ght, vt) => new { ght = ght, vt = vt })
-                            .Where(re => re.ght.gh.hdpb.MaDt == dt.MaDT)
+                            .Join(_context.Thamgiahds, gv => gv.MaGv, tg => tg.MaGv, (gv, tg) => new { gv, tg })
+                            .Join(_context.Vaitros, gt => gt.tg.MaVt, vt => vt.MaVt, (ght, vt) => new { ght, vt })
+                            .Join(_context.Hdphanbiens, gtv => gtv.ght.tg.MaHd, hdpb => hdpb.MaHd, (gtv, hdpb) => new { gtv, hdpb })
+                            .Where(re => re.hdpb.MaDt == dt.MaDT)
                             .Select(re => new GiangVienVTModel
                             {
-                                MaGv = re.ght.gh.gv.MaGv,
-                                TenGv = re.ght.gh.gv.TenGv,
+                                MaGv = re.gtv.ght.gv.MaGv,
+                                TenGv = re.gtv.ght.gv.TenGv,
                                 VaiTro = 3,
-                                ChucVu = re.vt.TenVaiTro,
+                                ChucVu = re.gtv.vt.TenVaiTro,
                                 duaRaHoiDong = 0
-                            }).Distinct().ToListAsync();
+                            }).Distinct().OrderBy(gv => gv.MaGv).ToListAsync();
 
                 // Lấy danh sách điểm của từng sinh viên
-
                 foreach (SinhVienVTModel sv in dt.SinhViens)
                 {
                     // Chỉ là hướng dẫn thôi
@@ -107,7 +107,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                             {
                                 MaGV = re.MaGv,
                                 nguoiCham = 1,
-                                Diem = re.Diem
+                                Diem = Math.Round(Convert.ToDouble(re.Diem), 2)
                             }).ToListAsync();
                     if(diemHDs.Count == 0)
                     {
@@ -125,7 +125,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                             {
                                 MaGV = re.MaGv,
                                 nguoiCham = 2,
-                                Diem = re.Diem
+                                Diem = Math.Round(Convert.ToDouble(re.Diem), 2)
                             }).ToListAsync();
                     if (diemPBs.Count == 0)
                     {
@@ -143,8 +143,8 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                             {
                                 MaGV = re.MaGv,
                                 nguoiCham = 3,
-                                Diem = re.Diem
-                            }).ToListAsync();
+                                Diem = Math.Round(Convert.ToDouble(re.Diem), 2)
+                            }).OrderBy(re => re.MaGV).ToListAsync();
                     if (diemHDPBs.Count == 0)
                     {
                         diemHDPBs.Add(new DiemSoVTModel
@@ -250,7 +250,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                 }
                 if(diemHds.Count != 0)
                 {
-                    sv.diemHd = (diemHd / diemHds.Count);
+                    sv.diemHd = Math.Round(Convert.ToDouble(diemHd / diemHds.Count), 2);
                 }
 
                 // Điểm phản biện
@@ -264,7 +264,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                 }
                 if (diemPbs.Count != 0)
                 {
-                    sv.diemPb = (diemPb / diemPbs.Count);
+                    sv.diemPb = Math.Round(Convert.ToDouble(diemPb / diemPbs.Count), 2);
                 }
 
                 // Điểm hội đồng
@@ -278,7 +278,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                 }
                 if (diemHdpbs.Count != 0)
                 {
-                    sv.diemHdpb = (diemHdpb / diemHdpbs.Count);
+                    sv.diemHdpb = Math.Round(Convert.ToDouble(diemHdpb / diemHdpbs.Count), 2);
                 }
                 else
                 {
@@ -286,11 +286,11 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                 }
                 if(-1 == sv.diemHdpb)
                 {
-                    sv.diemTb = (sv.diemHd + sv.diemPb) / 2;
+                    sv.diemTb = Math.Round(Convert.ToDouble((sv.diemHd + sv.diemPb) / 2), 2);
                 }
                 else
                 {
-                    sv.diemTb = (sv.diemHd + sv.diemPb + sv.diemHdpb) / 3;
+                    sv.diemTb = Math.Round(Convert.ToDouble((sv.diemHd + sv.diemPb + sv.diemHdpb) / 3), 2);
                 }
             }
             return listDiem;

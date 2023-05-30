@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using XuLyKhoaLuan.Data;
 using XuLyKhoaLuan.Interface;
 using XuLyKhoaLuan.Models;
 using XuLyKhoaLuan.Models.VirtualModel;
@@ -113,6 +114,32 @@ namespace XuLyKhoaLuan.Controllers
             try
             {
                 return Ok(await _HoidongRepo.GetHoidongsByGiangvienAsync(maGv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("boMon")]
+        public async Task<IActionResult> ListDetaiPhanBienAsync(string boMon)
+        {
+            try
+            {
+                return Ok(await _HoidongRepo.ListDetaiPhanBienAsync(boMon));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("hoiDong")]
+        public async Task<IActionResult> ListDeTaiByHoiDongAsync(string hoiDong)
+        {
+            try
+            {
+                return Ok(await _HoidongRepo.ListDeTaiByHoiDongAsync(hoiDong));
             }
             catch
             {

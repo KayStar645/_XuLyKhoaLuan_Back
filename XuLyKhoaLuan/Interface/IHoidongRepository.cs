@@ -14,5 +14,7 @@ namespace XuLyKhoaLuan.Interface
         public Task<List<HoiDongVTModel>> GetHoidongsByGiangvienAsync(string maGv);
         public Task<string> ThanhLapHoiDongAsync(HoiDongVT hoiDongVT);
         public Task<string> CapNhatHoiDongAsync(HoiDongVT hoiDongVT);
+        public Task<List<DetaiModel>> ListDetaiPhanBienAsync(string boMon);
+        public Task<List<DetaiModel>> ListDeTaiByHoiDongAsync(string hoiDong);
     }
 }

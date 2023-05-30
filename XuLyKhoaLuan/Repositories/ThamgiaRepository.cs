@@ -53,30 +53,39 @@ namespace XuLyKhoaLuan.Repositories
                 dot = null;
             if(isAdd)
             {
-                var Thamgias = await _context.Thamgia
-                        .Join(_context.Sinhviens, tg => tg.MaSv, sv => sv.MaSv, (tg, sv) => new { tg = tg, sv = sv })
-                        .Join(_context.Chuyennganhs, ts => ts.sv.MaCn, cn => cn.MaCn, (ts, cn) => new { ts = ts, cn = cn })
-                        .Where(re => (string.IsNullOrEmpty(maCn) || re.cn.MaCn == maCn) &&
-                        !(re.ts.tg.Dot == dot && re.ts.tg.NamHoc == namHoc) &&
+                var thamgias = await _context.Sinhviens
+                    .GroupJoin(_context.Thamgia, sv => sv.MaSv, tg => tg.MaSv, (sv, tgs) => new { sv, tgs })
+                    .SelectMany(x => x.tgs.DefaultIfEmpty(), (x, tg) => new { x.sv, tg })
+                    .Join(_context.Chuyennganhs, x => x.sv.MaCn, cn => cn.MaCn, (x, cn) => new { x.sv, x.tg, cn })
+                    .Where(re => (string.IsNullOrEmpty(maCn) || re.cn.MaCn == maCn) &&
+                        !(re.tg != null && re.tg.Dot == dot && re.tg.NamHoc == namHoc) &&
                         (string.IsNullOrEmpty(search) ||
-                        re.ts.tg.MaSv == search || re.ts.sv.TenSv == search || re.ts.sv.Email == search ||
-                        re.ts.sv.GioiTinh == search || re.ts.sv.Sdt == search || re.ts.sv.Lop == search ||
-                        re.cn.TenCn == search))
-                        .Select(re => new SinhVienVTModel
-                        {
-                            MaSV = re.ts.sv.MaSv,
-                            TenSV = re.ts.sv.TenSv,
-                            Email = re.ts.sv.Email,
-                            GioiTinh = re.ts.sv.GioiTinh,
-                            SDT = re.ts.sv.Sdt,
-                            Lop = re.ts.sv.Lop,
-                            MaCN = re.cn.MaCn,
-                            ChuyenNganh = re.cn.TenCn,
-                            NamHoc = re.ts.tg.NamHoc,
-                            Dot = re.ts.tg.Dot
-                        })
-                        .Distinct().ToListAsync();
-                return Thamgias;
+                        re.tg != null && (
+                            re.tg.MaSv == search ||
+                            re.sv.TenSv == search ||
+                            re.sv.Email == search ||
+                            re.sv.GioiTinh == search ||
+                            re.sv.Sdt == search ||
+                            re.sv.Lop == search ||
+                            re.cn.TenCn == search
+                        ))
+                    )
+                    .Select(re => new SinhVienVTModel
+                    {
+                        MaSV = re.sv.MaSv,
+                        TenSV = re.sv.TenSv,
+                        Email = re.sv.Email,
+                        GioiTinh = re.sv.GioiTinh,
+                        SDT = re.sv.Sdt,
+                        Lop = re.sv.Lop,
+                        MaCN = re.cn.MaCn,
+                        ChuyenNganh = re.cn.TenCn,
+                        NamHoc = re.tg != null ? re.tg.NamHoc : null,
+                        Dot = re.tg != null ? re.tg.Dot : 0
+                    })
+                    .Distinct()
+                    .ToListAsync();
+                return thamgias;
             }
             else
             {

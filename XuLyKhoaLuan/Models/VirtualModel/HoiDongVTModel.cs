@@ -2,8 +2,8 @@
 {
     public class HoiDongVTModel
     {
-        public string MaHD { get; set; } = null!;
-        public string TenHD { get; set; } = null!;
+        public string? MaHD { get; set; } = null!;
+        public string? TenHd { get; set; } = null!;
         public DateTime? NgayLap { get; set; }
         public DateTime? ThoiGianBD { get; set; }
         public DateTime? ThoiGianKT { get; set; }

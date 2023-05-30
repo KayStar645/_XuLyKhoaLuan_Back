@@ -25,7 +25,7 @@ namespace XuLyKhoaLuan.Repositories
             HoidongModel hd = new HoidongModel()
             {
                 MaHd = hoiDongVT.hoiDong.MaHD,
-                TenHd = hoiDongVT.hoiDong.TenHD,
+                TenHd = hoiDongVT.hoiDong.TenHd,
                 NgayLap = DateTime.Parse(hoiDongVT.hoiDong.NgayLap?.ToString()),
                 ThoiGianBd = DateTime.Parse(hoiDongVT.hoiDong.ThoiGianBD?.ToString()),
                 ThoiGianKt = DateTime.Parse(hoiDongVT.hoiDong.ThoiGianKT?.ToString()),
@@ -69,116 +69,56 @@ namespace XuLyKhoaLuan.Repositories
                 _context.Thamgiahds!.Add(thamGiaHd);
             }
 
-            // Chấm điểm cho từng sinh viên
-            foreach(DetaiModel dt in hoiDongVT.deTais)
-            {
-                // Tìm danh sách sinh viên
-                var thamGias = await _context.Dangkies
-                            .Join(_context.Thamgia, dk => dk.MaNhom, tg => tg.MaNhom, (dk, tg) => new { dk = dk, tg = tg })
-                            .Where(re => re.dk.MaDt.Equals(dt.MaDT))
-                            .ToListAsync();
-                // Thêm chấm điểm của từng giảng viên cho từng sinh viên trong đề tài đó
-                foreach(var tg in thamGias)
-                {
-                    // Chủ tịch chấm
-                    if (hoiDongVT.hoiDong.ChuTich != null)
-                    {
-                        var hdpbCham = new Hdpbcham
-                        {
-                            MaGv = hoiDongVT.hoiDong.ChuTich.MaGv,
-                            MaHd = hoiDongVT.hoiDong.MaHD,
-                            MaDt = dt.MaDT,
-                            MaSv = tg.tg.MaSv,
-                            NamHoc = tg.tg.NamHoc,
-                            Dot = tg.tg.Dot,
-                            Diem = -1
-                        };
-                        _context.Hdpbchams!.Add(hdpbCham);
-                    }
-                    // Thư ký chấm
-                    if (hoiDongVT.hoiDong.ThuKy != null)
-                    {
-                        var hdpbCham = new Hdpbcham
-                        {
-                            MaGv = hoiDongVT.hoiDong.ThuKy.MaGv,
-                            MaHd = hoiDongVT.hoiDong.MaHD,
-                            MaDt = dt.MaDT,
-                            MaSv = tg.tg.MaSv,
-                            NamHoc = tg.tg.NamHoc,
-                            Dot = tg.tg.Dot,
-                            Diem = -1
-                        };
-                        _context.Hdpbchams!.Add(hdpbCham);
-                    }
-                    // Ủy viên chấm
-                    foreach (GiangVienVTModel gv in hoiDongVT.hoiDong.UyViens)
-                    {
-                        var hdpbCham = new Hdpbcham
-                        {
-                            MaGv = gv.MaGv,
-                            MaHd = hoiDongVT.hoiDong.MaHD,
-                            MaDt = dt.MaDT,
-                            MaSv = tg.tg.MaSv,
-                            NamHoc = tg.tg.NamHoc,
-                            Dot = tg.tg.Dot,
-                            Diem = -1
-                        };
-                        _context.Hdpbchams!.Add(hdpbCham);
-                    }
-                }    
-            }
             await _context.SaveChangesAsync();
             return newHoidong.MaHd;
         }
 
         public async Task<string> CapNhatHoiDongAsync(HoiDongVT hoiDongVT)
         {
-            // Thêm hội đồng
+            // Cập nhật hội đồng
             HoidongModel hd = new HoidongModel()
             {
                 MaHd = hoiDongVT.hoiDong.MaHD,
-                TenHd = hoiDongVT.hoiDong.TenHD,
+                TenHd = hoiDongVT.hoiDong.TenHd,
                 NgayLap = DateTime.Parse(hoiDongVT.hoiDong.NgayLap?.ToString()),
                 ThoiGianBd = DateTime.Parse(hoiDongVT.hoiDong.ThoiGianBD?.ToString()),
                 ThoiGianKt = DateTime.Parse(hoiDongVT.hoiDong.ThoiGianKT?.ToString()),
                 DiaDiem = hoiDongVT.hoiDong.DiaDiem,
                 MaBm = hoiDongVT.hoiDong.MaBm
             };
+
             var newHoidong = _mapper.Map<Hoidong>(hd);
             _context.Hoidongs!.Update(newHoidong);
 
-            // Thêm chủ tịch
-            if (hoiDongVT.hoiDong.ChuTich != null)
+            // Thêm đề tài vào hội đồng phản biện
+            foreach (DetaiModel dt in hoiDongVT.deTais)
             {
-                var thamGiaHd = new Thamgiahd
+                var deCt = new Hdphanbien
                 {
                     MaGv = hoiDongVT.hoiDong.ChuTich.MaGv,
                     MaHd = hoiDongVT.hoiDong.MaHD,
-                    MaVt = "VT01"
+                    MaDt = dt.MaDT
                 };
-                _context.Thamgiahds!.Update(thamGiaHd);
-            }
-            // Thêm thư ký
-            if (hoiDongVT.hoiDong.ThuKy != null)
-            {
-                var thamGiaHd = new Thamgiahd
+                _context.Hdphanbiens!.Add(deCt);
+
+                var deTk = new Hdphanbien
                 {
                     MaGv = hoiDongVT.hoiDong.ThuKy.MaGv,
                     MaHd = hoiDongVT.hoiDong.MaHD,
-                    MaVt = "VT02"
+                    MaDt = dt.MaDT
                 };
-                _context.Thamgiahds!.Update(thamGiaHd);
-            }
-            // Thêm giảng viên trong hội đồng
-            foreach (GiangVienVTModel gv in hoiDongVT.hoiDong.UyViens)
-            {
-                var thamGiaHd = new Thamgiahd
+                _context.Hdphanbiens!.Add(deTk);
+
+                foreach(var gv in hoiDongVT.hoiDong.UyViens)
                 {
-                    MaGv = gv.MaGv,
-                    MaHd = hoiDongVT.hoiDong.MaHD,
-                    MaVt = "VT03"
-                };
-                _context.Thamgiahds!.Update(thamGiaHd);
+                    var deUv = new Hdphanbien
+                    {
+                        MaGv = gv.MaGv,
+                        MaHd = hoiDongVT.hoiDong.MaHD,
+                        MaDt = dt.MaDT
+                    };
+                    _context.Hdphanbiens!.Add(deUv);
+                }
             }
 
             // Chấm điểm cho từng sinh viên
@@ -205,7 +145,7 @@ namespace XuLyKhoaLuan.Repositories
                             Dot = tg.tg.Dot,
                             Diem = -1
                         };
-                        _context.Hdpbchams!.Update(hdpbCham);
+                        _context.Hdpbchams!.Add(hdpbCham);
                     }
                     // Thư ký chấm
                     if (hoiDongVT.hoiDong.ThuKy != null)
@@ -220,7 +160,7 @@ namespace XuLyKhoaLuan.Repositories
                             Dot = tg.tg.Dot,
                             Diem = -1
                         };
-                        _context.Hdpbchams!.Update(hdpbCham);
+                        _context.Hdpbchams!.Add(hdpbCham);
                     }
                     // Ủy viên chấm
                     foreach (GiangVienVTModel gv in hoiDongVT.hoiDong.UyViens)
@@ -235,10 +175,11 @@ namespace XuLyKhoaLuan.Repositories
                             Dot = tg.tg.Dot,
                             Diem = -1
                         };
-                        _context.Hdpbchams!.Update(hdpbCham);
+                        _context.Hdpbchams!.Add(hdpbCham);
                     }
                 }
             }
+
             await _context.SaveChangesAsync();
             return newHoidong.MaHd;
         }
@@ -292,7 +233,7 @@ namespace XuLyKhoaLuan.Repositories
                         .Select(re => new HoiDongVTModel
                         {
                             MaHD = re.hd.MaHd,
-                            TenHD = re.hd.TenHd,
+                            TenHd = re.hd.TenHd,
                             NgayLap = re.hd.NgayLap,
                             ThoiGianBD = re.hd.ThoiGianBd,
                             ThoiGianKT = re.hd.ThoiGianKt,
@@ -353,7 +294,7 @@ namespace XuLyKhoaLuan.Repositories
                         .Select(re => new HoiDongVTModel
                         {
                             MaHD = re.hd.MaHd,
-                            TenHD = re.hd.TenHd,
+                            TenHd = re.hd.TenHd,
                             NgayLap = re.hd.NgayLap,
                             ThoiGianBD = re.hd.ThoiGianBd,
                             ThoiGianKT = re.hd.ThoiGianKt,
@@ -404,6 +345,46 @@ namespace XuLyKhoaLuan.Repositories
                 }
             }
             return hoiDongs;
+        }
+
+        // Không chọn những đề tài có giảng viên hướng dẫn và giảng viên phản biện trong hội đồng
+        public async Task<List<DetaiModel>> ListDetaiPhanBienAsync(string boMon)
+        {
+            var deTais = await _context.Detais
+                .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt, rd })
+                .Join(_context.Giangviens, dr => dr.rd.MaGv, gv => gv.MaGv, (dr, gv) => new { dr, gv })
+                .Where(re => re.gv.MaBm == boMon && re.dr.dt.TrangThai == true)
+                .Select(re => re.dr.dt)
+                .Except(_context.Hdphanbiens.Select(hd => hd.MaDtNavigation))
+                .Distinct().ToListAsync();
+            for(int i = 0; i < deTais.Count; i++)
+            {
+                var hd = await _context.Huongdans.Where(hd => hd.MaDt == deTais[i].MaDt).SingleOrDefaultAsync();
+                if (hd.DuaRaHd != true)
+                {
+                    deTais.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+                var pb = await _context.Phanbiens.Where(hd => hd.MaDt == deTais[i].MaDt).SingleOrDefaultAsync();
+                if (pb.DuaRaHd != true)
+                {
+                    deTais.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+            }
+            return _mapper.Map<List<DetaiModel>>(deTais);
+        }
+
+        public async Task<List<DetaiModel>> ListDeTaiByHoiDongAsync(string hoiDong)
+        {
+            var deTais = await _context.Detais
+                    .Join(_context.Hdphanbiens, dt => dt.MaDt, hd => hd.MaDt, (dt, hd) => new { dt, hd })
+                    .Where(re => re.hd.MaHd == hoiDong)
+                    .Select(re => re.dt)
+                    .Distinct().ToListAsync();
+            return _mapper.Map<List<DetaiModel>>(deTais);
         }
     }
 }
