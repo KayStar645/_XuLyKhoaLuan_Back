@@ -8,51 +8,38 @@ namespace XuLyKhoaLuan.Controllers
     [ApiController]
     public class FilesController : ControllerBase
     {
-        private readonly IFilesRepository _FilesRepo;
+        private readonly IFilesRepository _repo;
 
-        public FilesController(IFilesRepository repo) 
+        public FilesController(IFilesRepository filesRepository)
         {
-            this._FilesRepo = repo;
+            _repo = filesRepository;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UploadFile()
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadFile(IFormFile file)
         {
-            try
+            if (file == null || file.Length == 0)
             {
-                return Ok();
+                return BadRequest("File is required");
             }
-            catch
-            {
-                return BadRequest();
-            }
+
+            var fileName = await _repo.UploadFileAsync(file);
+
+            return Ok(new { FileName = fileName });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> DownloadFile()
+        [HttpGet("download/{fileName}")]
+        public async Task<IActionResult> DownloadFile(string fileName)
         {
-            try
-            {
+            var fileData = await _repo.DownloadFileAsync(fileName);
 
-                return Ok();
-            }
-            catch
+            if (fileData == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-        }
 
-        [HttpGet("a,b")]
-        public async Task<IActionResult> test(string a, bool b)
-        {
-            try
-            {
-                return Ok(await _FilesRepo.test(a, b));
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            return File(fileData, "application/octet-stream", fileName);
         }
     }
+
 }
