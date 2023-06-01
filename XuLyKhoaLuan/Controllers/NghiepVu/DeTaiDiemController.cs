@@ -19,6 +19,19 @@ namespace XuLyKhoaLuan.Controllers.NghiepVu
             this._DetaidiemRepo = repo;
         }
 
+        [HttpGet("maSv")]
+        public async Task<IActionResult> GetDanhSachDiemBySv(string maSv)
+        {
+            try
+            {
+                return Ok(await _DetaidiemRepo.GetDanhSachDiemBySv(maSv));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("maGv")]
         public async Task<IActionResult> GetLichPhanBienByGvAsync(string maGv)
         {
