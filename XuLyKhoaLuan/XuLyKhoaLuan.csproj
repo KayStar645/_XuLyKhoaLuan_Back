@@ -31,8 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Files\Homework\" />
+    <Folder Include="Files\Mission\" />
+    <Folder Include="Files\Notification\" />
+    <Folder Include="Files\Plan\" />
     <Folder Include="Migrations\" />
-    <Folder Include="files\" />
   </ItemGroup>
 
 </Project>

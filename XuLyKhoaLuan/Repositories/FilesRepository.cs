@@ -12,13 +12,13 @@ namespace XuLyKhoaLuan.Repositories
 
         public FilesRepository(IWebHostEnvironment webHostEnvironment)
         {
-            _uploadPath = Path.Combine(webHostEnvironment.ContentRootPath, "files");
+            _uploadPath = Path.Combine(webHostEnvironment.ContentRootPath, "Files");
         }
 
-        public async Task<string> UploadFileAsync(IFormFile file)
+        public async Task<string> UploadFileAsync(IFormFile file, string folder)
         {
             var fileName = Guid.NewGuid().ToString() + "__" +  file.FileName;
-            var filePath = Path.Combine(_uploadPath, fileName);
+            var filePath = Path.Combine(_uploadPath, folder + "/"+ fileName);
             var directoryPath = Path.GetDirectoryName(filePath);
 
             if (!Directory.Exists(directoryPath))
@@ -34,9 +34,9 @@ namespace XuLyKhoaLuan.Repositories
             return fileName;
         }
 
-        public async Task<byte[]> DownloadFileAsync(string fileName)
+        public async Task<byte[]> DownloadFileAsync(string fileName, string folder)
         {
-            var filePath = Path.Combine(_uploadPath, fileName);
+            var filePath = Path.Combine(_uploadPath, folder + "/" + fileName);
 
             if (File.Exists(filePath))
             {

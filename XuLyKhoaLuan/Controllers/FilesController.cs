@@ -14,24 +14,28 @@ namespace XuLyKhoaLuan.Controllers
         {
             _repo = filesRepository;
         }
+        private string GetFileDownloadLink(string fileName, string folder)
+        {
+            return Url.Action("DownloadFile", "Files", new { fileName, folder }, Request.Scheme);
+        }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(IFormFile file, string folder)
         {
             if (file == null || file.Length == 0)
             {
                 return BadRequest("File is required");
             }
 
-            var fileName = await _repo.UploadFileAsync(file);
+            var fileName = await _repo.UploadFileAsync(file, folder);
 
-            return Ok(new { FileName = fileName });
+            return Ok(new { fileName });
         }
 
         [HttpGet("download/{fileName}")]
-        public async Task<IActionResult> DownloadFile(string fileName)
+        public async Task<IActionResult> DownloadFile(string fileName, string folder)
         {
-            var fileData = await _repo.DownloadFileAsync(fileName);
+            var fileData = await _repo.DownloadFileAsync(fileName, folder);
 
             if (fileData == null)
             {
