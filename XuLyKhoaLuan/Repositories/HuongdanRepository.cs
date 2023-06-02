@@ -99,16 +99,16 @@ namespace XuLyKhoaLuan.Repositories
                 // Kiểm tra trùng lặp thời gian với giảng viên
                 var isHasHD = await _context.Huongdans
                     .AnyAsync(hd => hd.ThoiGianBd != null && hd.MaGv.Equals(maGv) &&
-                    (hd.ThoiGianBd > end || hd.ThoiGianKt < start));
+                    !(hd.ThoiGianBd > end || hd.ThoiGianKt < start));
 
                 var isHasPB = await _context.Phanbiens
                     .AnyAsync(pb => pb.ThoiGianBd != null && pb.MaGv.Equals(maGv) &&
-                    (pb.ThoiGianBd > end || pb.ThoiGianKt < start));
+                    !(pb.ThoiGianBd > end || pb.ThoiGianKt < start));
 
                 var isHasHDPB = await _context.Thamgiahds
                     .Join(_context.Hoidongs, tg => tg.MaHd, hd => hd.MaHd, (tg, hd) => new { tg = tg, hd = hd })
                     .AnyAsync(re => re.tg.MaGv.Equals(maGv) && re.hd.ThoiGianBd != null &&
-                    (re.hd.ThoiGianBd > end || re.hd.ThoiGianKt < start));
+                    !(re.hd.ThoiGianBd > end || re.hd.ThoiGianKt < start));
 
                 if (isHasHD || isHasPB || isHasHDPB)
                 {
