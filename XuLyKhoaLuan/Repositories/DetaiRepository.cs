@@ -229,7 +229,7 @@ namespace XuLyKhoaLuan.Repositories
                 var deTais = await _context.Detais
                             .Join(_context.Rades, dt => dt.MaDt, rd => rd.MaDt, (dt, rd) => new { dt = dt, rd = rd })
                             .Join(_context.Giangviens, rdt => rdt.rd.MaGv, gv => gv.MaGv, (rdt, gv) => new { rdt = rdt, gv = gv })
-                            .Where(re => re.rdt.dt.NamHoc == namHoc && re.rdt.dt.Dot == dot && re.gv.MaBm == maBM && re.rdt.dt.TrangThai == true)
+                            .Where(re => /*re.rdt.dt.NamHoc == namHoc && re.rdt.dt.Dot == dot &&*/ re.gv.MaBm == maBM && re.rdt.dt.TrangThai == true)
                             .Select(re => re.rdt.dt)
                             .ToListAsync();
                 return _mapper.Map<List<DetaiModel>>(deTais);
@@ -250,7 +250,7 @@ namespace XuLyKhoaLuan.Repositories
         {
             var deTaiHds = await _context.Detais
                         .Join(_context.Huongdans, dt => dt.MaDt, hd => hd.MaDt, (dt, hd) => new { hd = hd, dt = dt })
-                        .Where(re => re.hd.MaGv == MaGv && re.dt.NamHoc == namHoc && re.dt.Dot == dot)
+                        .Where(re => re.hd.MaGv == MaGv /*&& re.dt.NamHoc == namHoc && re.dt.Dot == dot*/)
                         .Select(re => re.dt)
                         .ToListAsync();
             return _mapper.Map<List<DetaiModel>>(deTaiHds);
@@ -260,7 +260,7 @@ namespace XuLyKhoaLuan.Repositories
         {
             var deTaiPbs = await _context.Detais
                         .Join(_context.Phanbiens, dt => dt.MaDt, pb => pb.MaDt, (dt, pb) => new { dt = dt, pb = pb })
-                        .Where(re => re.pb.MaGv == MaGv && re.dt.NamHoc == namHoc && re.dt.Dot == dot)
+                        .Where(re => re.pb.MaGv == MaGv /*&& re.dt.NamHoc == namHoc && re.dt.Dot == dot*/)
                         .Select(re => re.dt)
                         .ToListAsync();
             return _mapper.Map<List<DetaiModel>>(deTaiPbs);

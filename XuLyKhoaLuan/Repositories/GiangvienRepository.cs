@@ -145,14 +145,15 @@ namespace XuLyKhoaLuan.Repositories
             // 1. Số lượng đề tài đạt - Ra đề đạt
             var cDTDat = await _context.Rades
                     .Join(_context.Detais, rd => rd.MaDt, dt => dt.MaDt, (rd, dt) => new { rd = rd, dt = dt })
-                    .Where(re => dotDk.NgayBd <= re.rd.ThoiGian && re.rd.ThoiGian <= dotDk.NgayKt &&
+                    .Where(re => re.dt.NamHoc == dotDk.NamHoc && re.dt.Dot == dotDk.Dot &&
                     re.dt.TrangThai == true && re.rd.MaGv == maGv)
                     .CountAsync();
             list.Add(cDTDat);
 
             // 2. Số lượng đề tài ra - Ra đề
             var cDTRa = await _context.Rades
-                    .Where(rd => dotDk.NgayBd <= rd.ThoiGian && rd.ThoiGian <= dotDk.NgayKt && rd.MaGv == maGv)
+                    .Join(_context.Detais, rd => rd.MaDt, dt => dt.MaDt, (rd, dt) => new { rd = rd, dt = dt })
+                    .Where(re => re.dt.NamHoc == dotDk.NamHoc && re.dt.Dot == dotDk.Dot && re.rd.MaGv == maGv)
                     .CountAsync();
             list.Add(cDTRa);
 
