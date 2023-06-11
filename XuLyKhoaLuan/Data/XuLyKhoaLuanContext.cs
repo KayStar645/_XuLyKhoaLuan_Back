@@ -17,7 +17,6 @@ namespace XuLyKhoaLuan.Data
         {
         }
 
-        
         public virtual DbSet<Baocao> Baocaos { get; set; } = null!;
         public virtual DbSet<Binhluan> Binhluans { get; set; } = null!;
         public virtual DbSet<Bomon> Bomons { get; set; } = null!;
@@ -28,6 +27,7 @@ namespace XuLyKhoaLuan.Data
         public virtual DbSet<DetaiChuyennganh> DetaiChuyennganhs { get; set; } = null!;
         public virtual DbSet<Dotdk> Dotdks { get; set; } = null!;
         public virtual DbSet<Duyetdt> Duyetdts { get; set; } = null!;
+        public virtual DbSet<GapMatHd> GapMatHds { get; set; } = null!;
         public virtual DbSet<Giangvien> Giangviens { get; set; } = null!;
         public virtual DbSet<Giaovu> Giaovus { get; set; } = null!;
         public virtual DbSet<Hdcham> Hdchams { get; set; } = null!;
@@ -67,6 +67,7 @@ namespace XuLyKhoaLuan.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Baocao>(entity =>
             {
                 entity.HasKey(e => new { e.MaCv, e.MaSv, e.NamHoc, e.Dot, e.LanNop });
@@ -89,7 +90,9 @@ namespace XuLyKhoaLuan.Data
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FileBc).HasColumnName("File_BC");
+                entity.Property(e => e.FileBc)
+                    .HasMaxLength(100)
+                    .HasColumnName("File_BC");
 
                 entity.Property(e => e.ThoiGianNop).HasColumnType("datetime");
 
@@ -413,6 +416,29 @@ namespace XuLyKhoaLuan.Data
                     .HasForeignKey(d => d.MaGv)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DUYETDT_GIANGVIEN");
+            });
+
+            modelBuilder.Entity<GapMatHd>(entity =>
+            {
+                entity.ToTable("GapMatHD");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DiaDiem).HasMaxLength(500);
+
+                entity.Property(e => e.MaDt)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("MaDT");
+
+                entity.Property(e => e.MaGv)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("MaGV");
+
+                entity.Property(e => e.ThoiGianBd).HasColumnType("datetime");
+
+                entity.Property(e => e.ThoiGianKt).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Giangvien>(entity =>

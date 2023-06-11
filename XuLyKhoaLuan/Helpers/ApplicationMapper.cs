@@ -44,6 +44,7 @@ namespace XuLyKhoaLuan.Helpers
             CreateMap<Xacnhan, XacnhanModel>().ReverseMap();
             CreateMap<DetaiChuyennganh, DetaiChuyennganhModel>().ReverseMap();
             CreateMap<Rade, RadeModel>().ReverseMap();
+            CreateMap<GapMatHd, GapMatHdModel>().ReverseMap();
         }
     }
 }

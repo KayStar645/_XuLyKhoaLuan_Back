@@ -12,6 +12,7 @@
 
 
         /*
+            0: Hàng tuần
             1: Hướng dẫn
             2: Phản biện
             3: Hội đồng

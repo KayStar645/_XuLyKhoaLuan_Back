@@ -227,5 +227,11 @@ namespace XuLyKhoaLuan.Helpers
         {
             await Clients.All.SendAsync("ReceiveFromDeTaiDiem", dataChange);
         }
+
+        // 38. Gặp mặt hướng dẫn
+        public async Task sendForGapMatHd(bool dataChange)
+        {
+            await Clients.All.SendAsync("ReceiveFromGapMatHd", dataChange);
+        }
     }
 }

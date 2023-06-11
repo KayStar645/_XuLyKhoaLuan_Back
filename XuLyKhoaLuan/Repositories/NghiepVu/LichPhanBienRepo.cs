@@ -21,6 +21,20 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
 
         public async Task<List<LichPhanBienVTModel>> GetLichPhanBienByGvAsync(string maGv)
         {
+            var lichHTs = await _context.GapMatHds
+                        .Join(_context.Detais, hd => hd.MaDt, dt => dt.MaDt, (hd, dt) => new { hd = hd, dt = dt })
+                        .Where(re => re.hd.MaGv == maGv && re.hd.ThoiGianBd != null && re.hd.ThoiGianBd != null)
+                        .Select(re => new LichPhanBienVTModel
+                        {
+                            MaDt = re.dt.MaDt,
+                            TenDeTai = re.dt.TenDt,
+                            ThoiGianBD = (DateTime)re.hd.ThoiGianBd,
+                            ThoiGianKT = (DateTime)re.hd.ThoiGianKt,
+                            DiaDiem = re.hd.DiaDiem,
+                            LoaiLich = 0
+                        })
+                        .ToListAsync();
+
             var lichHDs = await _context.Huongdans
                         .Join(_context.Detais, hd => hd.MaDt, dt => dt.MaDt, (hd, dt) => new { hd = hd, dt = dt })
                         .Where(re => re.hd.MaGv == maGv && re.hd.ThoiGianBd != null && re.hd.ThoiGianBd != null)
@@ -61,11 +75,28 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                             LoaiLich = 3
                         })
                         .ToListAsync();
-            return lichHDs.Concat(lichPBs).Concat(lichHDongs).OrderBy(l => l.ThoiGianBD).OrderByDescending(l => l.ThoiGianKT).ToList();
+            return lichHTs.Concat(lichHDs).Concat(lichPBs).Concat(lichHDongs).OrderBy(l => l.ThoiGianBD).OrderByDescending(l => l.ThoiGianKT).ToList();
         }
 
         public async Task<List<LichPhanBienVTModel>> GetLichPhanBienBySvAsync(string maSv)
         {
+            var lichHTs = await _context.GapMatHds
+                        .Join(_context.Detais, hd => hd.MaDt, dt => dt.MaDt, (hd, dt) => new { hd = hd, dt = dt })
+                        .Join(_context.Dangkies, ht => ht.dt.MaDt, dk => dk.MaDt, (ht, dk) => new { ht = ht, dk = dk })
+                        .Join(_context.Thamgia, htk => htk.dk.MaNhom, tg => tg.MaNhom, (htk, tg) => new { htk = htk, tg = tg })
+                        .Join(_context.Sinhviens, htkt => htkt.tg.MaSv, sv => sv.MaSv, (htkt, sv) => new { htkt = htkt, sv = sv })
+                        .Where(re => re.sv.MaSv == maSv && re.htkt.htk.ht.hd.ThoiGianBd != null && re.htkt.htk.ht.hd.ThoiGianBd != null)
+                        .Select(re => new LichPhanBienVTModel
+                        {
+                            MaDt = re.htkt.htk.ht.dt.MaDt,
+                            TenDeTai = re.htkt.htk.ht.dt.TenDt,
+                            ThoiGianBD = (DateTime)re.htkt.htk.ht.hd.ThoiGianBd,
+                            ThoiGianKT = (DateTime)re.htkt.htk.ht.hd.ThoiGianKt,
+                            DiaDiem = re.htkt.htk.ht.hd.DiaDiem,
+                            LoaiLich = 0
+                        })
+                        .ToListAsync();
+
             var lichHDs = await _context.Huongdans
                         .Join(_context.Detais, hd => hd.MaDt, dt => dt.MaDt, (hd, dt) => new { hd = hd, dt = dt })
                         .Join(_context.Dangkies, ht => ht.dt.MaDt, dk => dk.MaDt, (ht, dk) => new { ht = ht, dk = dk })
@@ -115,7 +146,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                             LoaiLich = 3
                         })
                         .ToListAsync();
-            return lichHDs.Concat(lichPBs).Concat(lichHDongs).OrderBy(l => l.ThoiGianBD).OrderByDescending(l => l.ThoiGianKT).ToList();
+            return lichHTs.Concat(lichHDs).Concat(lichPBs).Concat(lichHDongs).OrderBy(l => l.ThoiGianBD).OrderByDescending(l => l.ThoiGianKT).ToList();
         }
 
         public async Task<List<DetaiModel>> GetSelectDetaiByGiangVienAsync(string maGv, string namHoc, int dot, int loaiLich)

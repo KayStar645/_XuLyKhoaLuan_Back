@@ -132,6 +132,7 @@ builder.Services.AddTransient<IFilesRepository, FilesRepository>();
 builder.Services.AddTransient<ITraodoiRepo, TraodoiRepo>();
 builder.Services.AddTransient<ILichPhanBienRepo, LichPhanBienRepo>();
 builder.Services.AddTransient<IDeTaiDiemRepo, DeTaiDiemRepo>();
+builder.Services.AddTransient<IGapMatHdRepository, GapMatHdRepository>();
 
 builder.Services.AddSingleton<Files>();
 

@@ -2,6 +2,7 @@
 {
     public class GiangVienVTModel
     {
+        public string maBm { get; set; }
         public string MaGv { get; set; }
         public string TenGv { get; set; }
 

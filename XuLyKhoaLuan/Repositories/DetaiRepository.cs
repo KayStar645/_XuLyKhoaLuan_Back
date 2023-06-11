@@ -533,6 +533,7 @@ namespace XuLyKhoaLuan.Repositories
                         .Where(re => re.rd.MaDt == listDt[i].MaDT)
                         .Select(re => new GiangVienVTModel
                         {
+                            maBm = re.gv.MaBm,
                             MaGv = re.gv.MaGv,
                             TenGv = re.gv.TenGv,
                             VaiTro = 0,
@@ -540,6 +541,7 @@ namespace XuLyKhoaLuan.Repositories
                             duaRaHoiDong = 0
                         })
                         .ToListAsync();
+                listDt[i].MaBm = listDt[i].GVRD[0].maBm;
 
                 listDt[i].GVHD = await _context.Huongdans
                         .Join(_context.Giangviens, hd => hd.MaGv, gv => gv.MaGv, (hd, gv) => new { hd = hd, gv = gv })
