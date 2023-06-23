@@ -51,7 +51,7 @@ namespace XuLyKhoaLuan.Repositories
             foreach (var sv in sinhViens)
             {
                 // Nếu tồn tại 1 sinh viên đã chấm điểm (!= -1) thì không được xóa điểm nhóm này
-                var isChamDiem = await _context.Pbchams.Where(h => h.MaSv == sv.MaSv && h.Diem != -1).AnyAsync();
+                var isChamDiem = await _context.Pbchams.Where(h => h.MaSv == sv.MaSv && h.Diem != -1 && h.MaDt == maDt).AnyAsync();
                 if (isChamDiem) { return false; }
             }
             foreach (var sv in sinhViens)

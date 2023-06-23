@@ -32,12 +32,12 @@ namespace XuLyKhoaLuan.Controllers.NghiepVu
             }
         }
 
-        [HttpGet("maGv")]
-        public async Task<IActionResult> GetLichPhanBienByGvAsync(string maGv)
+        [HttpGet("maGv,namHoc,dot")]
+        public async Task<IActionResult> GetDanhSachDiemByGv(string maGv, string namHoc, int dot)
         {
             try
             {
-                return Ok(await _DetaidiemRepo.GetDanhSachDiemByGv(maGv));
+                return Ok(await _DetaidiemRepo.GetDanhSachDiemByGv(maGv, namHoc, dot));
             }
             catch
             {

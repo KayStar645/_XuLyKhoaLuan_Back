@@ -20,7 +20,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
             this._mapper = mapper;
         }
 
-        public async Task<List<DeTaiDiemVTModel>> GetDanhSachDiemByGv(string MaGv)
+        public async Task<List<DeTaiDiemVTModel>> GetDanhSachDiemByGv(string MaGv, string namHoc, int dot)
         {
             // Lấy danh đề tài mà giảng viên này hướng dẫn/Phản biện/Hội đồng
             var deTais = await _context.Detais
@@ -30,7 +30,7 @@ namespace XuLyKhoaLuan.Repositories.NghiepVu
                         .SelectMany(x => x.pb.DefaultIfEmpty(), (x, pb) => new { x.dt, x.hd, pb })
                         .GroupJoin(_context.Hdphanbiens, x => x.dt.MaDt, hdpb => hdpb.MaDt, (x, hdpb) => new { x.dt, x.hd, x.pb, hdpb })
                         .SelectMany(x => x.hdpb.DefaultIfEmpty(), (x, hdpb) => new { x.dt, x.hd, x.pb, hdpb })
-                        .Where(x => x.hd.MaGv == MaGv || x.pb.MaGv == MaGv || x.hdpb.MaGv == MaGv)
+                        .Where(x => (x.hd.MaGv == MaGv || x.pb.MaGv == MaGv || x.hdpb.MaGv == MaGv) && x.dt.NamHoc == namHoc && x.dt.Dot == dot)
                         .Select(x => new DeTaiDiemVTModel
                         {
                             MaDT = x.dt.MaDt,
