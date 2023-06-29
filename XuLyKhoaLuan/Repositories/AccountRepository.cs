@@ -32,6 +32,26 @@ namespace XuLyKhoaLuan.Repositories
             _context = context;
         }
 
+        public async Task<string> checkUser(string id)
+        {
+            var isM = await _context.Giaovus.AnyAsync(g => g.MaGv == id);
+            if(isM)
+            {
+                return "M";
+            }
+            var isT = await _context.Giangviens.AnyAsync(g => g.MaGv == id);
+            if (isT)
+            {
+                return "T";
+            }
+            var isS = await _context.Sinhviens.AnyAsync(s => s.MaSv == id);
+            if (isS)
+            {
+                return "S";
+            }
+            return "N";
+        }
+
         public async Task<string> SigInAsync(SigInModel model)
         {
             var result = await signInManager.PasswordSignInAsync(model.Id, model.Password, false, false);

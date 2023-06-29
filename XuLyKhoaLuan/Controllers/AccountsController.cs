@@ -44,12 +44,18 @@ namespace XuLyKhoaLuan.Controllers
         [HttpPost("SigIn")]
         public async Task<IActionResult> SigIn(SigInModel sigInModel)
         {
+
             var result = await accountRepo.SigInAsync(sigInModel);
-            if (string.IsNullOrEmpty(result))
+            var role = await accountRepo.checkUser(sigInModel.Id);
+            if (string.IsNullOrEmpty(result) && role == "N")
             {
                 return Unauthorized();
             }
-            return Ok(result);
+            return Ok(new
+            {
+                jwt = result,
+                role = role
+            });
         }
 
         // Ministry
