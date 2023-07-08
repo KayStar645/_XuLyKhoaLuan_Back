@@ -19,6 +19,7 @@ namespace XuLyKhoaLuan.Models
         public string? NamHoc { get; set; }
         public int? Dot { get; set; }
         public bool isDangKy { get; set; }
+        public string noteDangKy { get; set; }
 
     }
 }

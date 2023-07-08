@@ -99,6 +99,7 @@ namespace XuLyKhoaLuan.Repositories
                     if(!isSoLuong)
                     {
                         deTaisModel[i].isDangKy = false;
+                        deTaisModel[i].noteDangKy = "Số lượng thành viên trong nhóm không phù hợp!";
                         continue;
                     }
 
@@ -153,23 +154,27 @@ namespace XuLyKhoaLuan.Repositories
                                 if (!flag)
                                 {
                                     deTaisModel[i].isDangKy = false;
+                                    deTaisModel[i].noteDangKy = "Chuyên ngành của sinh viên trong nhóm không phù hợp!";
                                     continue;
                                 }
                             }
                             else
                             {
+                                deTaisModel[i].noteDangKy = "Đề tài chưa được phân công hướng dẫn!";
                                 deTaisModel[i].isDangKy = false;
                                 continue;
                             }
                         }
                         else
                         {
+                            deTaisModel[i].noteDangKy = "Đề tài đã được nhóm sinh viên khác đăng ký!";
                             deTaisModel[i].isDangKy = false;
                             continue;
                         }
                     }
                     else
                     {
+                        deTaisModel[i].noteDangKy = "Không phải thời gian đăng ký học phần!";
                         deTaisModel[i].isDangKy = false;
                         continue;
                     }
@@ -251,8 +256,19 @@ namespace XuLyKhoaLuan.Repositories
                         }
                         else
                         {
-                            deTaisModel.Remove(deTaisModel[i]);
-                            i--;
+                            //deTaisModel.Remove(deTaisModel[i]);
+                            //i--;
+                            var dk = await _context.Dangkies.SingleAsync(d => d.MaDt == deTaisModel[i].MaDT);
+                            var thamGia = await _context.Thamgia.Where(t => t.MaNhom == dk.MaNhom).ToListAsync();
+                            var note = "";
+                            foreach(var tg in thamGia)
+                            {
+                                var sinhVien = await _context.Sinhviens.FindAsync(tg.MaSv);
+                                note += sinhVien.TenSv + "   ";
+                            }
+
+
+                            deTaisModel[i].noteDangKy = note;
                         }
                     }
                     else
